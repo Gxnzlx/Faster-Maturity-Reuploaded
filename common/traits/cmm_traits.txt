@@ -1,4 +1,4 @@
-﻿# INTRIGUE OUTCOMES
+# INTRIGUE OUTCOMES
 education_intrigue_1 = {
 	minimum_age = 12 #changed from 16
 	intrigue = 2
@@ -847,7 +847,7 @@ education_learning_5 = {
 education_martial_prowess_1 = {
 	#category = education
 	minimum_age = 12 #changed from 16
-	prowess = 1
+	prowess = 2
 	
 	culture_modifier = {
 		parameter = prowess_traits_more_valued
@@ -858,7 +858,7 @@ education_martial_prowess_1 = {
 	group = education_martial_prowess
 	level = 1
 	
-	shown_in_ruler_designer = yes
+	shown_in_ruler_designer = no
 
 	desc = {
 		first_valid = {
@@ -875,7 +875,7 @@ education_martial_prowess_1 = {
 education_martial_prowess_2 = {
 	#category = education
 	minimum_age = 12 #changed from 16
-	prowess = 2
+	prowess = 4
 	
 	culture_modifier = {
 		parameter = prowess_traits_more_valued
@@ -886,7 +886,7 @@ education_martial_prowess_2 = {
 	group = education_martial_prowess
 	level = 2
 	
-	shown_in_ruler_designer = yes
+	shown_in_ruler_designer = no
 
 	desc = {
 		first_valid = {
@@ -903,7 +903,7 @@ education_martial_prowess_2 = {
 education_martial_prowess_3 = {
 	#category = education
 	minimum_age = 12 #changed from 16
-	prowess = 3
+	prowess = 6
 	
 	culture_modifier = {
 		parameter = prowess_traits_more_valued
@@ -914,7 +914,7 @@ education_martial_prowess_3 = {
 	group = education_martial_prowess
 	level = 3
 	
-	shown_in_ruler_designer = yes
+	shown_in_ruler_designer = no
 
 	desc = {
 		first_valid = {
@@ -931,7 +931,7 @@ education_martial_prowess_3 = {
 education_martial_prowess_4 = {
 	#category = education
 	minimum_age = 12 #changed from 16
-	prowess = 4
+	prowess = 8
 	
 	culture_modifier = {
 		parameter = prowess_traits_more_valued
@@ -942,7 +942,7 @@ education_martial_prowess_4 = {
 	group = education_martial_prowess
 	level = 4
 	
-	shown_in_ruler_designer = yes
+	shown_in_ruler_designer = no
 	
 	desc = {
 		first_valid = {
@@ -961,11 +961,11 @@ education_martial_prowess_4 = {
 
 education_republican_knowledge_1 = {
 	minimum_age = 12 #changed from 16
-	learning = 1
+	intrigue = 1
 	stewardship = 1
 	#category = education
 
-	shown_in_ruler_designer = yes
+	shown_in_ruler_designer = no
 
 	desc = {
 		first_valid = {
@@ -985,11 +985,11 @@ education_republican_knowledge_1 = {
 
 education_republican_knowledge_2 = {
 	minimum_age = 12 #changed from 16
-	learning = 2
+	intrigue = 2
 	stewardship = 2
 	#category = education
 
-	shown_in_ruler_designer = yes
+	shown_in_ruler_designer = no
 
 	desc = {
 		first_valid = {
@@ -1009,11 +1009,11 @@ education_republican_knowledge_2 = {
 
 education_republican_knowledge_3 = {
 	minimum_age = 12 #changed from 16
-	learning = 3
+	intrigue = 3
 	stewardship = 3
 	#category = education
 
-	shown_in_ruler_designer = yes
+	shown_in_ruler_designer = no
 
 	desc = {
 		first_valid = {
@@ -1033,11 +1033,11 @@ education_republican_knowledge_3 = {
 
 education_republican_knowledge_4 = {
 	minimum_age = 12 #changed from 16
-	learning = 4
+	intrigue = 4
 	stewardship = 4
 	#category = education
 
-	shown_in_ruler_designer = yes
+	shown_in_ruler_designer = no
 
 	desc = {
 		first_valid = {
@@ -1053,4 +1053,72 @@ education_republican_knowledge_4 = {
 
 	group = education_republican_knowledge
 	level = 4
+}
+
+#### AGOT added ####
+
+education_martial_prowess_5 = {
+	minimum_age = 12 #changed from 16
+	prowess = 10
+
+	culture_modifier = {
+		parameter = prowess_traits_more_valued
+		same_culture_opinion = 5
+		monthly_prestige = 0.5
+	}
+
+	group = education_martial_prowess
+	level = 5
+
+	shown_in_ruler_designer = no
+
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					NOT = { exists = this }
+				}
+				desc = trait_education_martial_prowess_5_desc
+			}
+			desc = trait_education_martial_prowess_5_character_desc
+		}
+	}
+}
+
+education_republican_knowledge_5 = {
+	minimum_age = 12 #changed from 16
+	intrigue = 5
+	stewardship = 5
+	#category = education
+
+	shown_in_ruler_designer = no
+
+	name = {
+		first_valid = {
+			triggered_desc = {
+				trigger = { NOT = { exists = this } }
+				desc = trait_education_republican_knowledge_5_neutral
+			}
+			triggered_desc = {
+				trigger = { is_female = yes }
+				desc = trait_education_republican_knowledge_5_female
+			}
+			desc = trait_education_republican_knowledge_5_male
+		}
+	}
+
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					NOT = { exists = this }
+				}
+				desc = trait_education_republican_knowledge_5_desc
+			}
+			desc = trait_education_republican_knowledge_5_character_desc
+		}
+	}
+
+	group = education_republican_knowledge
+	level = 5
 }

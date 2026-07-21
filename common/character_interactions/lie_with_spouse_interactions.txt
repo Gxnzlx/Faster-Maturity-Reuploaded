@@ -1,0 +1,104 @@
+#################################
+## Lie With Spouse Interaction ##
+#################################
+
+# This interaction offers you to lie with your spouse
+lie_with_spouse_interaction = {
+	category = interaction_category_diplomacy
+	use_diplomatic_range = yes
+	icon = icon_scheme_seduce
+
+	name = {
+		first_valid = {
+			triggered_desc = {
+				trigger = { scope:actor = { OR = { has_trait = chaste has_trait = zealous } } }
+				desc = lie_with_spouse_interaction_name_duty
+			}
+			triggered_desc = {
+				trigger = { scope:actor = { has_trait = lustful } }
+				desc = lie_with_spouse_interaction_name_lustful
+			}
+			triggered_desc = {
+				trigger = { scope:actor = { has_trait = seducer } }
+				desc = lie_with_spouse_interaction_name_seducer
+			}
+			desc = lie_with_spouse_interaction_name
+		}
+	}
+
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = { scope:actor = { OR = { has_trait = chaste has_trait = zealous } } }
+				desc = lie_with_spouse_interaction_desc_duty
+			}
+			triggered_desc = {
+				trigger = { scope:actor = { has_trait = lustful } }
+				desc = lie_with_spouse_interaction_desc_lustful
+			}
+			triggered_desc = {
+				trigger = { scope:actor = { has_trait = seducer } }
+				desc = lie_with_spouse_interaction_desc_seducer
+			}
+			desc = lie_with_spouse_interaction_desc
+		}
+	}
+
+	is_shown = {
+		scope:actor = {
+			is_female = no
+		}
+		scope:recipient = {
+			OR = {
+				is_spouse_of = scope:actor
+				is_concubine_of = scope:actor
+			}
+			age < 46
+			NOT = { has_trait = pregnant }
+			is_adult = yes
+			is_imprisoned = no
+			is_female = yes
+			NOT = {
+				has_opinion_modifier = {
+					target = scope:actor
+					modifier = lie_with_spouse_opinion
+				}
+			}
+		}
+	}
+
+	is_valid_showing_failures_only = {
+		scope:recipient = { is_diplomatically_available = yes }
+	}
+
+	auto_accept = yes
+
+	on_accept = {
+		scope:actor = { add_character_flag = { flag = is_naked days = 1 } }
+		scope:recipient = { add_character_flag = { flag = is_naked days = 1 } }
+		scope:actor = {
+			trigger_event = lie_with_spouse.1
+		}
+		scope:recipient = {
+			make_pregnant = { father = scope:actor number_of_children = 1 }
+			add_opinion = {
+				target = scope:actor
+				modifier = lie_with_spouse_opinion
+				opinion = 10
+			}
+		}
+	}
+
+	ai_targets = {
+		ai_recipients = spouses
+	}
+	ai_frequency = 0
+
+	ai_potential = {
+		is_ruler = yes
+	}
+
+	ai_will_do = {
+		base = 0
+	}
+}

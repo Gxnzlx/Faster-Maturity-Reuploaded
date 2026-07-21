@@ -1654,7 +1654,7 @@ childhood.0007 = {
 				NOT = {
 					any_scheme = {
 						scheme_type = murder
-						scheme_target_character = scope:victim
+						scheme_target = scope:victim
 					}
 				}
 			}
@@ -1668,7 +1668,7 @@ childhood.0007 = {
 			random_scheme = {
 				limit = {
 					scheme_type = murder
-					scheme_target_character = scope:victim
+					scheme_target = scope:victim
 				}
 				add_scheme_modifier = {
 					type = extra_success_chance_modifier

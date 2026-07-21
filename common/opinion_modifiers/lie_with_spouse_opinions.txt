@@ -1,0 +1,13 @@
+﻿# lie_with_spouse opinion modifiers
+
+lie_with_spouse_opinion = {
+	opinion = 50
+	years = 1
+	decaying = yes
+}
+
+lie_with_spouse_female_opinion = {
+	opinion = 50
+	years = 5
+	decaying = yes
+}

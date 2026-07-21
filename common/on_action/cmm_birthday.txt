@@ -1,8 +1,9 @@
-﻿on_specific_birthday = {
+on_specific_birthday = {
 	first_valid_on_action = {
 		on_3rd_birthday
 		on_6th_birthday
 		on_7th_birthday
+		on_10th_birthday
 		on_11th_birthday
 		on_12th_birthday # Female adulthood
 		on_14th_birthday # Male adulthood

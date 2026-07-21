@@ -1,0 +1,2774 @@
+﻿###############################
+## Offer Knight Interactions ##
+###############################
+
+# This interaction offers knighthood to characters
+agot_offer_knighthood_interaction = {
+	category = interaction_category_diplomacy
+	desc = agot_offer_knighthood_interaction_desc
+	icon = icon_combat
+
+	ai_maybe = yes
+	ai_min_reply_days = 1
+	ai_max_reply_days = 3
+	popup_on_receive = yes
+
+	greeting = positive
+	send_name = offer_of_knighthood
+	notification_text = OFFER_KNIGHTHOOD_NOTIFICATION
+
+	use_diplomatic_range = yes
+
+	cooldown = { days = 92 }
+
+	cost = {
+		prestige = {
+			value = medium_prestige_value
+		}
+	}
+
+	is_shown = {
+		scope:actor = {
+			is_adult = yes #You're an adult
+			OR = {
+				is_agot_knight_trigger = yes
+				AND = { #You are a KING (Empire Tier), AND your faith has the knighthood tenet.
+					highest_held_title_tier = tier_empire
+					faith = { has_doctrine = tenet_knighthood }
+				}
+			}
+			NOT = {
+				AND = {
+					scope:actor = {
+						has_trait = nightswatch
+					}
+					scope:recipient = {
+						NOT = {
+							has_trait = nightswatch
+						}
+					}
+				}
+				scope:recipient = scope:actor
+			}
+			is_imprisoned = no
+		}
+
+		scope:recipient = {
+			agot_can_become_a_knight_trigger = yes
+			is_imprisoned = no
+			is_human = yes
+			OR = { #You are either a courtier or vassal or in the same court together.
+				is_courtier_of = scope:actor
+				is_vassal_of = scope:actor
+				is_in_the_same_court_as = scope:actor
+				has_relation_guardian = scope:actor
+				any_relation = {
+					type = agot_knight
+					this = scope:actor
+				}
+			}
+			OR = { #If any of the following scenarios are true
+				has_character_flag = agot_knighthood_knightless_squire_flag #This flag is assigned when a squire's knight dies: if they have this flag we don't want to block them forever.
+				AND = { #This is an early way to knighthood for a squire in a knight-squire relationship
+					has_trait_xp = { #as long as exists
+						trait = squire
+						track = knight
+						value >= 66
+					}
+				}
+				AND = { #This is for those characters that were removed as a squire by the player.
+					has_trait = squire
+					has_character_flag = agot_knighthood_was_removed_as_a_squire_flag
+				}
+				NOT = { has_trait = squire } #This is for those courtiers who are not a squire but can be knighted.
+			}
+		}
+	}
+
+	on_accept = {
+		agot_become_a_knight_effect = {
+			KNIGHT_MAKER = scope:actor
+			KNIGHT_TO_BE = scope:recipient
+		}
+	}
+
+	on_decline = {
+		scope:actor = {
+			add_prestige = miniscule_prestige_loss
+			add_opinion = {
+				target = scope:recipient
+				modifier = disappointed_opinion
+				opinion = -15
+			}
+			send_interface_toast = {
+				title = agot_knighthood_offer_rejected_toast
+				left_icon = scope:actor
+				right_icon = scope:recipient
+				custom_tooltip = agot_knighthood_offer_rejected_toast.tt
+			}
+		}
+	}
+
+	ai_frequency = 12 #Once every 3 months the AI will evaluate on whether or not to use this interaction
+
+	ai_potential = {
+		is_adult = yes
+		is_agot_knight_trigger = yes
+		is_imprisoned = no
+		is_available_ai_adult = yes
+		is_physically_able_adult = yes
+	}
+
+	ai_targets = {
+		ai_recipients = children
+		ai_recipients = courtiers
+		ai_recipients = vassals
+		max = 5
+	}
+
+	ai_targets = {
+		ai_recipients = scripted_relations
+	}
+
+	ai_accept = {
+		base = 0
+		## Personality Modifiers
+		# Craven and fearful characters
+		modifier = {
+			add = {
+				value = ai_boldness
+			}
+			ai_boldness < 0
+			desc = KNIGHTHOOD_LOW_BOLDNESS_REASON
+		}
+		# Bold characters
+		modifier = {
+			add = {
+				value = ai_boldness
+				divide = 2
+				min = 10
+			}
+			ai_boldness > 0
+			desc = KNIGHTHOOD_HIGH_BOLDNESS_REASON
+		}
+		# For zealots only
+		modifier = {
+			add = {
+				value = ai_zeal
+				divide = 2
+			}
+			ai_zeal > 0
+			has_trait = zealous
+			faith = {
+				has_doctrine = tenet_knighthood
+			}
+			desc = KNIGHTHOOD_FAITH_ZEALOUT_REASON
+		}
+		# Greed
+		modifier = {
+			add = {
+				value = ai_greed
+				divide = 2
+			}
+			ai_greed > 0
+			desc = KNIGHTHOOD_GREED_REASON
+		}
+		# ENERGY
+		modifier = {
+			add = {
+				value = ai_energy
+			}
+			ai_energy < 0
+			desc = KNIGHTHOOD_ENERGY_REASON
+		}
+		# HONOR
+		modifier = {
+			add = {
+				value = ai_honor
+				divide = 2
+			}
+			ai_honor > 0
+			desc = KNIGHTHOOD_HONOR_REASON
+		}
+		# NEGATIVE SOCIABILITY
+		modifier = {
+			add = {
+				value = ai_sociability
+			}
+			ai_sociability < 0
+			desc = KNIGHTHOOD_LOW_SOCIABILITY
+		}
+		## OTHER TRAIT MODIFIERS
+		# Chracters with martial education are more likely to accept
+		modifier = {
+			add = 10
+			has_education_martial_trigger = yes
+			desc = KNIGHTHOOD_EDUCATION_MARTIAL_REASON
+		}
+		# Characters w/ a learning education are less likely to accept
+		modifier = {
+			add = -15
+			has_education_learning_trigger = yes
+			desc = KNIGHTHOOD_EDUCATION_LEARNING_REASON
+		}
+		# Characters w/ a diplomacy, intrigue, or stewardship education will be slightly less likely to accept
+		modifier = {
+			add = -5
+			OR = {
+				has_education_diplomacy_trigger = yes
+				has_education_intrigue_trigger = yes
+				has_education_stewardship_trigger = yes
+			}
+			desc = KNIGHTHOOD_EDUCATION_NON_MARTIAL_REASON
+		}
+		# Trained warriors will be more inclined to accept knighthood
+		modifier = {
+			add = 25
+			has_trait_rank = {
+				trait = education_martial_prowess
+				rank >= 1
+			}
+			desc = KNIGHTHOOD_I_AM_A_WARRIOR_REASON
+		}
+		## FAITH MODIFIERS
+		# Not having the knighthood tenet will make someone less inclined to accept
+		modifier = {
+			add = -200
+			NOT = {
+				faith = {
+					has_doctrine = tenet_knighthood
+				}
+			}
+			desc = KNIGHTHOOD_MY_FAITH_DOES_NOT_CARE
+		}
+		# Having the knighthood tenet will make someone more likely to accept
+		modifier = {
+			add = 25
+			faith = {
+				has_doctrine = tenet_knighthood
+			}
+			desc = KNIGHTHOOD_HAS_KNIGHTHOOD_TENET_REASON
+		}
+		## RELATION MODIFIERS
+		# An offer from the secret lover will be make the recipient more likely to accept
+		modifier = {
+			add = 25
+			has_secret_relation_lover = scope:actor
+			desc = WE_ARE_LOVERS
+		}
+		# An offer from the best friend of the recipient will make them more likely to accept
+		modifier = {
+			add = 5
+			has_relation_best_friend = scope:actor
+			desc = WE_ARE_FRIENDS
+		}
+		# An offer from the close family will be make this interaction less likely
+		modifier = {
+			add = -33
+			is_close_family_of = scope:actor
+			desc = THEY_ARE_MY_CLOSE_KIN
+		}
+		# Rivals makes this less likely
+		modifier = {
+			add = -100
+			has_relation_rival = scope:actor
+			NOT = { has_relation_nemesis = scope:actor }
+			desc = ACTOR_RIVAL_TO_ME_REASON
+		}
+		# Nemesis relation makes this less likely
+		modifier = {
+			add = -100
+			has_relation_nemesis = scope:actor
+			desc = ACTOR_NEMESIS_TO_ME_REASON
+		}
+		# If the actor and recipient are in a HOUSE FEUD, it will be unlikely (Taken from Vanilla)
+		modifier = {
+			add = -200
+			exists = scope:actor.house
+			exists = scope:recipient.house
+			scope:recipient = {
+				house.house_head = {
+					any_owned_story = {
+						story_type = story_cycle_house_feud
+						has_variable = house_feud_house
+						var:house_feud_house = scope:actor.house
+					}
+				}
+				has_opinion_modifier = {
+					modifier = house_feud_opinion
+					target = scope:actor.house.house_head
+				}
+			}
+			desc = OUR_HOUSES_ARE_FEUDING_REASON
+		}
+		## LANDED TITLE MODIFIERS
+		# If the characters' families come from neighboring counties
+		modifier = {
+			add = 10
+			#Both have houses
+			exists = scope:actor.house
+			exists = scope:recipient.house
+			#And both houses have house heads
+			exists = scope:actor.house.house_head
+			exists = scope:recipient.house.house_head
+			#If the Recipient is a neighbor landowner family to the Actor
+			scope:recipient.house.house_head = {
+				any_held_title = {
+					is_neighbor_to_realm = scope:actor.house.house_head
+				}
+			}
+			desc = WE_COME_FROM_NEIGHBORING_COUNTIES
+		}
+		# If the actor is a higher tier than the recipient
+		modifier = {
+			add = 25
+			AND = {
+				is_landed = yes
+				scope:actor = {
+					is_landed = yes
+				}
+			}
+			scope:actor.highest_held_title_tier > scope:recipient.highest_held_title_tier
+			desc = KNIGHTING_THEY_ARE_MORE_POWERFUL_REASON
+		}
+		## OPINION MODIFIERS
+		opinion_modifier = {
+			who = scope:recipient
+			opinion_target = scope:actor
+			multiplier = 0.25
+			desc = AI_SIMPLE_OPINION_REASON
+		}
+		## OTHER MODIFIERS
+		modifier = {
+			add = -100
+			scope:recipient = {
+				has_character_flag = agot_favors_being_a_squire_flag
+			}
+			desc = FAVORS_BEING_A_SQUIRE_REASON
+		}
+		## NOBILITY AND LOWBORN MODIFIERS
+		# Lowborns will be more inclined to accept offers from highborns
+		modifier = {
+			add = 50
+			is_lowborn = yes
+			scope:actor = {
+				is_lowborn = no
+			}
+			desc = LOWBORN_DESIRES_KNIGHTHOOD_REASON
+		}
+		# Highborn will be less inclined to accept offers from lowborns
+		modifier = {
+			add = -50
+			is_lowborn = no
+			scope:actor = {
+				is_lowborn = yes
+			}
+			desc = HIGHBORN_DISLIKES_LOWBORN_KNIGHT_OFFER
+		}
+		# Highborn will be more inclined to accept offers from lowborns if they have the humble trait
+		modifier = {
+			add = 25
+			AND = {
+				is_lowborn = no
+				has_trait = humble
+			}
+			scope:actor = {
+				is_lowborn = yes
+			}
+			desc = HIGHBORN_IS_HUMBLE
+		}
+		## PRESTIGE
+		modifier = {
+			add = -100
+			scope:actor = {
+				OR = {
+					prestige_level <= 0 # Disgraced
+					prestige < 0 # If they're prestige is negative
+				}
+			}
+			desc = KNIGHTHOOD_THEY_HAVE_A_BAD_REPUTATION
+		}
+		# If the actor's prestige is lower than DISTINGUISHED, (so you're either established or disgraced), this will be less used
+		modifier = {
+			add = -25
+			scope:actor = {
+				prestige_level <= 1 #Established and lower
+			}
+			desc = KNIGHTHOOD_THEY_HAVE_LOW_PRESTIGE
+		}
+		# If the offerer's fame is lower than the recipient's, they will be less inclined to accept
+		modifier = {
+			add = -50
+			scope:actor.prestige_level < scope:recipient.prestige_level
+			desc = KNIGHTHOOD_I_AM_MORE_FAMOUS_THAN_YOU
+		}
+	}
+
+	auto_accept = {
+		custom_description = {
+			text = "THEY_ARE_MY_SQUIRE"
+			subject = scope:actor
+			object = scope:recipient
+			scope:recipient = {
+				has_relation_agot_knight = scope:actor
+			}
+		}
+	}
+
+	ai_will_do = {
+		base = 0
+		## Positive Trait Modifers
+		# Ambitious characters will seek to make knights more often
+		modifier = {
+			add = 25
+			has_trait = ambitious
+		}
+		# Zealous characters will seek to make knights more often, provided they and the recipient has knighthood tenet
+		modifier = {
+			add = 33
+			AND = {
+				has_trait = zealous
+				faith = {
+					has_doctrine = tenet_knighthood
+				}
+				scope:recipient.faith = {
+					has_doctrine = tenet_knighthood
+				}
+			}
+		}
+		# Gregarious or Generous characters will be more likely to do this interaction, but not by a lot
+		modifier = {
+			add = 5
+			OR = {
+				has_trait = gregarious
+				has_trait = generous
+			}
+		}
+		# Authoritative & Gallant characters will be more likely to do this interaction
+		modifier = {
+			add = 15
+			OR = {
+				has_trait = authoritative
+				has_trait = gallant
+			}
+		}
+		# The AI will be more inclined to do this if the recipient has BRAVE or JUST
+		modifier = {
+			add = 15
+			scope:recipient = {
+				OR = {
+					has_trait = brave
+					has_trait = just
+				}
+			}
+		}
+		## Negative Trait Modifiers
+		# An just  character will be unlikely to use this interaction on characters with DECEITFUL, SADISTIC, and or RUDE
+		modifier = {
+			add = -100
+			has_trait = just
+			scope:recipient = {
+				OR = {
+					has_trait = deceitful
+					has_trait = sadistic
+					has_trait = rude
+				}
+			}
+		}
+		# Lazy and fickle characters will be less likely to use this interaction
+		modifier = {
+			add = -25
+			OR = {
+				has_trait = lazy
+				has_trait = fickle
+			}
+		}
+		# Cynical and Paranoid characters will be less likely to use this interaction
+		modifier = {
+			add = -25
+			OR = {
+				has_trait = cynical
+				has_trait = paranoid
+			}
+		}
+		# Zealous characters w/ the knighthood tenet will be less likely to use this interaction on characters who have CRAVEN
+		modifier = {
+			add = -75 #Very high since craven is added as a sin from the knighthood tenet
+			AND = {
+				has_trait = zealous
+				faith = {
+					has_doctrine = tenet_knighthood
+				}
+			}
+			scope:recipient = {
+				has_trait = craven
+			}
+		}
+		modifier = {
+			add = -200
+			scope:recipient = {
+				has_trait = maester
+			}
+		}
+		## Prestige and Fame Modifiers
+		# The AI will be less inclined to use this on disgraced fame or negative prestige characters
+		modifier = {
+			add = -100
+			scope:recipient = {
+				OR = {
+					prestige_level <= 0 # Disgraced
+					prestige < 0 # If they're prestige is negative
+				}
+			}
+		}
+		# A highly famous character will be less inclined to use this (The rich get richer and the poor get poorer, or something :D)
+		modifier = {
+			add = -5
+			prestige_level >= 3 #Illustrious and higher
+		}
+		# If you're prestige is lower than DISTINGUISHED, (so you're either established or disgraced), this will be less used
+		modifier = {
+			add = -50
+			prestige_level <= 1 #Established and lower
+		}
+		## Nobility and Lowborn modifiers
+		# Highborns will not be inclined to knight low borns
+		modifier = {
+			add = -25
+			is_lowborn = no # If the actor is not lowborn
+			scope:recipient = {
+				is_lowborn = yes
+			}
+		}
+		# Highborns will be OK with knighting lowborns if they themselves have GENEROUS, HUMBLE, or GREGARIOUS, but it will not completely negate the adversion modifier to lowborn knighting
+		modifier = {
+			add = 15
+			is_lowborn = no
+			OR = {
+				has_trait = generous
+				has_trait = humble
+				has_trait = gregarious
+			}
+			scope:recipient = {
+				is_lowborn = yes
+			}
+		}
+		## AI Value Modifiers
+		# AI is more inclined to take this interaction if they have a COMPASSION rating higher than 35
+		modifier = {
+			add = 5
+			scope:actor.ai_compassion > medium_positive_ai_value
+		}
+		# AI is less inclined to take this interaction if they have a GREED value <= -20
+		modifier = {
+			add = -10
+			scope:actor.ai_greed <= low_negative_ai_value
+		}
+		## Faith Modifiers
+		# Those with the knighthood tenet will be more inclined to use this interaction
+		modifier = {
+			add = 25
+			faith = {
+				has_doctrine = tenet_knighthood
+			}
+		}
+		# Those WITHOUT the knighthood tenet will be very much less inclined to use this interaction
+		modifier = {
+			add = -75
+			NOT = {
+				faith = {
+					has_doctrine = tenet_knighthood
+				}
+			}
+		}
+		# Less likely to do it if the recipient doesn't have the knighthood tenet
+		modifier = {
+			add = -300
+			scope:recipient = {
+				NOT = {
+					faith = {
+						has_doctrine = tenet_knighthood
+					}
+				}
+			}
+		}
+		## Opinion Modifiers
+		# If the actor has an opinion lower than or equal to -20, it will be unlikely they send this interaction
+		modifier = {
+			add = -100
+			scope:actor = {
+				opinion = {
+					target = scope:recipient
+					value <= low_negative_opinion
+				}
+			}
+		}
+		# If the actor has an opinion higher than or equal to 40, it will increase the odds they send this interaction
+		modifier = {
+			add = 10
+			scope:actor = {
+				opinion = {
+					target = scope:recipient
+					value >= medium_positive_opinion
+				}
+			}
+		}
+		# If the actor and recipient are in a HOUSE FEUD, it will be unlikely (Taken from Vanilla)
+		modifier = {
+			add = -200
+			exists = scope:actor.house
+			exists = scope:recipient.house
+			scope:actor = {
+				house.house_head = {
+					any_owned_story = {
+						story_type = story_cycle_house_feud
+						has_variable = house_feud_house
+						var:house_feud_house = scope:recipient.house
+					}
+				}
+				has_opinion_modifier = {
+					modifier = house_feud_opinion
+					target = scope:recipient.house.house_head
+				}
+			}
+		}
+		## Relation Modifiers
+		# It is less common for close family to knight one another
+		modifier = {
+			add = -25
+			is_close_family_of = scope:recipient
+		}
+		# It will be slightly more common for this interaction to be used if both characters are best friends
+		modifier = {
+			add = 5
+			has_relation_best_friend = scope:recipient
+		}
+		# If the recipient is the actor's squire, it will be weighted very much more likely. (This will only show if they are eligible for the promotion while being a squire)
+		modifier = {
+			add = 2000
+			has_relation_agot_squire = scope:recipient
+		}
+		# If they are neighboring families
+		modifier = {
+			add = 50
+			#Both have houses
+			exists = scope:actor.house
+			exists = scope:recipient.house
+			#And both houses have house heads
+			exists = scope:actor.house.house_head
+			exists = scope:recipient.house.house_head
+			#If the Recipient is a neighbor landowner to the Actor
+			scope:recipient.house.house_head = {
+				any_held_title = {
+					is_neighbor_to_realm = scope:actor.house.house_head
+				}
+			}
+		}
+	}
+
+}
+
+#########################################
+## Squire Education Offer Interactions ##
+#########################################
+
+# Designate knight and squire in your own court
+agot_educate_squire_interaction = {
+	category = interaction_category_diplomacy
+	desc = agot_educate_squire_interaction_desc
+	icon = icon_combat
+
+	use_diplomatic_range = yes
+
+	send_name = OFFER_EDUCATE_SQUIRE
+
+	greeting = positive
+	notification_text = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					scope:actor = scope:secondary_actor
+					NOT = { scope:recipient = scope:secondary_recipient }
+				}
+				desc = EDUCATE_RECIPIENT_SQUIRE_PERSONALLY_REQUEST
+			}
+			triggered_desc = {
+				trigger = {
+					scope:actor = scope:secondary_actor
+					scope:recipient = scope:secondary_recipient
+				}
+				desc = EDUCATE_SQUIRE_PERSONALLY_REQUEST
+			}
+			triggered_desc = {
+				trigger = {
+					NOT = { scope:recipient = scope:secondary_recipient }
+					NOT = { scope:actor = scope:secondary_actor }
+				}
+				desc = EDUCATE_RECIPIENT_SQUIRE_REQUEST
+			}
+			triggered_desc = {
+				trigger = {
+					scope:recipient = scope:secondary_recipient
+					NOT = { scope:actor = scope:secondary_actor }
+				}
+				desc = EDUCATE_SQUIRE_REQUEST
+			}
+		}
+	}
+
+	cooldown = {
+		months = 4
+	}
+
+	redirect = {
+		if = {
+			limit = {
+				scope:actor = { is_ai = no }
+			}
+			scope:actor = {
+				if = {
+					limit = {
+						is_eligible_for_agot_squirehood_trigger = yes
+					}
+					save_scope_as = secondary_recipient
+				}
+				else_if = {
+					limit = {
+						agot_can_take_squire_trigger = yes
+					}
+					save_scope_as = secondary_actor
+				}
+				else_if = {
+					limit = {
+						any_courtier = {
+							agot_can_take_squire_trigger = yes
+						}
+					}
+					random_courtier = {
+						limit = {
+							agot_can_take_squire_trigger = yes
+						}
+						weight = {
+							base = 1
+							modifier = {
+								add = 5
+								culture = scope:actor.culture
+							}
+							modifier = {
+								add = 2
+								faith = scope:actor.faith
+							}
+						}
+						save_scope_as = secondary_actor
+					}
+				}
+				if = {
+					limit = {
+						exists = employer
+						NOT = { employer = scope:actor }
+					}
+
+					employer = {
+						save_scope_as = actor
+					}
+				}
+			}
+
+			scope:recipient = {
+				if = {
+					limit = {
+						agot_can_take_squire_trigger = yes
+					}
+					save_scope_as = secondary_actor
+				}
+				else = {
+					save_scope_as = secondary_recipient
+				}
+
+				if = {
+					limit = {
+						exists = employer
+						NOT = { employer = scope:recipient }
+					}
+
+					employer = {
+						save_scope_as = recipient
+					}
+				}
+			}
+		}
+	}
+
+	populate_actor_list = {
+		scope:actor = {
+			if = {
+				limit = {
+					agot_can_take_squire_trigger = yes
+				}
+				add_to_list = characters
+			}
+			every_courtier = {
+				limit = {
+					agot_can_take_squire_trigger = yes
+				}
+				add_to_list = characters
+			}
+		}
+	}
+
+	populate_recipient_list = {
+		scope:recipient = {
+			if = {
+				limit = {
+					is_eligible_for_agot_squirehood_trigger = yes
+				}
+				add_to_list = characters
+			}
+			every_courtier = {
+				limit = {
+					is_eligible_for_agot_squirehood_trigger = yes
+					# trigger_if = {
+					# 	limit = {
+					# 		scope:actor = { is_ai = yes }
+					# 	}
+					# 	is_close_family_of = scope:actor
+					# }
+				}
+				add_to_list = characters
+			}
+		}
+	}
+
+	prompt = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					NOT = { exists = scope:secondary_actor }
+				}
+				desc = EDUCATE_SELECT_YOUR_KNIGHT
+			}
+			triggered_desc = {
+					trigger = {
+						NOT = { exists = scope:secondary_recipient }
+					}
+				desc = EDUCATE_SELECT_YOUR_SQUIRE
+			}
+		}
+	}
+
+	is_shown = {
+		scope:actor = { culture = { agot_is_wildling_culture = no } }
+		scope:recipient = {
+			is_in_the_same_court_as = scope:actor
+			is_human = yes
+		}
+		trigger_if = {
+			limit = {
+				exists = scope:secondary_actor
+			}
+			scope:secondary_actor = {
+				agot_can_take_squire_trigger = yes
+			}
+		}
+		trigger_if = {
+			limit = {
+				exists = scope:secondary_recipient
+			}
+			scope:secondary_recipient = {
+				is_eligible_for_agot_squirehood_trigger = yes
+			}
+		}
+	}
+
+	is_valid_showing_failures_only = {
+		scope:recipient = {
+			is_imprisoned = no
+			NOT = { has_trait = incapable }
+			trigger_if = {
+				limit = {
+					NOT = { this = scope:actor }
+				}
+				is_courtier_of = scope:actor
+			}
+
+		}
+		trigger_if = {
+			limit = {
+				exists = scope:secondary_actor
+			}
+			scope:secondary_actor = {
+				is_imprisoned = no
+				NOT = { has_trait = incapable }
+			}
+		}
+		trigger_if = {
+			limit = {
+				exists = scope:secondary_recipient
+			}
+			scope:secondary_recipient = {
+				is_imprisoned = no
+				NOT = { has_trait = incapable }
+			}
+		}
+		custom_description = {
+			text = character_to_knight_exists
+			subject = scope:actor
+			scope:actor = {
+				OR = {
+					any_courtier = {
+						agot_can_take_squire_trigger = yes
+					}
+					agot_can_take_squire_trigger = yes
+				}
+			}
+		}
+		custom_description = {
+			text = character_to_squire_exists
+			object = scope:actor
+			scope:actor = {
+				OR = {
+					any_courtier = {
+						is_eligible_for_agot_squirehood_trigger = yes
+					}
+					is_eligible_for_agot_squirehood_trigger = yes
+				}
+			}
+		}
+	}
+
+	can_be_picked = {
+		is_at_home = yes
+	}
+
+	on_accept = {
+		scope:secondary_recipient = {
+			save_scope_as = squire
+			scope:secondary_actor = { save_scope_as = knight }
+		}
+
+		agot_offer_squire_interaction_effect = {
+			KNIGHT = scope:secondary_actor
+			SQUIRE = scope:secondary_recipient
+		}
+
+	}
+
+	auto_accept = yes
+
+	send_option = {
+		is_shown = {
+			NOT = { scope:actor = scope:recipient }
+		}
+		is_valid = {
+			scope:actor = {
+				has_usable_hook = scope:recipient
+			}
+		}
+		flag = hook
+		localization = GENERIC_SPEND_A_HOOK
+	}
+
+	should_use_extra_icon = {
+		scope:actor = { has_usable_hook = scope:recipient }
+	}
+	extra_icon = "gfx/interface/icons/character_interactions/hook_icon.dds"
+
+	send_options_exclusive = no
+
+	ai_frequency = 24
+
+	ai_potential = {
+		is_adult = yes
+		is_agot_knight_trigger = yes
+		is_imprisoned = no
+		is_available_ai_adult = yes
+		is_physically_able_adult = yes
+	}
+
+	ai_targets = {
+		ai_recipients = self
+	}
+
+	ai_will_do = {
+		base = 80
+
+		## Faith Modifiers
+		# If you have the knighthood tenet you will be more likely to use this interaction
+		modifier = {
+			add = 25
+			faith = {
+				has_doctrine = tenet_knighthood
+			}
+		}
+		# If you the target does not have the knighthood tenet they are less likely to do so
+		modifier = {
+			add = -200
+			scope:secondary_recipient = {
+				NOT = {
+					faith = {
+						has_doctrine = tenet_knighthood
+					}
+				}
+			}
+		}
+		## Education Modifiers
+		# You'd want someone with decent education traits to educate your heir
+		modifier = {
+			add = 100
+			scope:secondary_actor = {
+				OR = {
+					has_education_martial_trigger = yes
+					number_of_commander_traits > 0
+				}
+				OR = {
+					has_trait = education_martial_prowess_2
+					has_trait = education_martial_prowess_3
+					has_trait = education_martial_prowess_4
+					has_trait = education_martial_prowess_5
+				}
+			}
+			scope:secondary_recipient = {
+				is_heir_of = scope:actor
+			}
+		}
+		## Relationship modifiers
+		# Secret lovers, friends, and best friends will be preferred
+		modifier = {
+			add = 50
+			scope:secondary_actor = {
+				OR = {
+					has_relation_friend = scope:actor
+					has_secret_relation_lover = scope:actor
+					has_relation_best_friend = scope:actor
+				}
+			}
+		}
+		# Rivals and Nemesis do not have a chance in hell
+		modifier = { # Rivals are not welcome
+			add = -1000
+			scope:secondary_recipient = {
+				OR = {
+					has_relation_rival = scope:actor
+					has_relation_nemesis = scope:actor
+				}
+			}
+		}
+		# Lowborns will have a far more difficult time doing this
+		modifier = {
+			add = -200
+			scope:actor = {
+				is_lowborn = no
+			}
+			scope:secondary_recipient = {
+				is_lowborn = yes
+			}
+		}
+		modifier = {
+			add = -50
+			scope:secondary_recipient = {
+				is_lowborn = yes
+			}
+		}
+		# Don't care about random children
+		# Ain't that the truth
+		modifier = {
+			factor = 0
+			scope:secondary_recipient = {
+				NOR = {
+					is_close_family_of = scope:actor
+					this = scope:actor
+				}
+			}
+		}
+		# Should be less likely to squire your own heirs
+		modifier = {
+			add = -200
+			scope:actor = scope:secondary_actor
+			scope:secondary_recipient = {
+				is_heir_of = scope:actor
+			}
+		}
+	}
+}
+
+# Offer a squire from your court to a landed character
+# Based off of the offer ward interaction
+agot_offer_squire_interaction = {
+	category = interaction_category_diplomacy
+	icon = icon_combat
+	desc = agot_offer_squire_interaction_desc
+
+	send_name = OFFER_SQUIRE
+
+	is_shown = {
+		scope:actor = {
+			culture = { agot_is_wildling_culture = no }
+		}
+		# This will not show if the actor has the nightswatch trait but the recipient doesn't. This way the actor cannot use this outside of the Wall.
+		NOT = {
+			AND = {
+				scope:actor = {
+					has_trait = nightswatch
+				}
+				scope:recipient = {
+					NOT = {
+						has_trait = nightswatch
+					}
+				}
+			}
+		}
+		scope:recipient = {
+			NOT = { this = scope:actor }
+			is_human = yes
+		}
+	}
+
+	is_valid_showing_failures_only = {
+		custom_description = {
+			text = character_to_knight_exists
+			subject = scope:recipient
+			# Does the lord you're offering to have a courtier that can take a squire, or can they themself take a squire?
+			scope:recipient = {
+				OR = {
+					any_courtier = {
+						agot_can_take_squire_trigger = yes # Do they have a courtier that can take a squire?
+					}
+					agot_can_take_squire_trigger = yes # Or, can they themself take a squire?
+				}
+			}
+		}
+		custom_description = {
+			text = character_to_squire_exists
+			object = scope:actor
+			scope:actor = {
+				OR = {
+					any_courtier = {
+						is_eligible_for_agot_squirehood_trigger = yes #Can any of your courtiers become a squire?
+					}
+					is_eligible_for_agot_squirehood_trigger = yes #Or, are you able to become a suiqre?
+				}
+			}
+		}
+		NOT = {
+			scope:actor = {
+				is_at_war_with = scope:recipient
+			}
+		}
+		# Is this lord you're offering a squire to imprisoned, or busy in other events?
+		scope:recipient = {
+			is_imprisoned = no
+			is_busy_in_events_localised = yes
+		}
+	}
+
+	prompt = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					exists = scope:secondary_actor
+					scope:actor = scope:recipient
+				}
+				desc = EDUCATE_SELECT_YOUR_KNIGHT
+			}
+			triggered_desc = {
+				trigger = {
+					exists = scope:secondary_actor
+				}
+				desc = EDUCATE_SELECT_THEIR_KNIGHT
+			}
+			desc = EDUCATE_SELECT_YOUR_SQUIRE
+		}
+	}
+
+	populate_actor_list = {
+		scope:actor = {
+			if = {
+				limit = {
+					is_eligible_for_agot_squirehood_trigger = yes
+					is_hostage = no
+				}
+				add_to_list = characters
+			}
+			every_courtier = {
+				limit = {
+					is_eligible_for_agot_squirehood_trigger = yes
+					is_hostage = no
+				}
+				add_to_list = characters
+			}
+			every_courtier_away = {
+				limit = {
+					is_eligible_for_agot_squirehood_trigger = yes
+					is_hostage = no
+				}
+				add_to_list = characters
+			}
+		}
+	}
+
+	populate_recipient_list = {
+		scope:recipient = {
+			if = {
+				limit = {
+					agot_can_take_squire_trigger = yes
+				}
+				add_to_list = characters
+			}
+			every_courtier = {
+				limit = {
+					agot_can_take_squire_trigger = yes
+				}
+				add_to_list = characters
+			}
+		}
+	}
+
+	greeting = positive
+	notification_text = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					scope:actor = scope:secondary_actor
+					NOT = { scope:recipient = scope:secondary_recipient }
+				}
+				desc = SQUIRE_ACTOR_REQUEST
+			}
+			triggered_desc = {
+				trigger = {
+					scope:actor = scope:secondary_actor
+					scope:recipient = scope:secondary_recipient
+				}
+				desc = SQUIRE_ACTOR_PERSONALLY_REQUEST
+			}
+			triggered_desc = {
+				trigger = {
+					NOT = { scope:recipient = scope:secondary_recipient }
+					NOT = { scope:actor = scope:secondary_actor }
+				}
+				desc = SQUIRE_ACTOR_CHILD_REQUEST
+			}
+			triggered_desc = {
+				trigger = {
+					scope:recipient = scope:secondary_recipient
+					NOT = { scope:actor = scope:secondary_actor }
+				}
+				desc = SQUIRE_ACTOR_CHILD_PERSONALLY_REQUEST
+			}
+		}
+	}
+
+	on_accept = {
+		scope:secondary_actor = {
+			save_scope_as = squire
+			scope:secondary_recipient = { save_scope_as = knight }
+		}
+		scope:actor = {
+			trigger_event = agot_char_interaction.0080
+			agot_offer_squire_interaction_effect = {
+				KNIGHT = scope:secondary_recipient
+				SQUIRE = scope:secondary_actor
+			}
+		}
+	}
+
+	on_decline = {
+		scope:actor = {
+			trigger_event = agot_char_interaction.0081
+		}
+	}
+
+	auto_accept = {
+		custom_description = {
+			text = "spending_hook"
+			subject = scope:actor
+			object = scope:recipient
+			scope:hook = yes
+			scope:actor = { has_strong_hook = scope:recipient }
+		}
+	}
+
+	send_option = {
+		is_shown = {
+			NOT = { scope:actor = scope:recipient }
+		}
+		is_valid = {
+			scope:actor = {
+				has_usable_hook = scope:recipient
+			}
+		}
+		flag = hook
+		localization = GENERIC_SPEND_A_HOOK
+	}
+
+	send_options_exclusive = no
+
+	should_use_extra_icon = {
+		scope:actor = { has_usable_hook = scope:recipient }
+	}
+	extra_icon = "gfx/interface/icons/character_interactions/hook_icon.dds"
+
+	ai_frequency = 12
+
+
+	ai_accept = {
+		base = 15
+
+		## VANILLA MODIFIERS
+		## Don't spam players while at war (taken from vanilla)
+		modifier = {
+			factor = 0
+			scope:recipient = {
+				is_ai = no
+				is_at_war = yes
+			}
+		}
+
+		## OPINION MODIFIERS
+		opinion_modifier = {
+			opinion_target = scope:actor
+			who = scope:recipient
+			multiplier = 0.5
+			desc = AI_OPINION_REASON
+		}
+		modifier = { # Respect the liege
+			add = 50
+			scope:recipient = { target_is_liege_or_above = scope:actor }
+			desc = EDUCATE_CHILD_ACTOR_IS_MY_LIEGE #AGOT REPLACE
+		}
+		### CULTURE - OPINION MODIFIERS
+		modifier = {
+			add = -5
+			trigger = {
+				scope:secondary_actor = {
+					culture = { has_same_culture_heritage = scope:recipient.culture }
+					NOT = { has_same_culture_as = scope:recipient }
+				}
+			}
+			desc = AI_NOT_CULTURE
+		}
+		modifier = {
+			add = -10
+			trigger = {
+				scope:secondary_actor = {
+					NOT = { culture = { has_same_culture_heritage = scope:recipient.culture } }
+				}
+			}
+			desc = AI_NOT_CULTURE
+		}
+		### RELIGIOUS TOLERANCE - OPINION MODIFIERS
+		modifier = {
+			add = {
+				value = -5
+				if = {
+					limit = {
+						scope:recipient.faith = {
+							faith_hostility_level = {
+								target = scope:actor.faith
+								value >= faith_hostile_level
+							}
+						}
+					}
+					subtract = 5
+				}
+				if = {
+					limit = {
+						scope:recipient.faith = {
+							faith_hostility_level = {
+								target = scope:actor.faith
+								value >= faith_evil_level
+							}
+						}
+					}
+					subtract = 10
+				}
+			}
+			trigger = {
+				NOT = { scope:recipient.faith = scope:actor.faith }
+			}
+			desc = AI_RELIGION
+		}
+		#More/Less likely based on difference in rank between actor and recipient
+		modifier = {
+			add = 20
+			scope:actor = {
+				tier_difference = {
+					target = scope:recipient
+					value = 1
+				}
+			}
+			desc = AI_RANK_DIFF
+		}
+		modifier = {
+			add = 30
+			scope:actor = {
+				tier_difference = {
+					target = scope:recipient
+					value = 2
+				}
+			}
+			desc = AI_RANK_DIFF
+		}
+		modifier = {
+			add = 40
+			scope:actor = {
+				tier_difference = {
+					target = scope:recipient
+					value = 3
+				}
+			}
+			desc = AI_RANK_DIFF
+		}
+		modifier = {
+			add = 50
+			scope:actor = {
+				tier_difference = {
+					target = scope:recipient
+					value = 4
+				}
+			}
+			desc = AI_RANK_DIFF
+		}
+		modifier = {
+			add = 60
+			scope:actor = {
+				tier_difference = {
+					target = scope:recipient
+					value = 5
+				}
+			}
+			desc = AI_RANK_DIFF
+		}
+		modifier = {
+			add = -20
+			scope:actor = {
+				tier_difference = {
+					target = scope:recipient
+					value = -1
+				}
+			}
+			desc = AI_RANK_DIFF
+		}
+		modifier = {
+			add = -30
+			scope:actor = {
+				tier_difference = {
+					target = scope:recipient
+					value = -2
+				}
+			}
+			desc = AI_RANK_DIFF
+		}
+		modifier = {
+			add = -40
+			scope:actor = {
+				tier_difference = {
+					target = scope:recipient
+					value = -3
+				}
+			}
+			desc = AI_RANK_DIFF
+		}
+		modifier = {
+			add = -50
+			scope:actor = {
+				tier_difference = {
+					target = scope:recipient
+					value = -4
+				}
+			}
+			desc = AI_RANK_DIFF
+		}
+		modifier = {
+			add = -60
+			scope:actor = {
+				tier_difference = {
+					target = scope:recipient
+					value = -5
+				}
+			}
+			desc = AI_RANK_DIFF
+		}
+		modifier = {
+			add = intimidated_reason_value
+			scope:recipient = {
+				target_is_liege_or_above = scope:actor
+				has_dread_level_towards = {
+					target = scope:actor
+					level = 1
+				}
+			}
+			desc = INTIMIDATED_REASON
+		}
+		modifier = {
+			add = cowed_reason_value
+			scope:recipient = {
+				target_is_liege_or_above = scope:actor
+				has_dread_level_towards = {
+					target = scope:actor
+					level = 2
+				}
+			}
+			desc = COWED_REASON
+		}
+		modifier = {
+			add = intimidated_external_reason_value
+			scope:recipient = {
+				NOT = { target_is_liege_or_above = scope:actor }
+				has_dread_level_towards = {
+					target = scope:actor
+					level = 1
+				}
+			}
+			desc = INTIMIDATED_REASON
+		}
+		modifier = {
+			add = cowed_external_reason_value
+			scope:recipient = {
+				NOT = { target_is_liege_or_above = scope:actor }
+				has_dread_level_towards = {
+					target = scope:actor
+					level = 2
+				}
+			}
+			desc = COWED_REASON
+		}
+
+		## NON-VANILLA, CUSTOM MODIFIERS
+
+		## LOWBORN/HIGHBORN MODIFIERS
+		# Ennobled characters will be less likely to accept lowborn squires unless they dont have squire trait
+		modifier = {
+			add = -50
+			scope:recipient = {
+				is_lowborn = no
+				NOT = {
+					has_trait = humble
+				}
+			}
+			scope:secondary_actor = {
+				is_lowborn = yes
+			}
+			desc = SQUIREHOOD_SQUIRE_CANDIDATE_IS_LOWBORN
+		}
+
+		## FAITH MODIFIERS
+		# If the squire candidate's faith does not have the KNIGHTHOOD TENET, they are
+		modifier = {
+			add = -50
+			scope:secondary_actor = {
+				faith = {
+					NOT = {
+						has_doctrine = tenet_knighthood
+					}
+				}
+			}
+			desc = SQUIREHOOD_SQUIRE_CANDIDATE_DOES_NOT_HAVE_KNIGHTHOOD_TENET
+		}
+
+		# CONSECRATED KNIGHTHOOD Characters More Likely To Accept
+		modifier = {
+			add = 25
+			faith = {
+				has_doctrine = tenet_knighthood
+			}
+			desc = KNIGHTHOOD_HAS_KNIGHTHOOD_TENET_REASON
+		}
+
+		## LANDED MODIFIERS
+		# Why become a squire when I'm already a legal-aged ruler?
+		modifier = {
+			add = -1000
+			scope:secondary_actor = {
+				is_landed = yes
+				age >= 14
+			}
+			desc = SQUIREHOOD_I_AM_A_RULER_ALREADY
+		}
+
+		## AGE MODIFIERS
+		modifier = {
+			add = {
+				value = scope:secondary_actor.age
+				multiply = -1
+				divide = 2
+			}
+			scope:secondary_actor.age >= 14
+			desc = SQUIREHOOD_I_AM_OLD_ENOUGH_TO_BE_A_KNIGHT
+		}
+
+		## TRAIT MODIFIERS
+		modifier = {
+			add = -40
+			scope:secondary_actor = {
+				OR = {
+					has_trait = possessed
+					has_trait = intellect_bad_1
+					has_trait = intellect_bad_2
+					has_trait = intellect_bad_3
+				}
+			}
+			desc = SQUIREHOOD_SQUIRE_CANDIDATE_IS_NOT_RIGHT_IN_THE_HEAD
+		}
+	}
+
+	ai_will_do = {
+		base = 20
+		## Faith Modifiers
+		# Both characters have KNIGHTHOOD Tenet
+		modifier = {
+			add = 25
+			AND = {
+				scope:recipient.faith = {
+					has_doctrine = tenet_knighthood
+				}
+				scope:actor.faith = {
+					has_doctrine = tenet_knighthood
+				}
+			}
+		}
+		## Relation & Vassalage Modifiers
+		# Rivals are not welcome
+		modifier = {
+			add = -1000
+			scope:recipient = {
+				OR = {
+					has_relation_rival = scope:actor
+					has_relation_nemesis = scope:actor
+					has_relation_rival = scope:secondary_actor
+					has_relation_nemesis = scope:secondary_actor
+				}
+			}
+		}
+		# The AI wants to use this with their vassals
+		modifier = {
+			add = 300
+			scope:actor = {
+				NOT = {
+					has_trait = paranoid
+				}
+			}
+			scope:recipient = scope:secondary_recipient
+			scope:recipient = {
+				is_ruler = yes
+				primary_title.tier >= tier_county
+				OR = {
+					AND = {
+						is_vassal_of = scope:actor
+						opinion = {
+							target = scope:actor
+							value <= -25
+						}
+					}
+					AND = {
+						is_powerful_vassal_of = scope:actor
+						opinion = {
+							target = scope:actor
+							value <= 25
+						}
+					}
+				}
+			}
+		}
+		# AI Won't care about random lowborn kids
+		modifier = {
+			factor = 0
+			scope:secondary_actor = {
+				NOR = {
+					is_lowborn = yes
+					this = scope:actor
+				}
+			}
+		}
+		# AI is less likely to do this with older characters
+		modifier = {
+			add = {
+				value = scope:secondary_actor.age
+				multiply = -1
+				divide = 2
+			}
+			scope:secondary_actor.age >= 18
+		}
+		# AI will not go for mentally weak characters or demons
+		modifier = {
+			add = -50
+			scope:secondary_actor = {
+				OR = {
+					has_trait = possessed
+					has_trait = intellect_bad_1
+					has_trait = intellect_bad_2
+					has_trait = intellect_bad_3
+				}
+			}
+		}
+		## Faith Modifiers
+		# AI will be less likely to do this if the targeted squire is not a follower of the knighthood tenet
+		modifier = {
+			add = -200
+			scope:secondary_actor = {
+				faith = {
+					NOT = {
+						has_doctrine = tenet_knighthood
+					}
+				}
+			}
+		}
+	}
+
+	ai_targets = {
+		ai_recipients = vassals
+		ai_recipients = neighboring_rulers
+	}
+
+
+	ai_potential = {
+		primary_title.tier >= tier_county
+		is_available_ai_adult = yes
+		is_physically_able_adult = yes
+		any_courtier = {
+			is_eligible_for_agot_squirehood_trigger = yes
+			is_imprisoned = no
+		}
+		any_vassal = {
+			agot_can_take_squire_trigger = yes
+			primary_title.tier >= tier_barony
+			opinion = {
+				target = root
+				value <= -10
+			}
+		}
+	}
+}
+
+# Offer a knight from your court to a squire in a different court
+# Based off of the offer guardianship interaction
+agot_offer_knight_education_interaction = {
+	category = interaction_category_diplomacy
+	icon = icon_combat
+	desc = agot_offer_knight_education_interaction_desc
+
+	use_diplomatic_range = yes
+
+	send_name = OFFER_KNIGHT_TUTELAGE
+
+	# Redirect
+	redirect = {
+		if = {
+			limit = {
+				scope:actor = { is_ai = no agot_can_take_squire_trigger = yes }
+			}
+			scope:recipient = {
+				if = {
+					limit = {
+						exists = employer
+						NOT = { employer = scope:recipient }
+						is_human = yes # Prevent redirect on dragon
+					}
+					if = {
+						limit = {
+							is_eligible_for_agot_squirehood_trigger = yes
+						}
+						save_scope_as = secondary_recipient
+					}
+					employer = {
+						save_scope_as = recipient
+					}
+				}
+				else_if = {
+					limit = {
+						is_ruler = yes
+						is_eligible_for_agot_squirehood_trigger = yes
+					}
+					save_scope_as = recipient
+					save_scope_as = secondary_recipient
+				}
+			}
+		}
+	}
+
+	# Populate Actors
+	populate_actor_list = {
+		scope:actor = {
+			if = {
+				limit = {
+					agot_can_take_squire_trigger = yes
+					is_hostage = no
+				}
+				add_to_list = characters
+			}
+			every_courtier = {
+				limit = {
+					agot_can_take_squire_trigger = yes
+					is_hostage = no
+				}
+				add_to_list = characters
+			}
+		}
+	}
+
+	# Populate Recipients
+	populate_recipient_list = {
+		scope:recipient = {
+			if = {
+				limit = {
+					is_eligible_for_agot_squirehood_trigger = yes
+				}
+			}
+			add_to_list = characters
+			every_courtier = {
+				limit = {
+					is_eligible_for_agot_squirehood_trigger = yes
+				}
+				add_to_list = characters
+			}
+		}
+	}
+
+	greeting = positive
+	notification_text = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					# I assign, myself, to educate not you, but your...
+					scope:actor = scope:secondary_actor
+					NOT = { scope:recipient = scope:secondary_recipient }
+				}
+				desc = EDUCATE_RECIPIENT_SQUIRE_PERSONALLY_REQUEST
+			}
+			triggered_desc = {
+				trigger = {
+					# I assign, myself, to educate you, yourself!
+					scope:actor = scope:secondary_actor
+					scope:recipient = scope:secondary_recipient
+				}
+				desc = EDUCATE_SQUIRE_PERSONALLY_REQUEST
+			}
+			triggered_desc = {
+				trigger = {
+				# I assign, not myself, to educate not you, but your...
+					NOT = { scope:recipient = scope:secondary_recipient }
+					NOT = { scope:actor = scope:secondary_actor }
+				}
+				desc = EDUCATE_RECIPIENT_SQUIRE_REQUEST
+			}
+			triggered_desc = {
+				trigger = {
+				# I assign, not myself, to educate you, yourself
+					scope:recipient = scope:secondary_recipient
+					NOT = { scope:actor = scope:secondary_actor }
+				}
+				desc = EDUCATE_SQUIRE_REQUEST
+			}
+		}
+	}
+
+	prompt = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					NOT = { exists = scope:secondary_actor }
+				}
+				desc = EDUCATE_SELECT_YOUR_GUARDIAN
+			}
+			triggered_desc = {
+				trigger = {
+					NOT = { exists = scope:secondary_recipient }
+				}
+				desc = EDUCATE_SELECT_THEIR_WARD
+			}
+			desc = EDUCATE_SELECT_YOUR_WARD_OR_GUARDIAN
+		}
+	}
+
+	is_shown = {
+		scope:actor = {
+			culture = { agot_is_wildling_culture = no }
+		}
+		scope:recipient = {
+			is_human = yes
+			NOT = {
+				this = scope:actor
+				AND = {
+					scope:actor = {
+						has_trait = nightswatch
+					}
+					scope:recipient = {
+						NOT = {
+							has_trait = nightswatch
+						}
+					}
+				}
+			}
+			is_landed = yes # Unlanded people don't have courts, use the other interactions
+			# is_eligible_for_agot_squirehood_trigger = yes
+		}
+		trigger_if = {
+			limit = {
+				exists = scope:secondary_recipient
+			}
+			scope:secondary_recipient = { is_eligible_for_agot_squirehood_trigger = yes }
+		}
+	}
+
+
+	is_valid_showing_failures_only = {
+		custom_description = {
+			text = character_to_squire_exists
+			object = scope:recipient
+			scope:recipient = {
+				OR = {
+					any_courtier = {
+						is_eligible_for_agot_squirehood_trigger = yes
+					}
+					is_eligible_for_agot_squirehood_trigger = yes
+				}
+			}
+		}
+		custom_description = {
+			text = character_to_knight_exists
+			subject = scope:actor
+			scope:actor = {
+				OR = {
+					any_courtier = {
+						agot_can_take_squire_trigger = yes
+					}
+					agot_can_take_squire_trigger = yes
+				}
+			}
+		}
+		scope:recipient = {
+			is_imprisoned = no
+			is_busy_in_events_localised = yes
+		}
+		trigger_if = {
+			limit = {
+				exists = scope:secondary_recipient
+			}
+			scope:secondary_recipient = {
+				is_imprisoned = no
+				is_busy_in_events_localised = yes
+			}
+		}
+		NOT = {
+			scope:actor = {
+				is_at_war_with = scope:recipient
+			}
+		}
+	}
+
+	on_accept = {
+		if = {
+			limit = {
+				has_game_rule = agot_debug_on
+			}
+			debug_log = "Used Offer Knight Tutelage Interaction"
+			debug_log_scopes = Yes
+		}
+		scope:secondary_actor = {
+			save_scope_as = knight
+			scope:secondary_recipient = { save_scope_as = squire }
+			scope:actor = { save_scope_as = ward_liege }
+			scope:recipient = { save_scope_as = guardian_liege }
+		}
+
+		if = {
+			limit = {
+				scope:knight = { agot_can_take_squire_trigger = yes	}
+			}
+			agot_offer_knight_education_interaction_effect = {
+				KNIGHT = scope:secondary_actor 
+				SQUIRE = scope:secondary_recipient
+			}
+
+			save_scope_value_as = { #To give right tooltip in char_interaction.0080
+				name = agot_offer_knight_education_interaction_effect
+				value = yes
+			}
+
+			scope:actor = {
+				if = {
+					limit = { NOT = { this = scope:recipient } }
+					trigger_event = agot_char_interaction.0080
+				}
+			}
+		}
+	}
+
+	on_decline = {
+		scope:actor = {
+			trigger_event = agot_char_interaction.0081
+			add_opinion = {
+				modifier = declined_guardianship_opinion
+				target = scope:recipient
+				opinion = -15
+			}
+		}
+	}
+
+	auto_accept = {
+		custom_description = {
+			text = "spending_hook"
+			subject = scope:actor
+			object = scope:recipient
+			scope:hook = yes
+			scope:actor = { has_strong_hook = scope:recipient }
+		}
+	}
+
+	ai_accept = {
+		base = 0
+
+		## Hook Modifiers
+		#WEAK hook: extra points
+		modifier = {
+			scope:hook = yes
+			add = 200
+			scope:actor = { NOT = { has_strong_hook = scope:recipient } }
+			desc = SCHEME_WEAK_HOOK_USED
+		}
+		## Relation & Vassalage Modifiers
+		# More likely to accept when offer comes from liege
+		modifier = {
+			add = 50
+			scope:recipient = { target_is_liege_or_above = scope:actor }
+			desc = EDUCATE_CHILD_ACTOR_IS_MY_LIEGE
+		}
+		modifier = {
+			add = 25
+			scope:secondary_actor.court_owner = {
+				NOR = {
+					this = scope:recipient.court_owner
+					this = scope:secondary_recipient.court_owner
+				}
+			}
+			scope:secondary_recipient ?= { is_child_of = scope:recipient }
+			scope:recipient = { target_is_vassal_or_below = scope:actor}
+			desc = AI_CHILD_TO_VASSAL_COURT
+		}
+		# Friends are more likely
+		modifier = {
+			add = 25
+			scope:recipient = { has_relation_friend = scope:actor }
+			desc = AI_YOUR_FRIEND
+		}
+		# Best friends are more likely
+		modifier = {
+			add = 50
+			scope:recipient = { has_relation_best_friend = scope:actor }
+			desc = AI_YOUR_FRIEND
+		}
+		# Nemesis & Rivals are extremely unlikely
+		modifier = {
+			add = -1000
+			scope:recipient = {
+				OR = {
+					has_relation_rival = scope:actor
+					has_relation_nemesis = scope:actor
+				}
+			}
+			desc = AI_YOUR_RIVAL
+		}
+		# If the guardian is the child's secret father, the mother is more likely to send them
+		modifier = {
+			add = 75
+			exists = scope:secondary_recipient.mother
+			scope:recipient = scope:secondary_recipient.mother
+			OR = {
+				scope:actor = {
+					any_known_secret = {
+						OR = {
+							secret_type = secret_unmarried_illegitimate_child
+							secret_type = secret_disputed_heritage
+						}
+						exists = secret_target
+						secret_target = scope:secondary_recipient
+					}
+				}
+				scope:secondary_recipient = { has_trait = disputed_heritage }
+				AND = {
+					scope:secondary_recipient = { has_trait = bastard }
+					NOT = { exists = scope:secondary_recipient.father }
+				}
+			}
+			exists = scope:secondary_recipient.real_father
+			scope:secondary_recipient.real_father = scope:secondary_actor
+			desc = AI_YOU_ARE_THE_FATHER
+		}
+		## Opinion Modifiers
+		#Their opinion of you matters!
+		opinion_modifier = {
+			opinion_target = scope:actor
+			who = scope:recipient
+			multiplier = 0.8
+			desc = AI_OPINION_REASON
+		}
+		#Make less likely that they accept you as educator if they are of another culture
+		modifier = {
+			add = -10
+			trigger = {
+				scope:actor = {
+					this = scope:secondary_actor
+					NOT = { culture = { has_same_culture_heritage = scope:recipient.culture } }
+				}
+			}
+			desc = AI_NOT_CULTURE
+		}
+		## Faith Modifiers
+		#Less likely if they don't like other religion
+		modifier = {
+			add = {
+				value = -5
+				if = {
+					limit = {
+						scope:recipient.faith = {
+							faith_hostility_level = {
+								target = scope:actor.faith
+								value >= faith_hostile_level
+							}
+						}
+					}
+					subtract = 5
+				}
+				if = {
+					limit = {
+						scope:recipient.faith = {
+							faith_hostility_level = {
+								target = scope:actor.faith
+								value >= faith_evil_level
+							}
+						}
+					}
+					subtract = 10
+				}
+			}
+			trigger = {
+				NOT = { scope:recipient.faith = scope:actor.faith }
+			}
+			desc = AI_RELIGION
+		}
+		## Education Modifiers
+		# The better the educator is at a skill, the more likely they are to accept
+		compare_modifier = {
+			trigger = {
+				scope:secondary_actor = {
+					martial >= 11
+				}
+			}
+			target = scope:secondary_actor
+			value = martial
+			step = 4
+			multiplier = 0.75
+			offset = -5
+			min = 0
+			desc = KNIGHTING_AI_GUARDIAN_SKILL_MARTIAL
+		}
+		compare_modifier = {
+			trigger = {
+				scope:secondary_actor = {
+					prowess >= 10
+				}
+			}
+			target = scope:secondary_actor
+			value = prowess
+			step = 4
+			multiplier = 0.75
+			offset = -5
+			min = 0
+			desc = KNIGHTING_AI_GUARDIAN_SKILL_PROWESS
+		}
+		## Rank Modifiers
+		#More/Less likely based on difference in rank between actor and recipient
+		modifier = {
+			add = 30
+			scope:actor = {
+				tier_difference = {
+					target = scope:recipient
+					value = 1
+				}
+			}
+			desc = AI_RANK_DIFF
+		}
+		modifier = {
+			add = 40
+			scope:actor = {
+				tier_difference = {
+					target = scope:recipient
+					value = 2
+				}
+			}
+			desc = AI_RANK_DIFF
+		}
+		modifier = {
+			add = 50
+			scope:actor = {
+				tier_difference = {
+					target = scope:recipient
+					value = 3
+				}
+			}
+			desc = AI_RANK_DIFF
+		}
+		modifier = {
+			add = 60
+			scope:actor = {
+				tier_difference = {
+					target = scope:recipient
+					value = 4
+				}
+			}
+			desc = AI_RANK_DIFF
+		}
+		modifier = {
+			add = 70
+			scope:actor = {
+				tier_difference = {
+					target = scope:recipient
+					value = 5
+				}
+			}
+			desc = AI_RANK_DIFF
+		}
+		modifier = {
+			add = -30
+			scope:actor = {
+				tier_difference = {
+					target = scope:recipient
+					value = -1
+				}
+			}
+			desc = AI_RANK_DIFF
+		}
+		modifier = {
+			add = -40
+			scope:actor = {
+				tier_difference = {
+					target = scope:recipient
+					value = -2
+				}
+			}
+			desc = AI_RANK_DIFF
+		}
+		modifier = {
+			add = -50
+			scope:actor = {
+				tier_difference = {
+					target = scope:recipient
+					value = -3
+				}
+			}
+			desc = AI_RANK_DIFF
+		}
+		modifier = {
+			add = -60
+			scope:actor = {
+				tier_difference = {
+					target = scope:recipient
+					value = -4
+				}
+			}
+			desc = AI_RANK_DIFF
+		}
+		modifier = {
+			add = -70
+			scope:actor = {
+				tier_difference = {
+					target = scope:recipient
+					value = -5
+				}
+			}
+			desc = AI_RANK_DIFF
+		}
+
+		#More likely to accept if you have an alliance
+		modifier = {
+			add = 100
+			scope:actor = { is_allied_to = scope:recipient }
+			desc = AI_HAS_ALLIANCE
+		}
+
+		#More likely to accept if they are afraid
+		modifier = {
+			add = 20
+			scope:recipient = {
+				target_is_liege_or_above = scope:actor
+				has_dread_level_towards = {
+					target = scope:actor
+					level = 2
+				}
+			}
+			desc = COWED_REASON
+		}
+		modifier = {
+			add = 20
+			scope:actor = {
+				has_royal_court = yes
+				target_is_vassal_or_below = scope:recipient
+				court_grandeur_current_level >= 7
+				court_grandeur_current_level < 9
+			}
+			desc = GRANDEUR_REASON
+		}
+		modifier = {
+			add = 50
+			scope:actor = {
+				has_royal_court = yes
+				target_is_vassal_or_below = scope:recipient
+				court_grandeur_current_level >= 9
+			}
+			desc = GRANDEUR_REASON
+		}
+		# House Feud
+		modifier = {
+			add = -1000
+			exists = scope:secondary_recipient.house
+			scope:recipient = {
+				exists = house.house_head
+				house = scope:secondary_recipient.house
+				house.house_head = {
+					any_owned_story = {
+						story_type = story_cycle_house_feud
+						exists = var:house_feud_house
+						var:house_feud_house = scope:actor.house
+					}
+				}
+			}
+			desc = AI_GUARDIAN_FEUD_HESITANCE
+		}
+		# I AM LANDED !
+		# Why become a squire when I'm already a legal-aged ruler?
+		modifier = {
+			add = -1000
+			scope:secondary_recipient ?= {
+				is_landed = yes
+				age >= 14
+			}
+		}
+		# AI is less likely to do this with older characters
+		modifier = {
+			exists = scope:secondary_recipient
+			add = {
+				value = scope:secondary_recipient.age
+				multiply = -1
+				divide = 2
+			}
+			scope:secondary_recipient ?= { age >= 18 }
+			desc = SQUIREHOOD_I_AM_OLD_ENOUGH_TO_BE_A_KNIGHT
+		}
+		# AI will not go for mentally weak characters or demons (yes patchface is a demon)
+		modifier = {
+			add = -50
+			scope:secondary_recipient ?= {
+				OR = {
+					has_trait = possessed
+					has_trait = intellect_bad_1
+					has_trait = intellect_bad_2
+					has_trait = intellect_bad_3
+				}
+			}
+			desc = SQUIREHOOD_SQUIRE_CANDIDATE_IS_NOT_RIGHT_IN_THE_HEAD
+		}
+		# AI will be less likely to target your lowborn courtiers
+		modifier = {
+			add = -50
+			scope:actor = {
+				NOT = {
+					has_trait  = humble
+				}
+			}
+			scope:secondary_recipient ?= {
+				is_lowborn = yes
+			}
+			desc = SQUIREHOOD_SQUIRE_CANDIDATE_IS_LOWBORN
+		}
+		# AI will be less likely to target your courtiers that do not have knighthood as a faith tenet
+		modifier = {
+			add = -50
+			scope:secondary_recipient ?= {
+				NOT = {
+					faith = {
+						has_doctrine = tenet_knighthood
+					}
+				}
+			}
+			desc = SQUIREHOOD_SQUIRE_CANDIDATE_DOES_NOT_HAVE_KNIGHTHOOD_TENET
+		}
+	}
+
+	send_option = {
+		is_shown = {
+			NOT = { scope:actor = scope:recipient }
+		}
+		is_valid = {
+			scope:actor = {
+				has_usable_hook = scope:recipient
+			}
+		}
+		flag = hook
+		localization = GENERIC_SPEND_A_HOOK
+	}
+	should_use_extra_icon = {
+		scope:actor = { has_usable_hook = scope:recipient }
+	}
+	extra_icon = "gfx/interface/icons/character_interactions/hook_icon.dds"
+
+	send_options_exclusive = no
+
+	ai_targets = {
+		ai_recipients = vassals
+		ai_recipients = neighboring_rulers
+	}
+
+	ai_frequency = 36
+
+	ai_potential = {
+		is_imprisoned = no
+		NOT = { has_trait = incapable }
+	}
+
+	ai_will_do = {
+		base = 25
+		## Faith Modifiers
+		# Both parties have the KNIGHTHOOD Tenet
+		modifier = {
+			add = 25
+			AND = {
+				scope:recipient.faith = {
+					has_doctrine = tenet_knighthood
+				}
+				scope:actor.faith = {
+					has_doctrine = tenet_knighthood
+				}
+			}
+		}
+		## Relation Modifiers
+		# Rivals & Nemesis have no chance
+		modifier = {
+			add = -1000
+			scope:recipient = {
+				OR = {
+					has_relation_rival = scope:actor
+					has_relation_nemesis = scope:actor
+				}
+			}
+		}
+		# More likely to accept if you have an alliance
+		modifier = {
+			add = 25
+			scope:actor = { is_allied_to = scope:recipient }
+			desc = AI_HAS_ALLIANCE
+		}
+		# AI is less likely to do this with older characters
+		modifier = {
+			add = {
+				value = scope:secondary_recipient.age
+				multiply = -1
+				divide = 2
+			}
+			age >= 18
+		}
+		# AI will not go for mentally weak characters or demons (yes patchface is a demon)
+		modifier = {
+			add = -50
+			scope:secondary_recipient = {
+				OR = {
+					has_trait = possessed
+					has_trait = intellect_bad_1
+					has_trait = intellect_bad_2
+					has_trait = intellect_bad_3
+				}
+			}
+		}
+		# AI will be less likely to target your lowborn courtiers
+		modifier = {
+			add = -50
+			scope:actor = {
+				NOT = {
+					has_trait  = humble
+				}
+			}
+			scope:secondary_recipient = {
+				is_lowborn = yes
+			}
+		}
+		# AI will be less likely to target your courtiers that do not have knighthood as a faith tenet
+		modifier = {
+			add = -150
+			scope:secondary_recipient = {
+				NOT = {
+					faith = {
+						has_doctrine = tenet_knighthood
+					}
+				}
+			}
+		}
+		modifier = {
+			add = -150
+			scope:secondary_actor = {
+				NOT = {
+					faith = {
+						has_doctrine = tenet_knighthood
+					}
+				}
+			}
+		}
+		## Don't spam players while at war (taken from vanilla)
+		modifier = {
+			factor = 0
+			scope:recipient = {
+				is_ai = no
+				is_at_war = yes
+			}
+		}
+	}
+}
+
+#########################
+## Squire Interactions ##
+#########################
+
+# Removes Your Squire Interaction
+agot_remove_my_squire_interaction = {
+	category = interaction_category_diplomacy
+	desc = agot_remove_my_squire_interaction_desc
+	icon = icon_combat
+
+	popup_on_receive = yes
+
+	greeting = negative
+	send_name = squirehood_removal
+	notification_text = REMOVAL_OF_SQUIREHOOD_NOTIFICATION
+
+	use_diplomatic_range = yes
+
+	is_shown = {
+		scope:actor = {
+			is_adult = yes
+			is_agot_knight_trigger = yes
+			has_relation_agot_squire = scope:recipient
+			is_imprisoned = no
+		}
+		scope:recipient = {
+			is_imprisoned = no
+			has_trait = squire
+			has_relation_agot_knight = scope:actor
+		}
+	}
+
+	is_valid = {
+		scope:actor = {
+			is_adult = yes
+			is_agot_knight_trigger = yes
+			has_relation_agot_squire = scope:recipient
+			is_imprisoned = no
+		}
+		scope:recipient = {
+			is_imprisoned = no
+			has_trait = squire
+			has_relation_agot_knight = scope:actor
+		}
+	}
+
+	can_send = {
+		scope:recipient = {
+			is_imprisoned = no
+			has_trait = squire
+			has_relation_agot_knight = scope:actor
+		}
+	}
+
+	on_accept = {
+		if = {
+			limit = {
+				has_game_rule = agot_debug_on
+			}
+			debug_log = "Used Remove Squire Interaction"
+			debug_log_scopes = Yes
+		}
+		scope:actor = {
+			remove_relation_agot_squire = scope:recipient
+			create_character_memory = {
+				type = agot_lost_squire
+				participants = {
+					squire = scope:recipient
+				}
+			}
+		}
+		scope:recipient = {
+			remove_relation_agot_knight = scope:actor
+			add_character_flag = agot_knighthood_was_removed_as_a_squire_flag
+			add_opinion = {
+				target = scope:actor
+				modifier = removed_me_as_squire_opinion
+				opinion = -50
+			}
+			create_character_memory = {
+				type = agot_removed_me_as_squire
+				participants = {
+					knight = scope:actor
+				}
+			}
+
+		}
+	}
+
+	auto_accept = yes
+
+	#AI Won't do this interaction. We'll handle the transfer of squires in events IF applicable.
+}
+
+# This lets the character 'train' their squire by firing an event
+agot_train_squire_interaction = {
+	category = interaction_category_diplomacy
+	desc = agot_train_squire_interaction_desc
+	icon = icon_combat
+
+	greeting = positive
+	send_name = squire_training
+	notification_text = KNIGHT_TRAINS_SQUIRE_NOTIFICATION
+
+	use_diplomatic_range = yes
+
+	cooldown = { days = 32 }
+
+	is_shown = {
+		scope:actor = {
+			is_adult = yes
+			is_agot_knight_trigger = yes
+			any_relation = {
+				type = agot_squire
+			}
+			is_imprisoned = no
+		}
+
+		scope:recipient = {
+			AND = {
+				has_trait_xp = {
+					trait = squire
+					track = knight
+					value >= 0
+				}
+				any_relation = {
+					type = agot_knight
+					this = scope:actor
+				}
+			}
+			is_imprisoned = no
+		}
+	}
+
+
+	is_valid_showing_failures_only = {
+		scope:actor = {
+			is_available_allow_travelling = yes
+		}
+	}
+
+	on_accept = {
+		scope:actor = {
+			custom_tooltip = agot_train_squire_actor.tt
+			save_scope_as = my_knight
+			scope:recipient = {
+				save_scope_as = my_squire
+			}
+			trigger_event = agot_squirehood_ongoing.0400
+		}
+		scope:recipient = {
+			custom_tooltip = agot_train_squire_recipient.tt
+		}
+	}
+
+	auto_accept = yes
+
+	ai_frequency = 3
+
+	ai_potential = {
+		is_adult = yes
+		is_agot_knight_trigger = yes
+		is_imprisoned = no
+		is_available_ai_adult = yes
+		is_physically_able_adult = yes
+	}
+
+	ai_targets = {
+		ai_recipients = scripted_relations
+	}
+
+	ai_will_do = {
+		base = 100
+	}
+
+}
+
+# Remove Knight
+remove_knight_interaction = {
+	category = interaction_category_friendly
+	desc = remove_knight_interaction_desc
+	icon = icon_combat
+
+	force_notification = yes
+	greeting = negative
+	notification_text = REMOVE_CHILDS_KNIGHT_INTERACTION
+	use_diplomatic_range = no
+
+	is_shown = {
+		scope:actor = {
+			is_ruler = yes
+			NOT = {
+				any_relation = {
+					type = agot_squire
+					this = scope:recipient # Use Remove my Squire Instead
+				}
+			}
+		}
+		scope:recipient = {
+			NOT = { is_landed = yes } # They can't be landed
+			is_child_of = scope:actor # They need to be your child
+			liege = scope:actor # You should be their leige
+			any_relation = {
+				type = agot_knight # They need to have a knight lol
+			}
+		}
+	}
+
+	auto_accept = yes
+
+	on_accept = {
+		scope:recipient = {
+			save_scope_as = cancelled_squire_child
+			random_relation = {
+				type = agot_knight
+				save_scope_as = childs_knight
+			}
+			if = {
+				limit = {
+					OR = {
+						host = scope:childs_knight
+						host = scope:childs_knight.liege
+					}
+				}
+				return_to_court = yes # Bring em home
+			}
+		}
+		scope:actor = {
+			trigger_event = agot_knighthood_maintenance.0550 # Event that removes the squire trait
+		}
+		scope:childs_knight = {
+			remove_relation_agot_squire = scope:cancelled_squire_child # This is fired from here so that the agot_has_squired_modifier is removed correctly via on_action
+			create_character_memory = {
+				type = agot_lost_squire
+				participants = {
+					squire = scope:cancelled_squire_child
+				}
+			}
+			add_opinion = {
+				target = scope:actor
+				modifier = removed_my_squire_opinion
+				opinion = -50
+			}
+			trigger_event = agot_knighthood_maintenance.0551
+		}
+	}
+
+	ai_will_do = {
+		base = 0
+	}
+}

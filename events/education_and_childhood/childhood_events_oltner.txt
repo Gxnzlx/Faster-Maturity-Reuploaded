@@ -12,7 +12,7 @@ scripted_trigger appropriate_adult = {
 		is_grandparent_of = root
 		is_great_grandparent_of = root
 	}
-	age >= 14 #changed from 18
+	age >= 14
 	NOR = { # Wears clothes
 		faith = {
 			has_doctrine_parameter = naked_adherents_active
@@ -1101,10 +1101,11 @@ childhood.7100 = {
 					scope:child_to_annihilate = {
 						age <= 6
 					}
-					NOR = {
-						faith.religion = religion:judaism_religion
-						faith.religion = religion:islam_religion
-					}
+					#AGOT Disabled
+					# NOR = {
+					# 	faith.religion = religion:judaism_religion
+					# 	faith.religion = religion:islam_religion
+					# }
 				}
 				save_scope_as = killed_by_sow
 				scope:child_to_annihilate = {
@@ -1339,7 +1340,7 @@ childhood.7200 = {
 				root = {
 					can_start_scheme = {
 						type = learn_language
-						target = prev
+						target_character = prev
 					}
 				}
 			}
@@ -1349,7 +1350,7 @@ childhood.7200 = {
 				root = {
 					can_start_scheme = {
 						type = learn_language
-						target = prev
+						target_character = prev
 					}
 				}
 			}
@@ -1364,7 +1365,7 @@ childhood.7200 = {
 				root = {
 					can_start_scheme = {
 						type = learn_language
-						target = prev
+						target_character = prev
 					}
 				}
 			}
@@ -1377,7 +1378,7 @@ childhood.7200 = {
 				root = {
 					can_start_scheme = {
 						type = learn_language
-						target = prev
+						target_character = prev
 					}
 				}
 			}
@@ -1414,7 +1415,7 @@ childhood.7200 = {
 				}
 			}
 			start_scheme = {
-				target = scope:language_friend
+				target_character = scope:language_friend
 				type = learn_language
 			}
 		}
@@ -2146,10 +2147,21 @@ childhood.7400 = {
 		has_dlc = "Friends and Foes"
 		is_available_child = yes
 		age >= 6
-		employs_court_position = bodyguard_court_position
-		any_court_position_holder = {
-			type = bodyguard_court_position
-			is_available = yes
+		OR = {
+			AND = {
+				employs_court_position = bodyguard_court_position
+				any_court_position_holder = {
+					type = bodyguard_court_position
+					is_available = yes
+				}
+			}
+			AND = {
+				employs_court_position = akolouthos_court_position
+				any_court_position_holder = {
+					type = akolouthos_court_position
+					is_available = yes
+				}
+			}
 		}
 		any_relation = {
 			type = bully
@@ -2158,13 +2170,28 @@ childhood.7400 = {
 	}
 
 	immediate = {
-		random_court_position_holder = {
-			type = bodyguard_court_position
+		if = {
 			limit = {
-				is_available = yes
+				employs_court_position = bodyguard_court_position
 			}
-			save_scope_as = bodyguard
+			random_court_position_holder = {
+				type = bodyguard_court_position
+				limit = {
+					is_available = yes
+				}
+				save_scope_as = bodyguard
+			}
 		}
+		else = {
+			random_court_position_holder = {
+				type = akolouthos_court_position
+				limit = {
+					is_available = yes
+				}
+				save_scope_as = bodyguard
+			}
+		}
+		
 		random_relation = {
 			type = bully
 			limit = {

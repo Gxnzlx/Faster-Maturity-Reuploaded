@@ -1,6 +1,33 @@
-﻿on_11th_birthday = {
+on_10th_birthday = {
+	trigger = {
+		age = 10
+		is_human = yes
+	}
+
+	on_actions = {
+		on_10th_birthday_sibling_betrothal
+		on_10th_birthday_heir_betrothal
+		on_10th_birthday_tame_canon_dragon
+		on_birthday_sibling_or_dynasty_betrothal
+	}
+
+	events = {
+		agot_events_generic.0005
+		delay = { days = { 2 360 } }
+		agot_events_generic.0007
+		agot_engagement_events.0001
+	}
+}
+
+on_11th_birthday = {
+	trigger = {
+		age = 11
+		is_human = yes
+	}
 	events = {
 		child_personality.4000 #Assigns a sexuality to the child
+		bp1_house_feud.9003
+		bp1_house_feud.9004
 		witch.1001
 		secret_faith.1001
 		bp2_yearly.2019 # Imaginary Friend - Eccentric Trait Event
@@ -9,12 +36,21 @@
 
 # FEMALE ADULTHOOD
 on_12th_birthday = {
+	trigger = {
+		AND = {
+			is_female = yes
+			age = 12
+			is_human = yes
+		}
+	}
+
 	events = {
 		childhood_education.9103 #To make sure that every child gets a education
 		child_personality.4011 #To make sure everyone gets a sexuality
 		childhood.0900#victim transforms into opinion modifier on adulthood
 		childhood.0910#bully transforms into opinion modifier on adulthood
 		childhood.0998#crush transforms into opinion modifier on adulthood
+		agot_events_generic.0011
 		coming_of_age.0001#Learning
 		coming_of_age.0002#Stewardship
 		coming_of_age.0003#Martial
@@ -29,6 +65,7 @@ on_12th_birthday = {
 		coming_of_age.3000 #House Knight Accolade
 		coming_of_age.3011				# Junior Emperors become Co-Emperors
 		court_events.3091				# Dad promised you a warhorse
+		tgp_japan_yearly_events.1210    # Challenged as house head
 	}
 
 	effect = {
@@ -41,6 +78,54 @@ on_12th_birthday = {
 			trigger_event = {
 				id = diarchy.0111
 				months = { 6 24 }
+			}
+		}
+		# Challenged as house head in Japan
+		if = {
+			limit = {
+				government_is_japanese_trigger = yes  
+				is_house_head = yes
+			}
+			trigger_event = {
+				weeks = { 2 4 }
+				id = tgp_japan_yearly_events.1210 
+			}
+		}
+		#Yurt Domicile effects
+		if = {
+			limit = {
+				warden ?= {
+					government_has_flag = government_is_nomadic
+					domicile ?= {
+						has_domicile_building_or_higher = lifestyle_xp_yurt_03
+					}
+				}
+			}
+			warden.domicile ?= {
+				switch = {
+					trigger = has_domicile_parameter
+					nomad_yurt_better_children_education_outcomes_lvl_1 = {
+						random = {
+							chance = {
+								value = warden.learning
+								multiply = 0.5
+							}
+							root = {
+								add_trait = lifestyle_mystic
+							}
+						}
+					}
+					nomad_yurt_better_children_education_outcomes_lvl_2 = {
+						random = {
+							chance = {
+								value = warden.learning
+							}
+							root = {
+								add_trait = lifestyle_mystic
+							}
+						}
+					}
+				}
 			}
 		}
 		# If they had the Imaginary Friend story cycle, determine if we need to end the story or assign an adult persona to the imaginary friend 
@@ -145,12 +230,21 @@ on_12th_birthday = {
 
 # MALE ADULTHOOD
 on_14th_birthday = {
+	trigger = {
+		AND = {
+			is_male = yes
+			age = 14
+			is_human = yes
+		}
+	}
+
 	events = {
 		childhood_education.9103 #To make sure that every child gets a education
 		child_personality.4011 #To make sure everyone gets a sexuality
 		childhood.0900#victim transforms into opinion modifier on adulthood
 		childhood.0910#bully transforms into opinion modifier on adulthood
 		childhood.0998#crush transforms into opinion modifier on adulthood
+		agot_events_generic.0011
 		coming_of_age.0001#Learning
 		coming_of_age.0002#Stewardship
 		coming_of_age.0003#Martial
@@ -165,6 +259,7 @@ on_14th_birthday = {
 		coming_of_age.3000 #House Knight Accolade
 		coming_of_age.3011				# Junior Emperors become Co-Emperors
 		court_events.3091				# Dad promised you a warhorse
+		tgp_japan_yearly_events.1210    # Challenged as house head
 	}
 
 	effect = {
@@ -177,6 +272,54 @@ on_14th_birthday = {
 			trigger_event = {
 				id = diarchy.0111
 				months = { 6 24 }
+			}
+		}
+		# Challenged as house head in Japan
+		if = {
+			limit = {
+				government_is_japanese_trigger = yes  
+				is_house_head = yes
+			}
+			trigger_event = {
+				weeks = { 2 4 }
+				id = tgp_japan_yearly_events.1210 
+			}
+		}
+		#Yurt Domicile effects
+		if = {
+			limit = {
+				warden ?= {
+					government_has_flag = government_is_nomadic
+					domicile ?= {
+						has_domicile_building_or_higher = lifestyle_xp_yurt_03
+					}
+				}
+			}
+			warden.domicile ?= {
+				switch = {
+					trigger = has_domicile_parameter
+					nomad_yurt_better_children_education_outcomes_lvl_1 = {
+						random = {
+							chance = {
+								value = warden.learning
+								multiply = 0.5
+							}
+							root = {
+								add_trait = lifestyle_mystic
+							}
+						}
+					}
+					nomad_yurt_better_children_education_outcomes_lvl_2 = {
+						random = {
+							chance = {
+								value = warden.learning
+							}
+							root = {
+								add_trait = lifestyle_mystic
+							}
+						}
+					}
+				}
 			}
 		}
 		# If they had the Imaginary Friend story cycle, determine if we need to end the story or assign an adult persona to the imaginary friend 
@@ -279,3 +422,26 @@ on_14th_birthday = {
 	}
 }
 
+#To check if character needs education boost or not
+childhood_education_boost = {
+	trigger = {
+		NOT = { has_character_flag = natural_education_progression }
+		NOT = { 
+			OR = {
+				AND = {
+					age = 14
+					is_male = yes
+				}
+				AND = {
+					age = 12
+					is_female = yes
+				}
+			}
+		} 
+		has_education_focus_trigger = yes
+		is_human = yes
+	}
+	events = {
+		childhood_education.9103 # Education catchup
+	}
+}

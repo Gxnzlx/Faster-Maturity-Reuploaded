@@ -1,4 +1,4 @@
-﻿# Faster Maturity Reuploaded - Triggered Defines
+# Faster Maturity Reuploaded - Triggered Defines
 # These override the base defines in cmm_defines.txt based on game rules selected at game start.
 
 # --- Female Age of Marriage: 14 ---

@@ -1,0 +1,30 @@
+﻿l_spanish:
+
+ # Lie With Spouse Interaction
+ lie_with_spouse_interaction:0 "Yacer con cónyuge"
+ lie_with_spouse_interaction_name:0 "Yacer con tu cónyuge"
+ lie_with_spouse_interaction_name_duty:0 "Cumplir deber marital"
+ lie_with_spouse_interaction_name_lustful:0 "Satisfacer tus deseos"
+ lie_with_spouse_interaction_name_seducer:0 "Seducir a tu cónyuge"
+ lie_with_spouse_interaction_desc:0 "Yacer con tu cónyuge"
+ lie_with_spouse_interaction_desc_duty:0 "Cumplir con el deber conyugal, buscando engendrar un heredero"
+ lie_with_spouse_interaction_desc_lustful:0 "Llevar a tu cónyuge a la cama con deseo desbordante, buscando tanto el placer como la concepción de un heredero"
+ lie_with_spouse_interaction_desc_seducer:0 "Atraer a tu cónyuge a un abrazo íntimo, donde la pasión y el propósito se entrelazan en la concepción de un heredero"
+
+ # Lie With Spouse Events
+ lie_with_spouse.1.t:0 "El Placer de la Procreación"
+ lie_with_spouse.2.t:0 "El Placer de la Procreación"
+ lie_with_spouse.1.desc:0 "Pasé toda la noche con mi cónyuge. Nuestros fluidos se han mezclado a fondo y seguramente se está gestando un bebé."
+ lie_with_spouse.1.desc_duty:0 "He cumplido mi deber ante Dios y la dinastía. Hemos yacido juntos, y rezo para que un heredero siga."
+ lie_with_spouse.1.desc_lustful:0 "La noche estuvo llena de pasión desenfrenada. Tomé a mi cónyuge con deseo sin restricciones, y ahora esperamos lo que el destino traiga."
+ lie_with_spouse.1.desc_seducer:0 "Con encanto practicado atraje a mi cónyuge. La noche se desarrolló como pretendía, y ahora la naturaleza debe seguir su curso."
+ lie_with_spouse.2.desc:0 "Pasó toda la noche conmigo. Nuestros fluidos se han mezclado a fondo y seguramente se está gestando un bebé."
+ lie_with_spouse.2.desc_duty:0 "He cumplido mi deber como esposa. Hemos yacido juntos, y rezo para que un heredero siga."
+ lie_with_spouse.2.desc_lustful:0 "La noche estuvo llena de pasión desenfrenada. Mi esposo me tomó con deseo sin restricciones, y ahora esperamos lo que el destino traiga."
+ lie_with_spouse.2.desc_seducer:0 "Atraje a mi esposo con encanto practicado. La noche se desarrolló como pretendía, y ahora la naturaleza debe seguir su curso."
+ lie_with_spouse.1.a:0 "Ahh...."
+ lie_with_spouse.2.a:0 "Ahh...."
+
+ # Opinion Modifiers
+ lie_with_spouse_opinion:0 "Cumplió su deber marital"
+ lie_with_spouse_female_opinion:0 "Cumplimos nuestro deber marital"

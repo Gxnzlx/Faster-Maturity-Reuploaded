@@ -1,0 +1,125 @@
+﻿namespace = lie_with_spouse
+
+#####################################
+# Written by your girl's naan bread #
+# lie_with_spouse                   #
+# 1-99                              #
+#####################################
+
+# Male perspective
+lie_with_spouse.1 = {
+    type = character_event
+	title = lie_with_spouse.1.t
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = { root = { has_trait = chaste } }
+				desc = lie_with_spouse.1.desc_duty
+			}
+			triggered_desc = {
+				trigger = { root = { has_trait = zealous } }
+				desc = lie_with_spouse.1.desc_duty
+			}
+			triggered_desc = {
+				trigger = { root = { has_trait = lustful } }
+				desc = lie_with_spouse.1.desc_lustful
+			}
+			triggered_desc = {
+				trigger = { root = { has_trait = seducer } }
+				desc = lie_with_spouse.1.desc_seducer
+			}
+			desc = lie_with_spouse.1.desc
+		}
+	}
+	theme = lover_relation
+	left_portrait = {
+		character = root
+		triggered_animation = {
+			animation = love
+		}
+	}
+	right_portrait = {
+		character = scope:recipient
+		triggered_animation = {
+			animation = flirtation_left
+		}
+	}
+
+	immediate = {
+	}
+
+	option = {
+		name = lie_with_spouse.1.a
+		scope:recipient = {
+			if = {
+				limit = { has_character_flag = is_naked }
+				remove_character_flag = is_naked
+			}
+		}
+		root = {
+			if = {
+				limit = { has_character_flag = is_naked }
+				remove_character_flag = is_naked
+			}
+		}
+	}
+}
+
+# Female perspective
+lie_with_spouse.2 = {
+    type = character_event
+	title = lie_with_spouse.2.t
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = { root = { has_trait = chaste } }
+				desc = lie_with_spouse.2.desc_duty
+			}
+			triggered_desc = {
+				trigger = { root = { has_trait = zealous } }
+				desc = lie_with_spouse.2.desc_duty
+			}
+			triggered_desc = {
+				trigger = { root = { has_trait = lustful } }
+				desc = lie_with_spouse.2.desc_lustful
+			}
+			triggered_desc = {
+				trigger = { root = { has_trait = seducer } }
+				desc = lie_with_spouse.2.desc_seducer
+			}
+			desc = lie_with_spouse.2.desc
+		}
+	}
+	theme = lover_relation
+	left_portrait = {
+		character = root
+		triggered_animation = {
+			animation = love
+		}
+	}
+	right_portrait = {
+		character = scope:recipient
+		triggered_animation = {
+			animation = flirtation_left
+		}
+	}
+
+	immediate = {
+	}
+
+	option = {
+		name = lie_with_spouse.2.a
+		scope:recipient = {
+			if = {
+				limit = { has_character_flag = is_naked }
+				remove_character_flag = is_naked
+			}
+		}
+		root = {
+			if = {
+				limit = { has_character_flag = is_naked }
+				remove_character_flag = is_naked
+			}
+		}
+	}
+}

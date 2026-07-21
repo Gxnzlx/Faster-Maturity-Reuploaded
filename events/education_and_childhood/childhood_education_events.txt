@@ -11,7 +11,36 @@ namespace = childhood_education
 
 ###################################################################
 
-# Notification event for educator about child switching focus
+#AGOT Added to account for HV game rules
+scripted_effect agot_convert_culture_effect = {
+	if = {
+		limit = {
+			has_game_rule = agot_hv_conversion_offshoots
+			scope:guardian = {
+				culture = culture:high_valyrian
+				location = { geographical_region = world_westeros }
+			}
+		}
+		set_culture = culture:westerosi_valyrian
+	}
+	else_if = {
+		limit = {
+			has_game_rule = agot_hv_conversion_offshoots
+			scope:guardian = {
+				culture = culture:high_valyrian
+				NOT = {
+					location = { geographical_region = world_westeros }
+				}
+			}
+		}
+		set_culture = culture:essosi_valyrian
+	}
+	else = {
+		set_culture = scope:guardian.culture
+	}
+}
+
+#Notification event for educator about child switching focus
 childhood_education.0004 = {
 	type = character_event
 	title = childhood_education.0004.t
@@ -238,21 +267,17 @@ childhood_education.0006 = {
 
 childhood_education.0007 = {
 	hidden = yes
-	# CMM FIX: Removed restrictive trigger so this fires for ALL characters at coming-of-age,
-	# including those from history files who may not have standard childhood traits.
-	immediate = {
-		if = {
-			limit = {
-				OR = {
-					has_trait = curious
-					has_trait = rowdy
-					has_trait = pensive
-					has_trait = charming
-					has_trait = bossy
-				}
-			}
-			remove_variables_and_trait_coming_of_age_effect = yes
+	trigger = {
+		OR = {
+			has_trait = curious
+			has_trait = rowdy
+			has_trait = pensive
+			has_trait = charming
+			has_trait = bossy
 		}
+	}	
+	immediate = {
+		remove_variables_and_trait_coming_of_age_effect = yes
 		if = {
 			limit = {
 				NOR = {
@@ -264,11 +289,21 @@ childhood_education.0007 = {
 				}
 			}
 			random_list = {
-				10 = { add_trait = education_martial_1 }
-				10 = { add_trait = education_diplomacy_1 }
-				10 = { add_trait = education_learning_1 }
-				10 = { add_trait = education_stewardship_1 }
-				10 = { add_trait = education_intrigue_1 }
+				10 = {
+					add_trait = education_martial_1
+				}
+				10 = {
+					add_trait = education_diplomacy_1
+				}
+				10 = {
+					add_trait = education_learning_1
+				}
+				10 = {
+					add_trait = education_stewardship_1
+				}
+				10 = {
+					add_trait = education_intrigue_1
+				}
 			}
 		}
 	}
@@ -419,7 +454,35 @@ childhood_education.1001 = {
 childhood_education.1011 = {
 	type = character_event
 	title = childhood_education.1011.t
-	desc = childhood_education.1011.desc
+	#AGOT Modified to account for HV game rules
+	#desc = childhood_education.1011.desc
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					has_game_rule = agot_hv_conversion_offshoots
+					scope:guardian = {
+						culture = culture:high_valyrian
+						location = { geographical_region = world_westeros }
+					}
+				}
+				desc = childhood_education.1011.wv.desc
+			}
+			triggered_desc = {
+				trigger = {
+					has_game_rule = agot_hv_conversion_offshoots
+					scope:guardian = {
+						culture = culture:high_valyrian
+						NOT = {
+							location = { geographical_region = world_westeros }
+						}
+					}
+				}
+				desc = childhood_education.1011.ev.desc
+			}
+			desc = childhood_education.1011.desc
+		}
+	}
 	theme = education
 	left_portrait = scope:guardian
 
@@ -438,7 +501,9 @@ childhood_education.1011 = {
 	option = {
 		name = childhood_education.1011.a
 		set_character_faith = scope:guardian.faith
-		set_culture = scope:guardian.culture
+		#AGOT Modified to account for HV game rules
+		#set_culture = scope:guardian.culture
+		agot_convert_culture_effect = yes
 		hidden_effect = {
 			scope:guardian = {
 				remove_relation_flag = {
@@ -458,15 +523,48 @@ childhood_education.1011 = {
 childhood_education.1012 = {
 	type = character_event
 	title = childhood_education.1012.t
-	desc = childhood_education.1012.desc
+	#AGOT Modified to account for HV game rules
+	#desc = childhood_education.1012.desc
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					has_game_rule = agot_hv_conversion_offshoots
+					scope:guardian = {
+						culture = culture:high_valyrian
+						location = { geographical_region = world_westeros }
+					}
+				}
+				desc = childhood_education.1012.wv.desc
+			}
+			triggered_desc = {
+				trigger = {
+					has_game_rule = agot_hv_conversion_offshoots
+					scope:guardian = {
+						culture = culture:high_valyrian
+						NOT = {
+							location = { geographical_region = world_westeros }
+						}
+					}
+				}
+				desc = childhood_education.1012.ev.desc
+			}
+			desc = childhood_education.1012.desc
+		}
+	}
 	theme = education
-	left_portrait = scope:ward
+	left_portrait = {
+		character = scope:ward
+		animation = reading
+	}
 
 	immediate = {
 		play_music_cue = "mx_cue_faith_conversion"
 		scope:ward = {
 			set_character_faith = scope:guardian.faith
-			set_culture = scope:guardian.culture
+			#AGOT Modified to account for HV game rules
+			#set_culture = scope:guardian.culture
+			agot_convert_culture_effect = yes
 		}
 		hidden_effect = {
 			if = {
@@ -480,7 +578,7 @@ childhood_education.1012 = {
 				scope:ward.father = {
 					save_scope_as = father
 					send_interface_message = {
-						type = send_interface_message_as_toast
+						type = event_childhood_neutral
 						title = child_culture_and_faith_converted.parent.message
 						left_icon = scope:ward
 						right_icon = scope:educator
@@ -488,7 +586,9 @@ childhood_education.1012 = {
 						show_as_tooltip = {
 							scope:ward = {
 								set_character_faith = scope:guardian.faith
-								set_culture = scope:guardian.culture
+								#AGOT Modified to account for HV game rules
+								#set_culture = scope:guardian.culture
+								agot_convert_culture_effect = yes
 							}
 						}
 					}
@@ -505,7 +605,7 @@ childhood_education.1012 = {
 				scope:ward.mother = {
 					save_scope_as = mother
 					send_interface_message = {
-						type = send_interface_message_as_toast
+						type = event_childhood_neutral
 						title = child_culture_and_faith_converted.parent.message
 						left_icon = scope:ward
 						right_icon = scope:educator
@@ -513,7 +613,9 @@ childhood_education.1012 = {
 						show_as_tooltip = {
 							scope:ward = {
 								set_character_faith = scope:guardian.faith
-								set_culture = scope:guardian.culture
+								#AGOT Modified to account for HV game rules
+								#set_culture = scope:guardian.culture
+								agot_convert_culture_effect = yes
 							}
 						}
 					}
@@ -577,7 +679,10 @@ childhood_education.1022 = {
 	title = childhood_education.1022.t
 	desc = childhood_education.1022.desc
 	theme = education
-	left_portrait = scope:ward
+	left_portrait = {
+		character = scope:ward
+		animation = prayer
+	}
 
 	immediate = {
 		play_music_cue = "mx_cue_faith_conversion"
@@ -598,7 +703,7 @@ childhood_education.1022 = {
 				scope:ward.father = {
 					save_scope_as = father
 					send_interface_message = {
-						type = send_interface_message_as_toast
+						type = event_childhood_neutral
 						title = child_faith_converted.parent.message
 						left_icon = scope:ward
 						right_icon = scope:educator
@@ -622,7 +727,7 @@ childhood_education.1022 = {
 				scope:ward.mother = {
 					save_scope_as = mother
 					send_interface_message = {
-						type = send_interface_message_as_toast
+						type = event_childhood_neutral
 						title = child_faith_converted.parent.message
 						left_icon = scope:ward
 						right_icon = scope:educator
@@ -648,7 +753,35 @@ childhood_education.1022 = {
 childhood_education.1031 = {
 	type = character_event
 	title = childhood_education.1031.t
-	desc = childhood_education.1031.desc
+	#AGOT Modified to account for HV conversion rules
+	#desc = childhood_education.1031.desc
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					has_game_rule = agot_hv_conversion_offshoots
+					scope:guardian = {
+						culture = culture:high_valyrian
+						location = { geographical_region = world_westeros }
+					}
+				}
+				desc = childhood_education.1031.wv.desc
+			}
+			triggered_desc = {
+				trigger = {
+					has_game_rule = agot_hv_conversion_offshoots
+					scope:guardian = {
+						culture = culture:high_valyrian
+						NOT = {
+							location = { geographical_region = world_westeros }
+						}
+					}
+				}
+				desc = childhood_education.1031.ev.desc
+			}
+			desc = childhood_education.1031.desc
+		}
+	}
 	theme = education
 	left_portrait = scope:guardian
 
@@ -666,7 +799,9 @@ childhood_education.1031 = {
 
 	option = {
 		name = childhood_education.1031.a
-		set_culture = scope:guardian.culture
+		#AGOT Modified to account for HV game rules
+		#set_culture = scope:guardian.culture
+		agot_convert_culture_effect = yes
 		hidden_effect = {
 			scope:guardian = {
 				trigger_event = childhood_education.1032
@@ -679,15 +814,48 @@ childhood_education.1031 = {
 childhood_education.1032 = {
 	type = character_event
 	title = childhood_education.1032.t
-	desc = childhood_education.1032.desc
+	#AGOT Modified to account for HV conversion rules
+	#desc = childhood_education.1032.desc
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					has_game_rule = agot_hv_conversion_offshoots
+					scope:guardian = {
+						culture = culture:high_valyrian
+						location = { geographical_region = world_westeros }
+					}
+				}
+				desc = childhood_education.1032.wv.desc
+			}
+			triggered_desc = {
+				trigger = {
+					has_game_rule = agot_hv_conversion_offshoots
+					scope:guardian = {
+						culture = culture:high_valyrian
+						NOT = {
+							location = { geographical_region = world_westeros }
+						}
+					}
+				}
+				desc = childhood_education.1031.ev.desc
+			}
+			desc = childhood_education.1031.desc
+		}
+	}
 	theme = education
-	left_portrait = scope:ward
+	left_portrait = {
+		character = scope:ward
+		animation = thinking
+	}
 
 	immediate = {
 		play_music_cue = "mx_cue_faith_conversion"
 		show_as_tooltip = {
 			scope:ward = {
-				set_culture = scope:guardian.culture
+				#AGOT Modified to account for HV game rules
+				#set_culture = scope:guardian.culture
+				agot_convert_culture_effect = yes
 			}
 		}
 		hidden_effect = {
@@ -702,14 +870,16 @@ childhood_education.1032 = {
 				scope:ward.father = {
 					save_scope_as = father
 					send_interface_message = {
-						type = send_interface_message_as_toast
+						type = event_childhood_neutral
 						title = child_culture_converted.parent.message
 						left_icon = scope:ward
 						right_icon = scope:educator
 
 						show_as_tooltip = {
 							scope:ward = {
-								set_culture = scope:guardian.culture
+								#AGOT Modified to account for HV game rules
+								#set_culture = scope:guardian.culture
+								agot_convert_culture_effect = yes
 							}
 						}
 					}
@@ -726,14 +896,16 @@ childhood_education.1032 = {
 				scope:ward.mother = {
 					save_scope_as = mother
 					send_interface_message = {
-						type = send_interface_message_as_toast
+						type = event_childhood_neutral
 						title = child_culture_converted.parent.message
 						left_icon = scope:ward
 						right_icon = scope:educator
 
 						show_as_tooltip = {
 							scope:ward = {
-								set_culture = scope:guardian.culture
+								#AGOT Modified to account for HV game rules
+								#set_culture = scope:guardian.culture
+								agot_convert_culture_effect = yes
 							}
 						}
 					}
@@ -815,7 +987,7 @@ childhood_education.9004 = {
 				chance = 20
 				compare_modifier = {
 					trigger = {
-						age >= 11 #changed from 14
+						age >= 11
 					}
 					value = age
 					multiplier = 2
@@ -1024,6 +1196,109 @@ childhood_education.9004 = {
 							}
 						}
 					}
+				}
+			}
+		}
+	}
+}
+
+# One More Hill effect
+childhood_education.9010 = {
+	hidden = yes
+	cooldown = { years = 1 }
+
+	trigger = {
+		NOT = { has_variable = childhood_education_9010_cooldown }
+		age >= 8
+		any_parent = { has_perk = just_one_more_hill_perk }
+	}
+
+	immediate = {
+		save_scope_as = child
+		random_parent = {
+			limit = {
+				has_perk = just_one_more_hill_perk	
+			}
+			save_scope_as = parent
+		}
+		random_list = {
+			25 = { }
+			25 = { # Just Prowess
+				scope:parent = {
+					send_interface_toast = {
+						type = event_prowess_good
+						title = childhood_education.9010.parent_message
+						left_icon = scope:child
+						
+						show_as_tooltip = {
+							scope:child = {
+								add_prowess_skill = 1
+							}
+						}
+					}
+				}
+				send_interface_toast = {
+					type = event_prowess_good
+					title = childhood_education.9010.child_message
+					left_icon = scope:parent
+					
+					add_prowess_skill = 1
+				}
+				set_variable = {
+					name = childhood_education_9010_cooldown
+					years = 2
+				}
+			}	
+			50 = { # Prowess and Traveler XP
+				scope:parent = {
+					send_interface_toast = {
+						type = event_prowess_good
+						title = childhood_education.9010.parent_message
+						left_icon = scope:child
+						
+						show_as_tooltip = {
+							scope:child = {
+								add_prowess_skill = 1
+								if = {
+									limit = {
+										NOT = { has_trait = lifestyle_traveler }
+									}
+									add_trait = lifestyle_traveler
+								}
+								else = {
+									add_trait_xp = {
+										trait = lifestyle_traveler
+										track = travel
+										value = 3
+									}
+								}
+							}
+						}
+					}
+				}
+				send_interface_toast = {
+					type = event_prowess_good
+					title = childhood_education.9010.child_message
+					left_icon = scope:parent
+					
+					add_prowess_skill = 1
+					if = {
+						limit = {
+							NOT = { has_trait = lifestyle_traveler }
+						}
+						add_trait = lifestyle_traveler
+					}
+					else = {
+						add_trait_xp = {
+							trait = lifestyle_traveler
+							track = travel
+							value = 3
+						}
+					}
+				}
+				set_variable = {
+					name = childhood_education_9010_cooldown
+					years = 2
 				}
 			}
 		}
