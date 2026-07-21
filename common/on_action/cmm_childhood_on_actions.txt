@@ -1,0 +1,281 @@
+﻿on_11th_birthday = {
+	events = {
+		child_personality.4000 #Assigns a sexuality to the child
+		witch.1001
+		secret_faith.1001
+		bp2_yearly.2019 # Imaginary Friend - Eccentric Trait Event
+	}
+}
+
+# FEMALE ADULTHOOD
+on_12th_birthday = {
+	events = {
+		childhood_education.9103 #To make sure that every child gets a education
+		child_personality.4011 #To make sure everyone gets a sexuality
+		childhood.0900#victim transforms into opinion modifier on adulthood
+		childhood.0910#bully transforms into opinion modifier on adulthood
+		childhood.0998#crush transforms into opinion modifier on adulthood
+		coming_of_age.0001#Learning
+		coming_of_age.0002#Stewardship
+		coming_of_age.0003#Martial
+		coming_of_age.0004#Intrigue
+		coming_of_age.0005#Diplomacy
+		delay = { days = 2 }
+		childhood_education.0005 #To remove education focus
+		childhood_education.0006 #To remove stray guardians
+		childhood_education.0007 #To remove childhood traits and make sure any education trait is applied
+		coming_of_age.2000 #Sage Accolade
+		coming_of_age.2001 #Sage Accolade high bonus
+		coming_of_age.3000 #House Knight Accolade
+		coming_of_age.3011				# Junior Emperors become Co-Emperors
+		court_events.3091				# Dad promised you a warhorse
+	}
+
+	effect = {
+		if = {
+			limit = {
+				is_ai = yes
+				# Shouldn't matter _but_, just in case, we double-check that you're actually in a suitable diarchy.
+				has_diarchy_active_parameter = diarchy_type_is_entrenched_regency
+			}
+			trigger_event = {
+				id = diarchy.0111
+				months = { 6 24 }
+			}
+		}
+		# If they had the Imaginary Friend story cycle, determine if we need to end the story or assign an adult persona to the imaginary friend 
+		if = {
+			limit = {
+				any_owned_story = { story_type = story_cycle_imaginary_friend }
+				NOT = { has_trait = eccentric }
+			}
+			random_owned_story = {
+				limit = { story_type = story_cycle_imaginary_friend }
+				end_story = yes
+			}
+			remove_character_modifier = imaginary_friend_modifier
+		}
+		else = {
+			random_owned_story = {
+				limit = { story_type = story_cycle_imaginary_friend }
+				random_list = {
+					50 = { # Give them a devilish imaginary friend in adulthood
+						set_variable = {
+							name = imaginary_friend_disposition
+							value = flag:devil
+						}
+						modifier = {
+							root = { has_trait = sadistic }
+							add = 10
+						}
+						modifier = {
+							root = { has_trait = vengeful }
+							add = 10 
+						}
+						modifier = {
+							root = { has_trait = deceitful }
+							add = 10 
+						}
+						modifier = {
+							root = { has_trait = callous }
+							add = 10 
+						}
+						modifier = {
+							root = { has_trait = paranoid }
+							add = 10 
+						}
+					}
+					50 = { # Give them an angelic imaginary friend in adulthood
+						set_variable = {
+							name = imaginary_friend_disposition
+							value = flag:angel 
+						}
+						modifier = {
+							root = { has_trait = compassionate }
+							add = 10 
+						}
+						modifier = {
+							root = { has_trait = forgiving }
+							add = 10 
+						}
+						modifier = {
+							root = { has_trait = generous }
+							add = 10 
+						}
+						modifier = {
+							root = { has_trait = calm }
+							add = 10 
+						}
+						modifier = {
+							root = { has_trait = content }
+							add = 10 
+						}
+					}
+				}
+			}
+		}
+		# Hostage reaches adulthood
+		if = {
+			limit = { is_hostage = yes }
+			save_scope_as = hostage
+			warden ?= {
+				set_variable = {
+					name = hook_chance
+					value = scope:hostage.bp2_hostage_loyalty_hook_chance_value
+				}
+				trigger_event = {
+					id = bp2_hostage_system.0200
+					days = 5
+				}
+			}
+		}
+		#Norman adventurer creation effect
+		#And swords for hire adventurers
+		if = {
+			limit = {
+				laamp_youth_cultural_tradition_trigger = yes
+			}
+			trigger_event = {
+				id = ep3_laamp_decision_event.1300
+				years = 2
+			}
+		}
+	}
+}
+
+# MALE ADULTHOOD
+on_14th_birthday = {
+	events = {
+		childhood_education.9103 #To make sure that every child gets a education
+		child_personality.4011 #To make sure everyone gets a sexuality
+		childhood.0900#victim transforms into opinion modifier on adulthood
+		childhood.0910#bully transforms into opinion modifier on adulthood
+		childhood.0998#crush transforms into opinion modifier on adulthood
+		coming_of_age.0001#Learning
+		coming_of_age.0002#Stewardship
+		coming_of_age.0003#Martial
+		coming_of_age.0004#Intrigue
+		coming_of_age.0005#Diplomacy
+		delay = { days = 2 }
+		childhood_education.0005 #To remove education focus
+		childhood_education.0006 #To remove stray guardians
+		childhood_education.0007 #To remove childhood traits and make sure any education trait is applied
+		coming_of_age.2000 #Sage Accolade
+		coming_of_age.2001 #Sage Accolade high bonus
+		coming_of_age.3000 #House Knight Accolade
+		coming_of_age.3011				# Junior Emperors become Co-Emperors
+		court_events.3091				# Dad promised you a warhorse
+	}
+
+	effect = {
+		if = {
+			limit = {
+				is_ai = yes
+				# Shouldn't matter _but_, just in case, we double-check that you're actually in a suitable diarchy.
+				has_diarchy_active_parameter = diarchy_type_is_entrenched_regency
+			}
+			trigger_event = {
+				id = diarchy.0111
+				months = { 6 24 }
+			}
+		}
+		# If they had the Imaginary Friend story cycle, determine if we need to end the story or assign an adult persona to the imaginary friend 
+		if = {
+			limit = {
+				any_owned_story = { story_type = story_cycle_imaginary_friend }
+				NOT = { has_trait = eccentric }
+			}
+			random_owned_story = {
+				limit = { story_type = story_cycle_imaginary_friend }
+				end_story = yes
+			}
+			remove_character_modifier = imaginary_friend_modifier
+		}
+		else = {
+			random_owned_story = {
+				limit = { story_type = story_cycle_imaginary_friend }
+				random_list = {
+					50 = { # Give them a devilish imaginary friend in adulthood
+						set_variable = {
+							name = imaginary_friend_disposition
+							value = flag:devil
+						}
+						modifier = {
+							root = { has_trait = sadistic }
+							add = 10
+						}
+						modifier = {
+							root = { has_trait = vengeful }
+							add = 10 
+						}
+						modifier = {
+							root = { has_trait = deceitful }
+							add = 10 
+						}
+						modifier = {
+							root = { has_trait = callous }
+							add = 10 
+						}
+						modifier = {
+							root = { has_trait = paranoid }
+							add = 10 
+						}
+					}
+					50 = { # Give them an angelic imaginary friend in adulthood
+						set_variable = {
+							name = imaginary_friend_disposition
+							value = flag:angel 
+						}
+						modifier = {
+							root = { has_trait = compassionate }
+							add = 10 
+						}
+						modifier = {
+							root = { has_trait = forgiving }
+							add = 10 
+						}
+						modifier = {
+							root = { has_trait = generous }
+							add = 10 
+						}
+						modifier = {
+							root = { has_trait = calm }
+							add = 10 
+						}
+						modifier = {
+							root = { has_trait = content }
+							add = 10 
+						}
+					}
+				}
+			}
+		}
+		# Hostage reaches adulthood
+		if = {
+			limit = { is_hostage = yes }
+			save_scope_as = hostage
+			warden ?= {
+				set_variable = {
+					name = hook_chance
+					value = scope:hostage.bp2_hostage_loyalty_hook_chance_value
+				}
+				trigger_event = {
+					id = bp2_hostage_system.0200
+					days = 5
+				}
+			}
+		}
+		#Norman adventurer creation effect
+		#And swords for hire adventurers
+		if = {
+			limit = {
+				laamp_youth_cultural_tradition_trigger = yes
+			}
+			trigger_event = {
+				id = ep3_laamp_decision_event.1300
+				years = 2
+			}
+		}
+	}
+}
+

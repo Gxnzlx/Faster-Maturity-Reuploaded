@@ -1,0 +1,46 @@
+﻿# CMM Scripted Effects
+
+# Removes education traits from a character if below adult age per this mod.
+# Must be called in character scope.
+cmm_remove_education_if_underage_effect = {
+	if = {
+		limit = {
+			OR = {
+				AND = { is_female = no  age < 14 }
+				AND = { is_female = yes age < 12 }
+			}
+			OR = {
+				has_education_martial_trigger = yes
+				has_education_diplomacy_trigger = yes
+				has_education_learning_trigger = yes
+				has_education_stewardship_trigger = yes
+				has_education_intrigue_trigger = yes
+			}
+		}
+		if = { limit = { has_trait = education_martial_1 }     remove_trait = education_martial_1 }
+		if = { limit = { has_trait = education_martial_2 }     remove_trait = education_martial_2 }
+		if = { limit = { has_trait = education_martial_3 }     remove_trait = education_martial_3 }
+		if = { limit = { has_trait = education_martial_4 }     remove_trait = education_martial_4 }
+		if = { limit = { has_trait = education_martial_5 }     remove_trait = education_martial_5 }
+		if = { limit = { has_trait = education_diplomacy_1 }   remove_trait = education_diplomacy_1 }
+		if = { limit = { has_trait = education_diplomacy_2 }   remove_trait = education_diplomacy_2 }
+		if = { limit = { has_trait = education_diplomacy_3 }   remove_trait = education_diplomacy_3 }
+		if = { limit = { has_trait = education_diplomacy_4 }   remove_trait = education_diplomacy_4 }
+		if = { limit = { has_trait = education_diplomacy_5 }   remove_trait = education_diplomacy_5 }
+		if = { limit = { has_trait = education_learning_1 }    remove_trait = education_learning_1 }
+		if = { limit = { has_trait = education_learning_2 }    remove_trait = education_learning_2 }
+		if = { limit = { has_trait = education_learning_3 }    remove_trait = education_learning_3 }
+		if = { limit = { has_trait = education_learning_4 }    remove_trait = education_learning_4 }
+		if = { limit = { has_trait = education_learning_5 }    remove_trait = education_learning_5 }
+		if = { limit = { has_trait = education_stewardship_1 } remove_trait = education_stewardship_1 }
+		if = { limit = { has_trait = education_stewardship_2 } remove_trait = education_stewardship_2 }
+		if = { limit = { has_trait = education_stewardship_3 } remove_trait = education_stewardship_3 }
+		if = { limit = { has_trait = education_stewardship_4 } remove_trait = education_stewardship_4 }
+		if = { limit = { has_trait = education_stewardship_5 } remove_trait = education_stewardship_5 }
+		if = { limit = { has_trait = education_intrigue_1 }    remove_trait = education_intrigue_1 }
+		if = { limit = { has_trait = education_intrigue_2 }    remove_trait = education_intrigue_2 }
+		if = { limit = { has_trait = education_intrigue_3 }    remove_trait = education_intrigue_3 }
+		if = { limit = { has_trait = education_intrigue_4 }    remove_trait = education_intrigue_4 }
+		if = { limit = { has_trait = education_intrigue_5 }    remove_trait = education_intrigue_5 }
+	}
+}

@@ -1,0 +1,9 @@
+﻿# CMM - Game Start On Actions
+# Uses 'events' block which is additive across mods (safe).
+# on_game_start_after_lobby fires in NONE (empty) scope.
+
+on_game_start_after_lobby = {
+	events = {
+		cmm_game_start.0001
+	}
+}

@@ -1,0 +1,54 @@
+﻿# CMM Game Start Events
+namespace = cmm_game_start
+
+cmm_game_start.0001 = {
+	scope = none
+	hidden = yes
+
+	immediate = {
+		# FIX: Career path bug - set appointment_trait_override on all adults
+		# in Celestial Government realms who do not already have it.
+		if = {
+			limit = { exists = title:h_china.holder }
+			title:h_china.holder = {
+				every_vassal_or_below = {
+					limit = {
+						is_adult = yes
+						NOT = { has_variable = appointment_trait_override }
+					}
+					if = {
+						limit = { has_trait_with_flag = military_province }
+						set_variable = { name = appointment_trait_override value = trait:education_martial_1 }
+					}
+					else = {
+						set_variable = { name = appointment_trait_override value = trait:education_stewardship_1 }
+					}
+				}
+				every_courtier = {
+					limit = {
+						is_adult = yes
+						NOT = { has_variable = appointment_trait_override }
+					}
+					if = {
+						limit = { has_trait_with_flag = military_province }
+						set_variable = { name = appointment_trait_override value = trait:education_martial_1 }
+					}
+					else = {
+						set_variable = { name = appointment_trait_override value = trait:education_stewardship_1 }
+					}
+				}
+			}
+		}
+
+		# FIX: Remove education traits from underage characters.
+		every_independent_ruler = {
+			cmm_remove_education_if_underage_effect = yes
+			every_vassal_or_below = {
+				cmm_remove_education_if_underage_effect = yes
+			}
+			every_courtier = {
+				cmm_remove_education_if_underage_effect = yes
+			}
+		}
+	}
+}

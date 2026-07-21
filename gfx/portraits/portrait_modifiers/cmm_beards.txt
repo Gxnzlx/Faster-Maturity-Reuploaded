@@ -1,0 +1,15 @@
+﻿no_beard_for_children = {
+	accessory = {
+		mode = add
+		gene = beards
+		template = no_beard
+		range = { 0 1 }
+	}
+	weight = {
+		base = 0
+		modifier = {
+			add = 200
+			scope:age < 18
+		}
+	}
+}
