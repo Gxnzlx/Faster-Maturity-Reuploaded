@@ -7,15 +7,7 @@ on_10th_birthday = {
 	on_actions = {
 		on_10th_birthday_sibling_betrothal
 		on_10th_birthday_heir_betrothal
-		on_10th_birthday_tame_canon_dragon
 		on_birthday_sibling_or_dynasty_betrothal
-	}
-
-	events = {
-		agot_events_generic.0005
-		delay = { days = { 2 360 } }
-		agot_events_generic.0007
-		agot_engagement_events.0001
 	}
 }
 
@@ -50,7 +42,6 @@ on_12th_birthday = {
 		childhood.0900#victim transforms into opinion modifier on adulthood
 		childhood.0910#bully transforms into opinion modifier on adulthood
 		childhood.0998#crush transforms into opinion modifier on adulthood
-		agot_events_generic.0011
 		coming_of_age.0001#Learning
 		coming_of_age.0002#Stewardship
 		coming_of_age.0003#Martial
@@ -244,7 +235,6 @@ on_14th_birthday = {
 		childhood.0900#victim transforms into opinion modifier on adulthood
 		childhood.0910#bully transforms into opinion modifier on adulthood
 		childhood.0998#crush transforms into opinion modifier on adulthood
-		agot_events_generic.0011
 		coming_of_age.0001#Learning
 		coming_of_age.0002#Stewardship
 		coming_of_age.0003#Martial

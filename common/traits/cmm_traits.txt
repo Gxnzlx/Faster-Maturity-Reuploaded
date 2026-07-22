@@ -1,5 +1,8 @@
 # INTRIGUE OUTCOMES
 education_intrigue_1 = {
+	domain_limit = -1
+	flag = level_1_education
+	flag = civilian_province
 	minimum_age = 12 #changed from 16
 	intrigue = 2
 	category = education
@@ -28,6 +31,8 @@ education_intrigue_1 = {
 	level = 1
 }
 education_intrigue_2 = {
+	flag = level_2_education
+	flag = civilian_province
 	minimum_age = 12 #changed from 16
 	intrigue = 4
 	category = education
@@ -51,6 +56,9 @@ education_intrigue_2 = {
 	level = 2
 }
 education_intrigue_3 = {
+	domain_limit = 1
+	flag = level_3_education
+	flag = civilian_province
 	minimum_age = 12 #changed from 16
 	intrigue = 6
 	category = education
@@ -74,6 +82,9 @@ education_intrigue_3 = {
 	level = 3
 }
 education_intrigue_4 = {
+	domain_limit = 2
+	flag = level_4_education
+	flag = civilian_province
 	minimum_age = 12 #changed from 16
 	intrigue = 8
 	category = education
@@ -97,6 +108,10 @@ education_intrigue_4 = {
 	level = 4
 }
 education_intrigue_5 = {
+	domain_limit = 3
+	flag = level_5_education
+	flag = civilian_province
+	owned_hostile_scheme_success_chance_max_add = 10
 	minimum_age = 12 #changed from 16
 	intrigue = 10
 	diplomacy = 3
@@ -127,6 +142,9 @@ education_intrigue_5 = {
 
 # DIPLOMACY OUTCOMES
 education_diplomacy_1 = {
+	domain_limit = -1
+	flag = level_1_education
+	flag = civilian_province
 	minimum_age = 12 #changed from 16
 	diplomacy = 2
 	category = education
@@ -155,6 +173,8 @@ education_diplomacy_1 = {
 	level = 1
 }
 education_diplomacy_2 = {
+	flag = level_2_education
+	flag = civilian_province
 	minimum_age = 12 #changed from 16
 	diplomacy = 4
 	category = education
@@ -178,6 +198,9 @@ education_diplomacy_2 = {
 	level = 2
 }
 education_diplomacy_3 = {
+	domain_limit = 1
+	flag = level_3_education
+	flag = civilian_province
 	minimum_age = 12 #changed from 16
 	diplomacy = 6
 	category = education
@@ -201,6 +224,9 @@ education_diplomacy_3 = {
 	level = 3
 }
 education_diplomacy_4 = {
+	domain_limit = 2
+	flag = level_4_education
+	flag = civilian_province
 	minimum_age = 12 #changed from 16
 	diplomacy = 8
 	category = education
@@ -233,6 +259,10 @@ education_diplomacy_4 = {
 	level = 4
 }
 education_diplomacy_5 = {
+	domain_limit = 3
+	flag = level_5_education
+	flag = civilian_province
+	owned_personal_scheme_success_chance_max_add = 10
 	minimum_age = 12 #changed from 16
 	diplomacy = 10
 	martial = 3
@@ -271,7 +301,10 @@ education_diplomacy_5 = {
 }
 
 # STEWARDSHIP OUTCOMES
-education_stewardship_1 = { #Indulgent wastrel
+education_stewardship_1 = {
+	domain_limit = -1
+	flag = level_1_education
+	flag = civilian_province #Indulgent wastrel
 	minimum_age = 12 #changed from 16
 	stewardship = 2
 	category = education
@@ -299,7 +332,9 @@ education_stewardship_1 = { #Indulgent wastrel
 	group = education_stewardship
 	level = 1
 }
-education_stewardship_2 = { #Thrifty clerk
+education_stewardship_2 = {
+	flag = level_2_education
+	flag = civilian_province #Thrifty clerk
 	minimum_age = 12 #changed from 16
 	stewardship = 4
 	category = education
@@ -322,7 +357,10 @@ education_stewardship_2 = { #Thrifty clerk
 	group = education_stewardship
 	level = 2
 }
-education_stewardship_3 = {	#Fortune builder
+education_stewardship_3 = {
+	domain_limit = 1
+	flag = level_3_education
+	flag = civilian_province	#Fortune builder
 	minimum_age = 12 #changed from 16
 	stewardship = 6
 	category = education
@@ -346,6 +384,9 @@ education_stewardship_3 = {	#Fortune builder
 	level = 3
 }
 education_stewardship_4 = {
+	domain_limit = 2
+	flag = level_4_education
+	flag = civilian_province
 	minimum_age = 12 #changed from 16
 	stewardship = 8
 	category = education
@@ -377,6 +418,9 @@ education_stewardship_4 = {
 	level = 4
 }
 education_stewardship_5 = {
+	domain_limit = 3
+	flag = level_5_education
+	flag = civilian_province
 	minimum_age = 12 #changed from 16
 	stewardship = 10
 	learning = 3
@@ -414,6 +458,9 @@ education_stewardship_5 = {
 
 # MARTIAL OUTCOMES
 education_martial_1 = {
+	domain_limit = -1
+	flag = level_1_education
+	flag = military_province
 	minimum_age = 12 #changed from 16
 	martial = 2
 	category = education
@@ -454,7 +501,9 @@ education_martial_1 = {
 	
 	add_commander_trait = yes
 }
-education_martial_2 = { #Tough soldier
+education_martial_2 = {
+	flag = level_2_education
+	flag = military_province #Tough soldier
 	minimum_age = 12 #changed from 16
 	martial = 4
 	category = education
@@ -489,7 +538,10 @@ education_martial_2 = { #Tough soldier
 	level = 2
 	add_commander_trait = yes
 }
-education_martial_3 = { #Skilled tactician
+education_martial_3 = {
+	domain_limit = 1
+	flag = level_3_education
+	flag = military_province #Skilled tactician
 	minimum_age = 12 #changed from 16
 	martial = 6
 	category = education
@@ -524,7 +576,10 @@ education_martial_3 = { #Skilled tactician
 	level = 3
 	add_commander_trait = yes
 }
-education_martial_4 = { #Brilliant strategist
+education_martial_4 = {
+	domain_limit = 2
+	flag = level_4_education
+	flag = military_province #Brilliant strategist
 	minimum_age = 12 #changed from 16
 	martial = 8
 	category = education
@@ -568,6 +623,9 @@ education_martial_4 = { #Brilliant strategist
 	add_commander_trait = yes
 }
 education_martial_5 = {
+	domain_limit = 3
+	flag = level_5_education
+	flag = military_province
 	minimum_age = 12 #changed from 16
 	martial = 10
 	stewardship = 3
@@ -618,6 +676,9 @@ education_martial_5 = {
 
 # LEARNING OUTCOMES
 education_learning_1 = {
+	domain_limit = -1
+	flag = level_1_education
+	flag = civilian_province
 	minimum_age = 12 #changed from 16
 	learning = 2
 	category = education
@@ -662,6 +723,8 @@ education_learning_1 = {
 	level = 1
 }
 education_learning_2 = {
+	flag = level_2_education
+	flag = civilian_province
 	minimum_age = 12 #changed from 16
 	learning = 4
 	category = education
@@ -701,6 +764,9 @@ education_learning_2 = {
 	level = 2
 }
 education_learning_3 = {
+	domain_limit = 1
+	flag = level_3_education
+	flag = civilian_province
 	minimum_age = 12 #changed from 16
 	learning = 6
 	category = education
@@ -740,6 +806,9 @@ education_learning_3 = {
 	level = 3
 }
 education_learning_4 = {
+	domain_limit = 2
+	flag = level_4_education
+	flag = civilian_province
 	minimum_age = 12 #changed from 16
 	learning = 8
 	category = education
@@ -789,6 +858,10 @@ education_learning_4 = {
 	level = 4
 }
 education_learning_5 = {
+	domain_limit = 3
+	flag = level_5_education
+	flag = civilian_province
+	county_fertility_growth_mult = small_county_fertility_growth_gain
 	minimum_age = 12 #changed from 16
 	learning = 10
 	intrigue = 3

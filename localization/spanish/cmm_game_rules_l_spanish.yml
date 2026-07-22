@@ -1,0 +1,24 @@
+﻿l_spanish:
+ rule_fmr_female_age_of_marriage:0 "FMR: Edad de matrimonio femenina"
+ setting_AGE_OF_MARRIAGE_FEMALE_12:0 "12 (Por defecto)"
+ setting_AGE_OF_MARRIAGE_FEMALE_12_desc:0 "Las mujeres pueden casarse a partir de los 12 años, la configuración por defecto de este mod."
+ setting_AGE_OF_MARRIAGE_FEMALE_14:0 "14"
+ setting_AGE_OF_MARRIAGE_FEMALE_14_desc:0 "Las mujeres pueden casarse a partir de los 14 años."
+
+ rule_fmr_male_age_of_marriage:0 "FMR: Edad de matrimonio masculina"
+ setting_AGE_OF_MARRIAGE_MALE_14:0 "14 (Por defecto)"
+ setting_AGE_OF_MARRIAGE_MALE_14_desc:0 "Los hombres pueden casarse a partir de los 14 años, la configuración por defecto de este mod."
+ setting_AGE_OF_MARRIAGE_MALE_12:0 "12"
+ setting_AGE_OF_MARRIAGE_MALE_12_desc:0 "Los hombres pueden casarse a partir de los 12 años."
+
+ rule_fmr_debug_rule:0 "FMR: Registro de depuración"
+ setting_fmr_debug_off:0 "Desactivado (Por defecto)"
+ setting_fmr_debug_off_desc:0 "El registro de depuración de las interacciones de este mod está desactivado."
+ setting_agot_debug_on:0 "Activado"
+ setting_agot_debug_on_desc:0 "Activa el registro de depuración para las interacciones de personaje de este mod."
+
+ rule_fmr_hv_conversion_rule:0 "FMR: Conversión de cultura adicional"
+ setting_fmr_hv_conversion_off:0 "Desactivado (Por defecto)"
+ setting_fmr_hv_conversion_off_desc:0 "La lógica adicional de conversión de cultura durante la educación infantil está desactivada."
+ setting_agot_hv_conversion_offshoots:0 "Activado"
+ setting_agot_hv_conversion_offshoots_desc:0 "Activa la lógica adicional de conversión de cultura durante la educación infantil."
