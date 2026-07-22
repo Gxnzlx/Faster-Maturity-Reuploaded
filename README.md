@@ -23,12 +23,10 @@
 * Special thanks to the creator of **Faster Maturity**. This is an updated and reuploaded version after the original mod was removed. Full credit for the original work belongs to them.
 * Special thanks to @NeosAlexandros for his compatibility work.
 
-## Source Code
+## Links
 
-Steam Workshop:
 [Steam Workshop](https://steamcommunity.com/sharedfiles/filedetails/?id=3598298601)
 
-Paradox Mods:
 [Paradox Mods](https://mods.paradoxplaza.com/mods/152265/Any)
 
 ## Feedback
