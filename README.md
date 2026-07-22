@@ -25,8 +25,11 @@
 
 ## Source Code
 
-GitHub Repository:
-https://github.com/Gxnzlx/Faster-Maturity-Reuploaded
+Steam Workshop:
+[Steam Workshop](https://steamcommunity.com/sharedfiles/filedetails/?id=3598298601)
+
+Paradox Mods:
+[Paradox Mods](https://mods.paradoxplaza.com/mods/152265/Any)
 
 ## Feedback
 
