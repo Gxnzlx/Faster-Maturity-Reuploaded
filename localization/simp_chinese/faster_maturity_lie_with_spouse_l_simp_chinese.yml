@@ -1,0 +1,30 @@
+﻿l_simp_chinese:
+
+ # Lie With Spouse Interaction
+ lie_with_spouse_interaction:0 "Lie with Spouse"
+ lie_with_spouse_interaction_name:0 "Lie With Spouse"
+ lie_with_spouse_interaction_name_duty:0 "Fulfill Marital Duty"
+ lie_with_spouse_interaction_name_lustful:0 "Satisfy Your Desires"
+ lie_with_spouse_interaction_name_seducer:0 "Seduce Your Spouse"
+ lie_with_spouse_interaction_desc:0 "Lie with your spouse"
+ lie_with_spouse_interaction_desc_duty:0 "Fulfill your marital duty with your spouse, seeking to beget an heir"
+ lie_with_spouse_interaction_desc_lustful:0 "Take your spouse to bed with unrestrained desire, seeking both pleasure and the begetting of an heir"
+ lie_with_spouse_interaction_desc_seducer:0 "Draw your spouse into an intimate embrace, where passion and purpose intertwine in the begetting of an heir"
+
+ # Lie With Spouse Events
+ lie_with_spouse.1.t:0 "The Pleasure Of Procreation"
+ lie_with_spouse.2.t:0 "The Pleasure Of Procreation"
+ lie_with_spouse.1.desc:0 "I spent all night with my spouse. Our fluids have been mixed thoroughly and a baby is sure to be brewing."
+ lie_with_spouse.1.desc_duty:0 "I have fulfilled my duty to God and dynasty alike. We have lain together, and I pray an heir shall follow."
+ lie_with_spouse.1.desc_lustful:0 "The night was filled with unbridled passion. I took my spouse with unrestrained desire, and now we await what fate may bring."
+ lie_with_spouse.1.desc_seducer:0 "With practiced charm I drew my spouse close. The night unfolded as I intended, and now nature must take its course."
+ lie_with_spouse.2.desc:0 "He spent all night with me. Our fluids have been mixed thoroughly and a baby is sure to be brewing."
+ lie_with_spouse.2.desc_duty:0 "I have fulfilled my duty as a wife. We have lain together, and I pray an heir shall follow."
+ lie_with_spouse.2.desc_lustful:0 "The night was filled with unbridled passion. My husband took me with unrestrained desire, and now we await what fate may bring."
+ lie_with_spouse.2.desc_seducer:0 "I drew my husband close with practiced charm. The night unfolded as I intended, and now nature must take its course."
+ lie_with_spouse.1.a:0 "Ahh...."
+ lie_with_spouse.2.a:0 "Ahh...."
+
+ # Opinion Modifiers
+ lie_with_spouse_opinion:0 "Did his marital duty"
+ lie_with_spouse_female_opinion:0 "Fulfilled our marital duty"
