@@ -1,4 +1,4 @@
-# INTRIGUE OUTCOMES
+﻿# INTRIGUE OUTCOMES
 education_intrigue_1 = {
 	domain_limit = -1
 	flag = level_1_education

@@ -1,4 +1,4 @@
-agot_squirehood_ongoing.0231 = {
+﻿agot_squirehood_ongoing.0231 = {
 	type = character_event
 	hidden = yes
 

@@ -1,4 +1,4 @@
-NCharacter = {
+﻿NCharacter = {
 	MALE_RANDOM_AGE_BASE = 14
 	MALE_RANDOM_AGE_SPAN = 22
 	FEMALE_RANDOM_AGE_BASE = 12

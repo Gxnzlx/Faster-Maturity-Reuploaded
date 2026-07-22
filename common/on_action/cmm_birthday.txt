@@ -1,4 +1,4 @@
-on_specific_birthday = {
+﻿on_specific_birthday = {
 	first_valid_on_action = {
 		on_3rd_birthday
 		on_6th_birthday

@@ -1,4 +1,4 @@
-on_10th_birthday = {
+﻿on_10th_birthday = {
 	trigger = {
 		age = 10
 		is_human = yes
