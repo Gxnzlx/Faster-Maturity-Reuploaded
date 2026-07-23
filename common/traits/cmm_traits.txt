@@ -931,7 +931,7 @@ education_martial_prowess_1 = {
 	group = education_martial_prowess
 	level = 1
 	
-	shown_in_ruler_designer = no
+	shown_in_ruler_designer = yes
 
 	desc = {
 		first_valid = {
@@ -959,7 +959,7 @@ education_martial_prowess_2 = {
 	group = education_martial_prowess
 	level = 2
 	
-	shown_in_ruler_designer = no
+	shown_in_ruler_designer = yes
 
 	desc = {
 		first_valid = {
@@ -987,7 +987,7 @@ education_martial_prowess_3 = {
 	group = education_martial_prowess
 	level = 3
 	
-	shown_in_ruler_designer = no
+	shown_in_ruler_designer = yes
 
 	desc = {
 		first_valid = {
@@ -1015,7 +1015,7 @@ education_martial_prowess_4 = {
 	group = education_martial_prowess
 	level = 4
 	
-	shown_in_ruler_designer = no
+	shown_in_ruler_designer = yes
 	
 	desc = {
 		first_valid = {
@@ -1038,7 +1038,7 @@ education_republican_knowledge_1 = {
 	stewardship = 1
 	#category = education
 
-	shown_in_ruler_designer = no
+	shown_in_ruler_designer = yes
 
 	desc = {
 		first_valid = {
@@ -1062,7 +1062,7 @@ education_republican_knowledge_2 = {
 	stewardship = 2
 	#category = education
 
-	shown_in_ruler_designer = no
+	shown_in_ruler_designer = yes
 
 	desc = {
 		first_valid = {
@@ -1086,7 +1086,7 @@ education_republican_knowledge_3 = {
 	stewardship = 3
 	#category = education
 
-	shown_in_ruler_designer = no
+	shown_in_ruler_designer = yes
 
 	desc = {
 		first_valid = {
@@ -1110,7 +1110,7 @@ education_republican_knowledge_4 = {
 	stewardship = 4
 	#category = education
 
-	shown_in_ruler_designer = no
+	shown_in_ruler_designer = yes
 
 	desc = {
 		first_valid = {
@@ -1128,8 +1128,6 @@ education_republican_knowledge_4 = {
 	level = 4
 }
 
-#### AGOT added ####
-
 education_martial_prowess_5 = {
 	minimum_age = 12 #changed from 16
 	prowess = 10
@@ -1143,7 +1141,7 @@ education_martial_prowess_5 = {
 	group = education_martial_prowess
 	level = 5
 
-	shown_in_ruler_designer = no
+	shown_in_ruler_designer = yes
 
 	desc = {
 		first_valid = {
@@ -1164,7 +1162,7 @@ education_republican_knowledge_5 = {
 	stewardship = 5
 	#category = education
 
-	shown_in_ruler_designer = no
+	shown_in_ruler_designer = yes
 
 	name = {
 		first_valid = {

@@ -11,35 +11,6 @@ namespace = childhood_education
 
 ###################################################################
 
-#AGOT Added to account for HV game rules
-scripted_effect agot_convert_culture_effect = {
-	if = {
-		limit = {
-			has_game_rule = agot_hv_conversion_offshoots
-			scope:guardian = {
-				culture = culture:high_valyrian
-				location = { geographical_region = world_westeros }
-			}
-		}
-		set_culture = culture:westerosi_valyrian
-	}
-	else_if = {
-		limit = {
-			has_game_rule = agot_hv_conversion_offshoots
-			scope:guardian = {
-				culture = culture:high_valyrian
-				NOT = {
-					location = { geographical_region = world_westeros }
-				}
-			}
-		}
-		set_culture = culture:essosi_valyrian
-	}
-	else = {
-		set_culture = scope:guardian.culture
-	}
-}
-
 #Notification event for educator about child switching focus
 childhood_education.0004 = {
 	type = character_event
@@ -454,35 +425,7 @@ childhood_education.1001 = {
 childhood_education.1011 = {
 	type = character_event
 	title = childhood_education.1011.t
-	#AGOT Modified to account for HV game rules
-	#desc = childhood_education.1011.desc
-	desc = {
-		first_valid = {
-			triggered_desc = {
-				trigger = {
-					has_game_rule = agot_hv_conversion_offshoots
-					scope:guardian = {
-						culture = culture:high_valyrian
-						location = { geographical_region = world_westeros }
-					}
-				}
-				desc = childhood_education.1011.wv.desc
-			}
-			triggered_desc = {
-				trigger = {
-					has_game_rule = agot_hv_conversion_offshoots
-					scope:guardian = {
-						culture = culture:high_valyrian
-						NOT = {
-							location = { geographical_region = world_westeros }
-						}
-					}
-				}
-				desc = childhood_education.1011.ev.desc
-			}
-			desc = childhood_education.1011.desc
-		}
-	}
+	desc = childhood_education.1011.desc
 	theme = education
 	left_portrait = scope:guardian
 
@@ -501,9 +444,7 @@ childhood_education.1011 = {
 	option = {
 		name = childhood_education.1011.a
 		set_character_faith = scope:guardian.faith
-		#AGOT Modified to account for HV game rules
-		#set_culture = scope:guardian.culture
-		agot_convert_culture_effect = yes
+		set_culture = scope:guardian.culture
 		hidden_effect = {
 			scope:guardian = {
 				remove_relation_flag = {
@@ -523,35 +464,7 @@ childhood_education.1011 = {
 childhood_education.1012 = {
 	type = character_event
 	title = childhood_education.1012.t
-	#AGOT Modified to account for HV game rules
-	#desc = childhood_education.1012.desc
-	desc = {
-		first_valid = {
-			triggered_desc = {
-				trigger = {
-					has_game_rule = agot_hv_conversion_offshoots
-					scope:guardian = {
-						culture = culture:high_valyrian
-						location = { geographical_region = world_westeros }
-					}
-				}
-				desc = childhood_education.1012.wv.desc
-			}
-			triggered_desc = {
-				trigger = {
-					has_game_rule = agot_hv_conversion_offshoots
-					scope:guardian = {
-						culture = culture:high_valyrian
-						NOT = {
-							location = { geographical_region = world_westeros }
-						}
-					}
-				}
-				desc = childhood_education.1012.ev.desc
-			}
-			desc = childhood_education.1012.desc
-		}
-	}
+	desc = childhood_education.1012.desc
 	theme = education
 	left_portrait = {
 		character = scope:ward
@@ -562,9 +475,7 @@ childhood_education.1012 = {
 		play_music_cue = "mx_cue_faith_conversion"
 		scope:ward = {
 			set_character_faith = scope:guardian.faith
-			#AGOT Modified to account for HV game rules
-			#set_culture = scope:guardian.culture
-			agot_convert_culture_effect = yes
+			set_culture = scope:guardian.culture
 		}
 		hidden_effect = {
 			if = {
@@ -586,9 +497,7 @@ childhood_education.1012 = {
 						show_as_tooltip = {
 							scope:ward = {
 								set_character_faith = scope:guardian.faith
-								#AGOT Modified to account for HV game rules
-								#set_culture = scope:guardian.culture
-								agot_convert_culture_effect = yes
+								set_culture = scope:guardian.culture
 							}
 						}
 					}
@@ -613,9 +522,7 @@ childhood_education.1012 = {
 						show_as_tooltip = {
 							scope:ward = {
 								set_character_faith = scope:guardian.faith
-								#AGOT Modified to account for HV game rules
-								#set_culture = scope:guardian.culture
-								agot_convert_culture_effect = yes
+								set_culture = scope:guardian.culture
 							}
 						}
 					}
@@ -753,35 +660,7 @@ childhood_education.1022 = {
 childhood_education.1031 = {
 	type = character_event
 	title = childhood_education.1031.t
-	#AGOT Modified to account for HV conversion rules
-	#desc = childhood_education.1031.desc
-	desc = {
-		first_valid = {
-			triggered_desc = {
-				trigger = {
-					has_game_rule = agot_hv_conversion_offshoots
-					scope:guardian = {
-						culture = culture:high_valyrian
-						location = { geographical_region = world_westeros }
-					}
-				}
-				desc = childhood_education.1031.wv.desc
-			}
-			triggered_desc = {
-				trigger = {
-					has_game_rule = agot_hv_conversion_offshoots
-					scope:guardian = {
-						culture = culture:high_valyrian
-						NOT = {
-							location = { geographical_region = world_westeros }
-						}
-					}
-				}
-				desc = childhood_education.1031.ev.desc
-			}
-			desc = childhood_education.1031.desc
-		}
-	}
+	desc = childhood_education.1031.desc
 	theme = education
 	left_portrait = scope:guardian
 
@@ -799,9 +678,7 @@ childhood_education.1031 = {
 
 	option = {
 		name = childhood_education.1031.a
-		#AGOT Modified to account for HV game rules
-		#set_culture = scope:guardian.culture
-		agot_convert_culture_effect = yes
+		set_culture = scope:guardian.culture
 		hidden_effect = {
 			scope:guardian = {
 				trigger_event = childhood_education.1032
@@ -814,35 +691,7 @@ childhood_education.1031 = {
 childhood_education.1032 = {
 	type = character_event
 	title = childhood_education.1032.t
-	#AGOT Modified to account for HV conversion rules
-	#desc = childhood_education.1032.desc
-	desc = {
-		first_valid = {
-			triggered_desc = {
-				trigger = {
-					has_game_rule = agot_hv_conversion_offshoots
-					scope:guardian = {
-						culture = culture:high_valyrian
-						location = { geographical_region = world_westeros }
-					}
-				}
-				desc = childhood_education.1032.wv.desc
-			}
-			triggered_desc = {
-				trigger = {
-					has_game_rule = agot_hv_conversion_offshoots
-					scope:guardian = {
-						culture = culture:high_valyrian
-						NOT = {
-							location = { geographical_region = world_westeros }
-						}
-					}
-				}
-				desc = childhood_education.1031.ev.desc
-			}
-			desc = childhood_education.1031.desc
-		}
-	}
+	desc = childhood_education.1031.desc
 	theme = education
 	left_portrait = {
 		character = scope:ward
@@ -853,9 +702,7 @@ childhood_education.1032 = {
 		play_music_cue = "mx_cue_faith_conversion"
 		show_as_tooltip = {
 			scope:ward = {
-				#AGOT Modified to account for HV game rules
-				#set_culture = scope:guardian.culture
-				agot_convert_culture_effect = yes
+				set_culture = scope:guardian.culture
 			}
 		}
 		hidden_effect = {
@@ -877,9 +724,7 @@ childhood_education.1032 = {
 
 						show_as_tooltip = {
 							scope:ward = {
-								#AGOT Modified to account for HV game rules
-								#set_culture = scope:guardian.culture
-								agot_convert_culture_effect = yes
+								set_culture = scope:guardian.culture
 							}
 						}
 					}
@@ -903,9 +748,7 @@ childhood_education.1032 = {
 
 						show_as_tooltip = {
 							scope:ward = {
-								#AGOT Modified to account for HV game rules
-								#set_culture = scope:guardian.culture
-								agot_convert_culture_effect = yes
+								set_culture = scope:guardian.culture
 							}
 						}
 					}
