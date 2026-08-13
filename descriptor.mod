@@ -1,4 +1,4 @@
-version="2.0"
+version="2.0.5"
 tags={
 	"Balance"
 	"Character Focuses"
