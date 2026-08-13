@@ -5,6 +5,12 @@ cmm_game_start.0001 = {
 	scope = none
 	hidden = yes
 
+	trigger = {
+		# Only run this fix once per save — prevents the full world-iteration
+		# from re-running on every single load of the game.
+		NOT = { has_global_variable = cmm_game_start_fix_applied }
+	}
+
 	immediate = {
 		# FIX: Career path bug - set appointment_trait_override on all adults
 		# in Celestial Government realms who do not already have it.
@@ -50,5 +56,8 @@ cmm_game_start.0001 = {
 				cmm_remove_education_if_underage_effect = yes
 			}
 		}
+
+		# Mark this fix as already applied so it never runs again on this save.
+		set_global_variable = cmm_game_start_fix_applied
 	}
 }
