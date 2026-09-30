@@ -1,4 +1,4 @@
-version="2.0.5"
+version="2.0.6"
 tags={
 	"Balance"
 	"Character Focuses"
@@ -7,7 +7,7 @@ tags={
 	"Decisions"
 	"Utilities"
 }
-name="Faster Maturity Reuploaded"
+name="Faster Maturity"
 picture="thumbnail.png"
-supported_version="1.19.0.6"
+supported_version="1.20.0.2"
 remote_file_id="3598298601"

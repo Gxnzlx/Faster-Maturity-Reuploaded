@@ -44,3 +44,81 @@ cmm_remove_education_if_underage_effect = {
 		if = { limit = { has_trait = education_intrigue_5 }    remove_trait = education_intrigue_5 }
 	}
 }
+
+# FMR: personality catch-up
+fmr_add_missing_personality_effect = {
+    if = {
+        limit = { number_of_personality_traits < 3 number_of_personality_traits < personality_trait_limit }
+        random_list = {
+            10 = {
+                trigger = { NOR = { has_trait = brave has_trait = craven } }
+                add_trait = brave
+            }
+            10 = {
+                trigger = { NOR = { has_trait = brave has_trait = craven } }
+                add_trait = craven
+            }
+            10 = {
+                trigger = { NOR = { has_trait = calm has_trait = wrathful } }
+                add_trait = calm
+            }
+            10 = {
+                trigger = { NOR = { has_trait = calm has_trait = wrathful } }
+                add_trait = wrathful
+            }
+            10 = {
+                trigger = { NOR = { has_trait = diligent has_trait = lazy } }
+                add_trait = diligent
+            }
+            10 = {
+                trigger = { NOR = { has_trait = diligent has_trait = lazy } }
+                add_trait = lazy
+            }
+            10 = {
+                trigger = { NOR = { has_trait = humble has_trait = arrogant } }
+                add_trait = humble
+            }
+            10 = {
+                trigger = { NOR = { has_trait = humble has_trait = arrogant } }
+                add_trait = arrogant
+            }
+            10 = {
+                trigger = { NOR = { has_trait = honest has_trait = deceitful } }
+                add_trait = honest
+            }
+            10 = {
+                trigger = { NOR = { has_trait = honest has_trait = deceitful } }
+                add_trait = deceitful
+            }
+            10 = {
+                trigger = { NOR = { has_trait = generous has_trait = greedy } }
+                add_trait = generous
+            }
+            10 = {
+                trigger = { NOR = { has_trait = generous has_trait = greedy } }
+                add_trait = greedy
+            }
+            10 = {
+                trigger = { NOR = { has_trait = gregarious has_trait = shy } }
+                add_trait = gregarious
+            }
+            10 = {
+                trigger = { NOR = { has_trait = gregarious has_trait = shy } }
+                add_trait = shy
+            }
+            10 = {
+                trigger = { NOR = { has_trait = trusting has_trait = paranoid } }
+                add_trait = trusting
+            }
+            10 = {
+                trigger = { NOR = { has_trait = trusting has_trait = paranoid } }
+                add_trait = paranoid
+            }
+        }
+    }
+}
+fmr_complete_personality_effect = {
+    fmr_add_missing_personality_effect = yes
+    fmr_add_missing_personality_effect = yes
+    fmr_add_missing_personality_effect = yes
+}

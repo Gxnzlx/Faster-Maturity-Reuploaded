@@ -9,3 +9,22 @@
 		on_14th_birthday # Male adulthood
 	}
 }
+
+# FMR: personality catch-up
+# Additive birthday hook: only personality, no adulthood or reproduction changes.
+on_birthday = {
+    on_actions = { fmr_personality_catchup_birthday }
+}
+fmr_personality_catchup_birthday = {
+    trigger = {
+        is_human = yes
+        is_female = yes
+        age >= 12
+        age < 18
+        number_of_personality_traits < 3
+        number_of_personality_traits < personality_trait_limit
+    }
+    effect = {
+        fmr_complete_personality_effect = yes
+    }
+}
