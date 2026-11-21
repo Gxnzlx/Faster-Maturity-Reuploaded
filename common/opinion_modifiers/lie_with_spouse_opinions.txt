@@ -8,6 +8,6 @@ lie_with_spouse_opinion = {
 
 lie_with_spouse_female_opinion = {
 	opinion = 50
-	years = 5
+	years = 1
 	decaying = yes
 }

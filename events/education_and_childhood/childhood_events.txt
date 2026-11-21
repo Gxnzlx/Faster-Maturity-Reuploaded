@@ -91,25 +91,22 @@ childhood.0001 = {
 				save_good_crush_character_trigger_check = yes
 			}
 			AND = {
-				is_independent_ruler = no
-				exists = liege
-				liege = {
+				top_liege != this
+				liege ?= {
 					save_good_crush_character_trigger_check = yes
 				}
 			}
 			AND = {
-				is_independent_ruler = no
-				exists = liege
-				liege = {
+				top_liege != this
+				liege ?= {
 					any_vassal = {
 						save_good_crush_character_trigger_check = yes
 					}
 				}
 			}
 			AND = {
-				is_independent_ruler = no
-				exists = liege
-				liege = {
+				top_liege != this
+				liege ?= {
 					any_vassal = {
 						any_child = {
 							save_good_crush_character_trigger_check = yes
@@ -118,9 +115,8 @@ childhood.0001 = {
 				}
 			}
 			AND = {
-				is_independent_ruler = no
-				exists = liege
-				liege = {
+				top_liege != this
+				liege ?= {
 					any_courtier_or_guest = {
 						save_good_crush_character_trigger_check = yes
 					}
@@ -153,9 +149,8 @@ childhood.0001 = {
 		}
 		if = {
 			limit = {
-				is_independent_ruler = no
-				exists = liege
-				liege = {
+				top_liege != this
+				liege ?= {
 					save_good_crush_character_trigger_check = yes
 				}
 			}
@@ -165,9 +160,8 @@ childhood.0001 = {
 		}
 		if = {
 			limit = {
-				is_independent_ruler = no
-				exists = liege
-				liege = {
+				top_liege != this
+				liege ?= {
 					any_vassal = {
 						save_good_crush_character_trigger_check = yes
 					}
@@ -184,9 +178,8 @@ childhood.0001 = {
 		}
 		if = {
 			limit = {
-				is_independent_ruler = no
-				exists = liege
-				liege = {
+				top_liege != this
+				liege ?= {
 					any_vassal = {
 						any_child = {
 							save_good_crush_character_trigger_check = yes
@@ -207,9 +200,8 @@ childhood.0001 = {
 		}
 		if = {
 			limit = {
-				is_independent_ruler = no
-				exists = liege
-				liege = {
+				top_liege != this
+				liege ?= {
 					any_courtier_or_guest = {
 						save_good_crush_character_trigger_check = yes
 					}
@@ -231,13 +223,13 @@ childhood.0001 = {
 				base = 1
 				modifier = {
 					add = 10
-					is_independent_ruler = no
+					top_liege != this
 					exists = liege
 					is_primary_heir_of = liege
 				}
 				modifier = {
 					add = 5
-					is_independent_ruler = no
+					top_liege != this
 					exists = liege
 					is_heir_of = liege
 				}
@@ -295,7 +287,7 @@ childhood.0001 = {
 			}
 		}
 		
-		stress_impact = {
+		stress_and_fulfillment_impact = {
 			base = minor_stress_impact_gain
 			lustful = minor_stress_impact_gain
 		}
@@ -400,17 +392,15 @@ childhood.0003 = {
 				is_ai = yes
 			}
 			AND = {
-				is_independent_ruler = no
-				exists = liege
-				liege = {
+				top_liege != this
+				liege ?= {
 					save_good_friend_character_trigger_check = yes
 					is_ai = yes
 				}
 			}
 			AND = {
-				is_independent_ruler = no
-				exists = liege
-				liege = {
+				top_liege != this
+				liege ?= {
 					any_vassal = {
 						save_good_friend_character_trigger_check = yes
 						is_ai = yes
@@ -418,9 +408,8 @@ childhood.0003 = {
 				}
 			}
 			AND = {
-				is_independent_ruler = no
-				exists = liege
-				liege = {
+				top_liege != this
+				liege ?= {
 					any_vassal = {
 						any_child = {
 							save_good_friend_character_trigger_check = yes
@@ -430,9 +419,8 @@ childhood.0003 = {
 				}
 			}
 			AND = {
-				is_independent_ruler = no
-				exists = liege
-				liege = {
+				top_liege != this
+				liege ?= {
 					any_courtier_or_guest = {
 						save_good_friend_character_trigger_check = yes
 						is_ai = yes
@@ -481,9 +469,8 @@ childhood.0003 = {
 		}
 		if = {
 			limit = {
-				is_independent_ruler = no
-				exists = liege
-				liege = {
+				top_liege != this
+				liege ?= {
 					save_good_friend_character_trigger_check = yes
 					is_ai = yes
 				}
@@ -494,9 +481,8 @@ childhood.0003 = {
 		}
 		if = {
 			limit = {
-				is_independent_ruler = no
-				exists = liege
-				liege = {
+				top_liege != this
+				liege ?= {
 					any_vassal = {
 						save_good_friend_character_trigger_check = yes
 						is_ai = yes
@@ -515,9 +501,8 @@ childhood.0003 = {
 		}
 		if = {
 			limit = {
-				is_independent_ruler = no
-				exists = liege
-				liege = {
+				top_liege != this
+				liege ?= {
 					any_vassal = {
 						any_child = {
 							save_good_friend_character_trigger_check = yes
@@ -540,9 +525,8 @@ childhood.0003 = {
 		}
 		if = {
 			limit = {
-				is_independent_ruler = no
-				exists = liege
-				liege = {
+				top_liege != this
+				liege ?= {
 					any_courtier_or_guest = {
 						save_good_friend_character_trigger_check = yes
 						is_ai = yes
@@ -626,7 +610,7 @@ childhood.0003 = {
 			set_relation_best_friend = { reason = best_friend_childhood_oath copy_reason = friend target = scope:friend }
 		}
 		
-		stress_impact = {
+		stress_and_fulfillment_impact = {
 			arrogant = medium_stress_impact_gain
 			sadistic = medium_stress_impact_gain
 			callous = medium_stress_impact_gain
@@ -654,7 +638,7 @@ childhood.0003 = {
 			set_relation_friend = { reason = friend_shared_toy target = scope:friend }
 		}
 
-		stress_impact = {
+		stress_and_fulfillment_impact = {
 			sadistic = medium_stress_impact_gain
 			callous = medium_stress_impact_gain
 		}
@@ -683,6 +667,7 @@ childhood.0003 = {
 		random = {
 			chance = 50
 			send_interface_toast = {
+				type = event_toast_effect_good
 				title = skill_increased
 				left_icon = root
 				add_intrigue_skill = 1
@@ -710,7 +695,7 @@ childhood.0003 = {
 			}
 		}
 		
-		stress_impact = {
+		stress_and_fulfillment_impact = {
 			base = medium_stress_impact_gain
 			just = medium_stress_impact_gain
 			gregarious = medium_stress_impact_gain
@@ -755,7 +740,7 @@ childhood.0003 = {
 			}
 		}
 		
-		stress_impact = {
+		stress_and_fulfillment_impact = {
 			base = minor_stress_impact_gain
 			generous = massive_stress_impact_gain
 			compassionate = medium_stress_impact_gain
@@ -853,17 +838,15 @@ childhood.0005 = {
 				is_ai = yes
 			}
 			AND = {
-				is_independent_ruler = no
-				exists = liege
-				liege = {
+				top_liege != this
+				liege ?= {
 					save_good_bully_character_trigger_check = yes
 					is_ai = yes
 				}
 			}
 			AND = {
-				is_independent_ruler = no
-				exists = liege
-				liege = {
+				top_liege != this
+				liege ?= {
 					any_vassal = {
 						save_good_bully_character_trigger_check = yes
 						is_ai = yes
@@ -871,9 +854,8 @@ childhood.0005 = {
 				}
 			}
 			AND = {
-				is_independent_ruler = no
-				exists = liege
-				liege = {
+				top_liege != this
+				liege ?= {
 					any_vassal = {
 						any_child = {
 							save_good_bully_character_trigger_check = yes
@@ -883,9 +865,8 @@ childhood.0005 = {
 				}
 			}
 			AND = {
-				is_independent_ruler = no
-				exists = liege
-				liege = {
+				top_liege != this
+				liege ?= {
 					any_courtier_or_guest = {
 						save_good_bully_character_trigger_check = yes
 						is_ai = yes
@@ -933,9 +914,8 @@ childhood.0005 = {
 		}
 		if = {
 			limit = {
-				is_independent_ruler = no
-				exists = liege
-				liege = {
+				top_liege != this
+				liege ?= {
 					save_good_bully_character_trigger_check = yes
 					is_ai = yes
 				}
@@ -946,9 +926,8 @@ childhood.0005 = {
 		}
 		if = {
 			limit = {
-				is_independent_ruler = no
-				exists = liege
-				liege = {
+				top_liege != this
+				liege ?= {
 					any_vassal = {
 						save_good_bully_character_trigger_check = yes
 						is_ai = yes
@@ -967,9 +946,8 @@ childhood.0005 = {
 		}
 		if = {
 			limit = {
-				is_independent_ruler = no
-				exists = liege
-				liege = {
+				top_liege != this
+				liege ?= {
 					any_vassal = {
 						any_child = {
 							save_good_bully_character_trigger_check = yes
@@ -992,9 +970,8 @@ childhood.0005 = {
 		}
 		if = {
 			limit = {
-				is_independent_ruler = no
-				exists = liege
-				liege = {
+				top_liege != this
+				liege ?= {
 					any_courtier_or_guest = {
 						save_good_bully_character_trigger_check = yes
 						is_ai = yes
@@ -1069,7 +1046,7 @@ childhood.0005 = {
 			}
 			set_relation_bully = scope:bully
 		}
-		stress_impact = {
+		stress_and_fulfillment_impact = {
 			base = miniscule_stress_impact_gain
 			wrathful = minor_stress_impact_gain
 			impatient = minor_stress_impact_gain
@@ -1105,6 +1082,7 @@ childhood.0005 = {
 
 				desc = childhood.0006.b.critical_success
 				send_interface_toast = {
+					type = event_toast_effect_good
 					title = childhood.0006.b.critical_success
 					left_icon = root
 					right_icon = scope:bully
@@ -1114,7 +1092,6 @@ childhood.0005 = {
 						limit = {
 							scope:bully = {
 								any_close_family_member = {
-									exists = this
 									is_alive = yes
 								}
 							}
@@ -1136,7 +1113,6 @@ childhood.0005 = {
 								liege = scope:bully
 								scope:bully = {
 									any_close_family_member = {
-										exists = this
 										is_alive = yes
 										this = root.liege
 									}
@@ -1166,6 +1142,7 @@ childhood.0005 = {
 
 				desc = childhood.0006.b.success
 				send_interface_toast = {
+					type = event_toast_effect_good
 					title = childhood.0006.b.success
 					left_icon = root
 					right_icon = scope:bully
@@ -1182,6 +1159,7 @@ childhood.0005 = {
 
 				desc = childhood.0006.b.failure
 				send_interface_toast = {
+					type = event_toast_effect_bad
 					title = childhood.0006.b.failure
 					left_icon = root
 					right_icon = scope:bully
@@ -1203,6 +1181,7 @@ childhood.0005 = {
 
 				desc = childhood.0006.b.critical_failure
 				send_interface_toast = {
+					type = event_toast_effect_bad
 					title = childhood.0006.b.critical_failure
 					left_icon = root
 					right_icon = scope:bully
@@ -1210,9 +1189,9 @@ childhood.0005 = {
 						limit = {
 							NOT = { has_relation_nemesis = scope:bully }
 						}
-						set_relation_nemesis = {
-							target = scope:bully
-							reason = nemesis_bully_beating
+						set_relation_nemesis_effect = {
+							TARGET = scope:bully
+							REASON = nemesis_bully_beating
 						}
 					}
 					increase_wounds_effect = { REASON = fight }
@@ -1228,6 +1207,7 @@ childhood.0005 = {
 
 				desc = childhood.0006.b.death
 				send_interface_toast = {
+					type = event_toast_effect_bad
 					title = childhood.0006.b.death
 					left_icon = root
 					right_icon = scope:bully
@@ -1242,7 +1222,7 @@ childhood.0005 = {
 			limit = {
 				is_alive = yes
 			}
-			stress_impact = {
+			stress_and_fulfillment_impact = {
 				compassionate = minor_stress_impact_gain
 				patient = minor_stress_impact_gain
 				forgiving = major_stress_impact_gain
@@ -1272,6 +1252,7 @@ childhood.0005 = {
 		random = {
 			chance = 50
 			send_interface_toast = {
+				type = event_toast_effect_neutral
 				title = childhood.0006.c_leave
 				left_icon = root
 				right_icon = scope:bully
@@ -1283,7 +1264,7 @@ childhood.0005 = {
 				}
 			}
 		}
-		stress_impact = {
+		stress_and_fulfillment_impact = {
 			greedy = major_stress_impact_gain
 			vengeful = minor_stress_impact_gain
 			wrathful = minor_stress_impact_gain
@@ -1412,17 +1393,15 @@ childhood.0007 = {
 				is_ai = yes
 			}
 			AND = {
-				is_independent_ruler = no
-				exists = liege
-				liege = {
+				top_liege != this
+				liege ?= {
 					save_good_victim_character_trigger_check = yes
 					is_ai = yes
 				}
 			}
 			AND = {
-				is_independent_ruler = no
-				exists = liege
-				liege = {
+				top_liege != this
+				liege ?= {
 					any_vassal = {
 						save_good_victim_character_trigger_check = yes
 						is_ai = yes
@@ -1430,9 +1409,8 @@ childhood.0007 = {
 				}
 			}
 			AND = {
-				is_independent_ruler = no
-				exists = liege
-				liege = {
+				top_liege != this
+				liege ?= {
 					any_vassal = {
 						any_child = {
 							save_good_victim_character_trigger_check = yes
@@ -1442,9 +1420,8 @@ childhood.0007 = {
 				}
 			}
 			AND = {
-				is_independent_ruler = no
-				exists = liege
-				liege = {
+				top_liege != this
+				liege ?= {
 					any_courtier_or_guest = {
 						save_good_victim_character_trigger_check = yes
 						is_ai = yes
@@ -1505,9 +1482,8 @@ childhood.0007 = {
 		}
 		if = {
 			limit = {
-				is_independent_ruler = no
-				exists = liege
-				liege = {
+				top_liege != this
+				liege ?= {
 					save_good_victim_character_trigger_check = yes
 					is_ai = yes
 				}
@@ -1518,9 +1494,8 @@ childhood.0007 = {
 		}
 		if = {
 			limit = {
-				is_independent_ruler = no
-				exists = liege
-				liege = {
+				top_liege != this
+				liege ?= {
 					any_vassal = {
 						save_good_victim_character_trigger_check = yes
 						is_ai = yes
@@ -1539,9 +1514,8 @@ childhood.0007 = {
 		}
 		if = {
 			limit = {
-				is_independent_ruler = no
-				exists = liege
-				liege = {
+				top_liege != this
+				liege ?= {
 					any_vassal = {
 						any_child = {
 							save_good_victim_character_trigger_check = yes
@@ -1564,9 +1538,8 @@ childhood.0007 = {
 		}
 		if = {
 			limit = {
-				is_independent_ruler = no
-				exists = liege
-				liege = {
+				top_liege != this
+				liege ?= {
 					any_courtier_or_guest = {
 						save_good_victim_character_trigger_check = yes
 						is_ai = yes
@@ -1637,7 +1610,7 @@ childhood.0007 = {
 		trigger = {
 			can_start_scheme = {
 				type = murder
-				target = scope:victim
+				target_character = scope:victim
 			}
 		}
 		if = {
@@ -1653,22 +1626,22 @@ childhood.0007 = {
 			limit = {
 				NOT = {
 					any_scheme = {
-						scheme_type = murder
-						scheme_target = scope:victim
+						type = murder
+						scheme_target_character = scope:victim
 					}
 				}
 			}
 			start_scheme = {
-				target = scope:victim
+				target_character = scope:victim
 				type = murder
 			}
 		}
 		custom_tooltip = diplomacy_family.2250.b.tt
 		hidden_effect = {
 			random_scheme = {
+				type = murder
 				limit = {
-					scheme_type = murder
-					scheme_target = scope:victim
+					scheme_target_character = scope:victim
 				}
 				add_scheme_modifier = {
 					type = extra_success_chance_modifier
@@ -1701,7 +1674,7 @@ childhood.0007 = {
 				}
 			}
 		}
-		stress_impact = {
+		stress_and_fulfillment_impact = {
 			base = medium_stress_impact_loss
 			callous = medium_stress_impact_loss
 			wrathful = medium_stress_impact_loss
@@ -1747,7 +1720,7 @@ childhood.0007 = {
 				has_trait = patient
 			}
 		}
-		stress_impact = {
+		stress_and_fulfillment_impact = {
 			base = medium_stress_impact_loss
 			patient = medium_stress_impact_gain
 		}
@@ -1772,7 +1745,7 @@ childhood.0007 = {
 				}
 			}
 		}
-		stress_impact = {
+		stress_and_fulfillment_impact = {
 			base = minor_stress_impact_gain
 			wrathful = medium_stress_impact_gain
 			sadistic = medium_stress_impact_gain
@@ -1816,6 +1789,7 @@ childhood.0012 = {
 		
 		scope:crush_holder = {
 			send_interface_toast = {
+				type = event_toast_effect_neutral
 				title = crush_returned
 				left_icon = scope:crush
 				root = {
@@ -1829,7 +1803,7 @@ childhood.0012 = {
 			}
 		}
 		
-		stress_impact = {
+		stress_and_fulfillment_impact = {
 			celibate = minor_stress_impact_gain
 			chaste = minor_stress_impact_gain
 			shy = minor_stress_impact_gain
@@ -1861,6 +1835,7 @@ childhood.0012 = {
 				random_list = {
 					50 = {
 						send_interface_toast = {
+							type = event_toast_effect_bad
 							title = crush_crushed_hard
 							left_icon = scope:crush
 							add_stress = medium_stress_impact_gain
@@ -1880,6 +1855,7 @@ childhood.0012 = {
 					}
 					50 = {
 						send_interface_toast = {
+							type = event_toast_effect_neutral
 							title = crush_crushed
 							left_icon = scope:crush
 							add_stress = miniscule_stress_impact_gain
@@ -1889,6 +1865,7 @@ childhood.0012 = {
 			}
 			else = {
 				send_interface_toast = {
+					type = event_toast_effect_neutral
 					title = crush_crushed
 					left_icon = scope:crush
 					add_stress = miniscule_stress_impact_gain
@@ -1896,7 +1873,7 @@ childhood.0012 = {
 			}
 		}
 		
-		stress_impact = {
+		stress_and_fulfillment_impact = {
 			lustful = minor_stress_impact_gain
 			gregarious = minor_stress_impact_gain
 		}
@@ -1928,13 +1905,13 @@ childhood.0900 = {
 	hidden = yes
 	
 	trigger = {
-		any_relation = { type = victim count >= 1 }
+		any_relation = { type = victim }
 	}
 
 	immediate = {
 		if = {
 			limit = {
-				any_relation = { type = victim count >= 1 }
+				any_relation = { type = victim }
 			}
 			random_relation = { type = victim save_scope_as = victim }
 			if = {
@@ -1961,7 +1938,7 @@ childhood.0900 = {
 		}
 		if = {
 			limit = {
-				any_relation = { type = victim count >= 1 }
+				any_relation = { type = victim }
 			}
 			remove_relation_victim = scope:victim
 		}
@@ -2034,13 +2011,13 @@ childhood.0910 = {
 	hidden = yes
 	
 	trigger = {
-		any_relation = { type = bully count >= 1 }	
+		any_relation = { type = bully }	
 	}
 
 	immediate = {
 		if = {
 			limit = {
-				any_relation = { type = bully count >= 1 }
+				any_relation = { type = bully }
 			}
 			random_relation = { type = bully save_scope_as = bully }
 		}
@@ -2067,7 +2044,7 @@ childhood.0910 = {
 		}
 		if = {
 			limit = {
-				any_relation = { type = bully count >= 1 }
+				any_relation = { type = bully }
 			}
 			remove_relation_bully = scope:bully
 		}
@@ -2160,41 +2137,67 @@ childhood.0998 = {
 	type = character_event
 	hidden = yes
 
-	
 	trigger = {
 		OR = {
-			any_relation = { type = crush count >= 1 }
+			any_relation = { type = crush }
 			exists = var:unrequited_crush
 		}
 	}
 
 	immediate = {
+		# Grab scopes.
 		if = {
 			limit = {
-				exists = var:unrequited_crush
-			}
-			var:unrequited_crush = {
-				save_scope_as = crushed_crush
-			}
-			scope:crushed_crush = {
-				if = {
-					limit = {
-						is_ai = no
-					}
-					set_variable = {
-						name = had_childhood_crush_variable
-						value = root
-					}
-				}
-			}
-		}
-		if = {
-			limit = {
-				any_relation = { type = crush count >= 1 }
+				any_relation = { type = crush }
 			}
 			random_relation = {
 				type = crush
 				save_scope_as = crush
+			}
+		}
+		# Automatic conversion.
+		## REMEMBER TO MAKE SURE THE CRUSH IS OLDER THAN ROOT WHEN YOU SET THIS FLAG.
+		if = {
+			limit = {
+				exists = scope:crush
+				has_relation_flag = {
+					target = scope:crush
+					relation = crush
+					flag = auto_progress_to_lover
+				}
+				is_ai = yes
+				scope:crush = {
+					is_ai = yes
+					has_relation_crush = root
+				}
+			}
+			remove_relation_crush = scope:crush
+			scope:crush = { remove_relation_crush = root }
+			set_relation_lover = {
+				reason = lover_childhood_sweatheart
+				target = scope:crush
+			}
+		}
+		# Normal flow.
+		else = {
+			if = {
+				limit = {
+					exists = var:unrequited_crush
+				}
+				var:unrequited_crush = {
+					save_scope_as = crushed_crush
+				}
+				scope:crushed_crush = {
+					if = {
+						limit = {
+							is_ai = no
+						}
+						set_variable = {
+							name = had_childhood_crush_variable
+							value = root
+						}
+					}
+				}
 			}
 			if = {
 				limit = {
@@ -2205,59 +2208,59 @@ childhood.0998 = {
 					value = scope:crush
 				}
 			}
-		}
-		if = {
-			limit = {
-				exists = scope:crush
-			}
-			save_scope_as = root_crush
-			scope:crush = {
-				if = {
-					limit = {
-						has_relation_crush = root
-					}
-					add_character_flag = crush_over
-					trigger_event = {
-						id = childhood.0999
+			if = {
+				limit = {
+					exists = scope:crush
+				}
+				save_scope_as = root_crush
+				scope:crush = {
+					if = {
+						limit = {
+							has_relation_crush = root
+						}
+						add_character_flag = crush_over
+						trigger_event = {
+							id = childhood.0999
+						}
 					}
 				}
 			}
-		}
-		if = {
-			limit = {
-				exists = var:unrequited_crush
-			}
-			save_scope_as = root_crush
-			scope:crushed_crush = {
-				if = {
-					limit = {
-						has_relation_crush = root
-					}
-					add_character_flag = crush_over
-					add_character_flag = unrequited_crush
-					trigger_event = {
-						id = childhood.0999
+			if = {
+				limit = {
+					exists = var:unrequited_crush
+				}
+				save_scope_as = root_crush
+				scope:crushed_crush = {
+					if = {
+						limit = {
+							has_relation_crush = root
+						}
+						add_character_flag = crush_over
+						add_character_flag = unrequited_crush
+						trigger_event = {
+							id = childhood.0999
+						}
 					}
 				}
 			}
-		}
-		if = {
-			limit = {
-				exists = scope:crush
+			if = {
+				limit = {
+					exists = scope:crush
+				}
+				add_opinion = {
+					modifier = childhood_crush
+					target = scope:crush
+				}
 			}
-			add_opinion = {
-				modifier = childhood_crush
-				target = scope:crush
-			}
-		}
-		every_relation = {
-			type = crush
-			reverse_add_opinion = {
-				modifier = childhood_crush
-				target = root
-			}
-			root = {
-				remove_relation_crush = prev
+			every_relation = {
+				type = crush
+				reverse_add_opinion = {
+					modifier = childhood_crush
+					target = root
+				}
+				root = {
+					remove_relation_crush = prev
+				}
 			}
 		}
 	}
@@ -2400,7 +2403,7 @@ childhood.1000 = {
 			}
 		}
 		
-		stress_impact = {
+		stress_and_fulfillment_impact = {
 			chaste = major_stress_impact_gain
 			shy = medium_stress_impact_gain
 			callous = minor_stress_impact_gain
@@ -2427,7 +2430,7 @@ childhood.1000 = {
 			trigger_event = childhood.0012
 		}
 		
-		stress_impact = {
+		stress_and_fulfillment_impact = {
 			chaste = major_stress_impact_gain
 			shy = medium_stress_impact_gain
 			callous = minor_stress_impact_gain
@@ -2454,7 +2457,7 @@ childhood.1000 = {
 			}
 		}
 		
-		stress_impact = {
+		stress_and_fulfillment_impact = {
 			lustful = major_stress_impact_gain
 			charming = minor_stress_impact_gain
 		}
@@ -2569,7 +2572,7 @@ childhood.1001 = {
 			}
 		}
 		
-		stress_impact = {
+		stress_and_fulfillment_impact = {
 			forgiving = miniscule_stress_impact_gain
 		}
 		ai_chance = {
@@ -2595,6 +2598,7 @@ childhood.1001 = {
 					value = scope:duel_value
 				}
 				send_interface_toast = {
+					type = event_toast_effect_neutral
 					left_icon = scope:bully
 					title = childhood.1001.a.success
 					remove_relation_bully = scope:bully
@@ -2603,6 +2607,7 @@ childhood.1001 = {
 			4 = {
 				desc = childhood.1001.a.failure
 				send_interface_toast = {
+					type = event_toast_effect_bad
 					left_icon = scope:bully
 					title = childhood.1001.a.failure
 					increase_wounds_effect = { REASON = fight }
@@ -2610,7 +2615,7 @@ childhood.1001 = {
 			}
 		}
 		
-		stress_impact = {
+		stress_and_fulfillment_impact = {
 			craven = major_stress_impact_gain
 			charming = miniscule_stress_impact_gain
 			pensive = miniscule_stress_impact_gain
@@ -2638,6 +2643,7 @@ childhood.1001 = {
 					value = scope:duel_value
 				}
 				send_interface_toast = {
+					type = event_toast_effect_neutral
 					left_icon = scope:bully
 					title = childhood.1001.b.success
 					remove_relation_bully = scope:bully
@@ -2646,6 +2652,7 @@ childhood.1001 = {
 			4 = {
 				desc = childhood.1001.a.failure
 				send_interface_toast = {
+					type = event_toast_effect_bad
 					title = childhood.1001.a.failure
 					left_icon = scope:bully
 					increase_wounds_effect = { REASON = fight }
@@ -2653,7 +2660,7 @@ childhood.1001 = {
 			}
 		}
 		
-		stress_impact = {
+		stress_and_fulfillment_impact = {
 			shy = major_stress_impact_gain
 			rowdy = miniscule_stress_impact_gain
 			bossy = miniscule_stress_impact_gain
@@ -2678,7 +2685,7 @@ childhood.1001 = {
 			}
 		}
 		
-		stress_impact = {
+		stress_and_fulfillment_impact = {
 			shy = major_stress_impact_gain
 			rowdy = miniscule_stress_impact_gain
 			bossy = miniscule_stress_impact_gain
@@ -2818,9 +2825,6 @@ childhood.1002 = {
 
 	option = {
 		name = childhood.1002.a
-		ai_chance = {
-			base = 100
-		}
 		if = {
 			limit = {
 				is_ai = yes
@@ -2843,6 +2847,7 @@ childhood.1002 = {
 			random_list = {
 				50 = {
 					send_interface_toast = {
+						type = event_martial_good
 						title = skill_increased
 						left_icon = root
 						add_martial_skill = 1
@@ -2850,6 +2855,7 @@ childhood.1002 = {
 				}
 				50 = {
 					send_interface_toast = {
+						type = event_intrigue_good
 						title = skill_increased
 						left_icon = root
 						add_intrigue_skill = 1
@@ -2861,6 +2867,7 @@ childhood.1002 = {
 			random_list = {
 				50 = {
 					send_interface_toast = {
+						type = event_diplomacy_good
 						title = skill_increased
 						left_icon = root
 						add_diplomacy_skill = 1
@@ -2868,6 +2875,7 @@ childhood.1002 = {
 				}
 				50 = {
 					send_interface_toast = {
+						type = event_learning_good
 						title = skill_increased
 						left_icon = root
 						add_learning_skill = 1
@@ -2875,6 +2883,7 @@ childhood.1002 = {
 				}
 				50 = {
 					send_interface_toast = {
+						type = event_stewardship_good
 						title = skill_increased
 						left_icon = root
 						add_stewardship_skill = 1
@@ -2883,7 +2892,7 @@ childhood.1002 = {
 			}
 		}
 		
-		stress_impact = {
+		stress_and_fulfillment_impact = {
 			paranoid = minor_stress_impact_gain
 			arrogant = minor_stress_impact_gain
 			bossy = miniscule_stress_impact_gain
@@ -2912,6 +2921,7 @@ childhood.1002 = {
 			random_list = {
 				30 = {
 					send_interface_toast = {
+						type = event_martial_good
 						title = childhood.1002.b_2
 						left_icon = root
 						add_martial_skill = 2
@@ -2920,9 +2930,10 @@ childhood.1002 = {
 				}
 				70 = {
 					send_interface_toast = {
+						type = event_stress_bad
 						title = childhood.1002.b_1
 						left_icon = root
-						stress_impact = {
+						stress_and_fulfillment_impact = {
 							base = minor_stress_gain
 						}
 					}
@@ -2933,6 +2944,7 @@ childhood.1002 = {
 			random_list = {
 				30 = {
 					send_interface_toast = {
+						type = event_learning_good
 						title = childhood.1002.b_2
 						left_icon = root
 						add_diplomacy_skill = 1
@@ -2942,16 +2954,17 @@ childhood.1002 = {
 				}
 				70 = {
 					send_interface_toast = {
+						type = event_stress_bad
 						title = childhood.1002.b_1
 						left_icon = root
-						stress_impact = {
+						stress_and_fulfillment_impact = {
 							base = minor_stress_gain
 						}
 					}
 				}
 			}
 		}
-		stress_impact = {
+		stress_and_fulfillment_impact = {
 			trusting = medium_stress_impact_gain
 			patient = minor_stress_impact_gain
 			pensive = miniscule_stress_impact_gain
@@ -3030,7 +3043,7 @@ childhood.1004 = {
 
 	option = {
 		name = childhood.1004.a
-		stress_impact = {
+		stress_and_fulfillment_impact = {
 			base = minor_stress_impact_loss
 			diligent = minor_stress_impact_gain
 		}
@@ -3048,12 +3061,13 @@ childhood.1004 = {
 		random = {
 			chance = 25
 			send_interface_toast = {
+				type = event_learning_good
 				title = skill_increased
 				left_icon = root
 				add_learning_skill = 1
 			}
 		}
-		stress_impact = {
+		stress_and_fulfillment_impact = {
 			base = minor_stress_impact_gain
 			diligent = minor_stress_impact_loss
 			lazy = medium_stress_impact_gain
@@ -3072,6 +3086,7 @@ childhood.1004 = {
 		random = {
 			chance = 25
 			send_interface_toast = {
+				type = event_intrigue_good
 				title = skill_increased
 				left_icon = root
 				add_intrigue_skill = 1
@@ -3084,7 +3099,7 @@ childhood.1004 = {
 				opinion = 15
 			}
 		}
-		stress_impact = {
+		stress_and_fulfillment_impact = {
 			base = minor_stress_impact_gain
 			diligent = minor_stress_impact_loss
 		}
@@ -3197,6 +3212,7 @@ childhood.1005 = {
 		random_list = {
 			2 = {
 				send_interface_toast = {
+					type = event_martial_good
 					title = skill_increased
 					left_icon = root
 					add_martial_skill = 1
@@ -3204,6 +3220,7 @@ childhood.1005 = {
 			}
 			2 = {
 				send_interface_toast = {
+					type = event_stewardship_good
 					title = skill_increased
 					left_icon = root
 					add_stewardship_skill = 1
@@ -3211,6 +3228,7 @@ childhood.1005 = {
 			}
 			2 = {
 				send_interface_toast = {
+					type = event_learning_good
 					title = skill_increased
 					left_icon = root
 					add_learning_skill = 1
@@ -3218,6 +3236,7 @@ childhood.1005 = {
 			}
 			2 = {
 				send_interface_toast = {
+					type = event_diplomacy_good
 					title = skill_increased
 					left_icon = root
 					add_diplomacy_skill = 1
@@ -3225,6 +3244,7 @@ childhood.1005 = {
 			}
 			2 = {
 				send_interface_toast = {
+					type = event_intrigue_good
 					title = skill_increased
 					left_icon = root
 					add_intrigue_skill = 1
@@ -3239,7 +3259,7 @@ childhood.1005 = {
 			88 = {
 			}
 		}
-		stress_impact = {
+		stress_and_fulfillment_impact = {
 			base = medium_stress_gain
 			lazy = minor_stress_impact_gain
 		}
@@ -3253,7 +3273,7 @@ childhood.1005 = {
 	}
 	option = {
 		name = childhood.1005.b
-		stress_impact = {
+		stress_and_fulfillment_impact = {
 			base = minor_stress_gain
 			diligent = minor_stress_impact_gain
 		}
@@ -3327,7 +3347,7 @@ childhood.1006 = {
 			remove_trait = lazy
 			add_trait_force_tooltip = diligent
 		}
-		stress_impact = {
+		stress_and_fulfillment_impact = {
 			lazy = major_stress_gain
 		}
 		ai_chance = {
@@ -3356,7 +3376,7 @@ childhood.1006 = {
 	
 	option = {
 		name = childhood.1006.a
-		stress_impact = {
+		stress_and_fulfillment_impact = {
 			lazy = medium_stress_gain
 		}
 		ai_chance = {
@@ -3522,6 +3542,7 @@ childhood.1007 = {
 				
 				desc = childhood.1007.d.success
 				send_interface_toast = {
+					type = event_toast_effect_good
 					title = childhood.1007.d.success
 					left_icon = scope:bully
 					remove_relation_bully = scope:bully
@@ -3544,6 +3565,7 @@ childhood.1007 = {
 				}
 				desc = childhood.1007.d.failure
 				send_interface_toast = {
+					type = event_toast_effect_bad
 					title = childhood.1007.d.failure
 					left_icon = scope:bully
 					add_stress = minor_stress_impact_gain
@@ -3562,6 +3584,7 @@ childhood.1007 = {
 		}
 		scope:victim = {
 			send_interface_toast = {
+				type = event_stress_bad
 				title = childhood.1007.c.toast
 				left_icon = scope:child
 				add_opinion = {
@@ -3572,7 +3595,7 @@ childhood.1007 = {
 				add_stress = medium_stress_impact_gain
 			}
 		}
-		stress_impact = {
+		stress_and_fulfillment_impact = {
 			base = minor_stress_impact_gain
 		}
 		ai_chance = {
@@ -3600,6 +3623,7 @@ childhood.1007 = {
 				
 				desc = childhood.1007.b.success
 				send_interface_toast = {
+					type = event_stress_neutral
 					title = childhood.1007.b.success
 					left_icon = scope:bully
 					add_stress = minor_stress_impact_gain
@@ -3614,13 +3638,14 @@ childhood.1007 = {
 				}
 				desc = childhood.1007.b.failure
 				send_interface_toast = {
+					type = event_stress_bad
 					title = childhood.1007.b.failure
 					left_icon = scope:bully
 					add_stress = major_stress_impact_gain
 				}
 			}
 		}
-		stress_impact = {
+		stress_and_fulfillment_impact = {
 			rowdy = medium_stress_impact_gain
 		}
 		ai_chance = {
@@ -3634,7 +3659,7 @@ childhood.1007 = {
 
 	option = {
 		name = childhood.1007.a
-		stress_impact = {
+		stress_and_fulfillment_impact = {
 			base = medium_stress_impact_gain
 		}
 		ai_chance = {
@@ -3767,9 +3792,8 @@ childhood.1008 = {
 			}
 			if = {
 				limit = {
-					is_independent_ruler = no
-					exists = liege
-					liege = {
+					top_liege != this
+					liege ?= {
 						save_good_bully_character_trigger_check = yes
 						NOR = {
 							has_relation_victim = scope:victim
@@ -3786,9 +3810,8 @@ childhood.1008 = {
 			}
 			if = {
 				limit = {
-					is_independent_ruler = no
-					exists = liege
-					liege = {
+					top_liege != this
+					liege ?= {
 						any_vassal = {
 							save_good_bully_character_trigger_check = yes
 							NOR = {
@@ -3819,9 +3842,8 @@ childhood.1008 = {
 			}
 			if = {
 				limit = {
-					is_independent_ruler = no
-					exists = liege
-					liege = {
+					top_liege != this
+					liege ?= {
 						any_vassal = {
 							any_child = {
 								save_good_bully_character_trigger_check = yes
@@ -3856,9 +3878,8 @@ childhood.1008 = {
 			}
 			if = {
 				limit = {
-					is_independent_ruler = no
-					exists = liege
-					liege = {
+					top_liege != this
+					liege ?= {
 						any_courtier_or_guest = {
 							save_good_bully_character_trigger_check = yes
 							NOR = {
@@ -3957,6 +3978,7 @@ childhood.1008 = {
 		random = {
 			chance = 50
 			send_interface_toast = {
+				type = event_diplomacy_good
 				title = skill_increased
 				left_icon = root
 				add_diplomacy_skill = 1
@@ -3984,7 +4006,7 @@ childhood.1008 = {
 				years = 10
 			}
 		}
-		stress_impact = {
+		stress_and_fulfillment_impact = {
 			sadistic = minor_stress_impact_loss
 			charming = medium_stress_impact_loss
 			forgiving = medium_stress_impact_gain
@@ -4007,6 +4029,7 @@ childhood.1008 = {
 		random = {
 			chance = 25
 			send_interface_toast = {
+				type = event_prowess_good
 				title = skill_increased
 				left_icon = root
 				add_prowess_skill = 1
@@ -4023,7 +4046,7 @@ childhood.1008 = {
 				OPINION = 0
 			}
 		}
-		stress_impact = {
+		stress_and_fulfillment_impact = {
 			sadistic = minor_stress_impact_loss
 			rowdy = medium_stress_impact_loss
 			bossy = medium_stress_impact_loss
@@ -4046,7 +4069,7 @@ childhood.1008 = {
 
 	option = {
 		name = childhood.1008.a
-		stress_impact = {
+		stress_and_fulfillment_impact = {
 			sadistic = minor_stress_impact_loss
 			base = medium_stress_impact_loss
 		}
@@ -4116,12 +4139,13 @@ childhood.1009 = {
 		random = {
 			chance = 50
 			send_interface_toast = {
+				type = event_learning_good
 				title = skill_increased
 				left_icon = root
 				add_learning_skill = 1
 			}
 		}
-		stress_impact = {
+		stress_and_fulfillment_impact = {
 			base = minor_stress_impact_loss
 			impatient = minor_stress_impact_gain
 			rowdy = minor_stress_impact_gain
@@ -4153,7 +4177,7 @@ childhood.1009 = {
 				opinion = 25
 			}
 		}
-		stress_impact = {
+		stress_and_fulfillment_impact = {
 			base = major_stress_impact_loss
 			greedy = massive_stress_impact_gain
 			callous = medium_stress_impact_gain
@@ -4174,7 +4198,7 @@ childhood.1009 = {
 
 	option = {
 		name = childhood.1009.a
-		stress_impact = {
+		stress_and_fulfillment_impact = {
 			base = medium_stress_impact_loss
 		}
 		ai_chance = {
@@ -4313,7 +4337,7 @@ childhood.1010 = {
 				years = 10
 			}
 		}
-		stress_impact = {
+		stress_and_fulfillment_impact = {
 			base = medium_stress_impact_loss
 			sadistic = medium_stress_impact_gain
 			callous = medium_stress_impact_gain
@@ -4349,7 +4373,7 @@ childhood.1010 = {
 				has_relation_crush = root
 			}
 		}
-		stress_impact = {
+		stress_and_fulfillment_impact = {
 			base = medium_stress_impact_loss
 		}
 		ai_chance = {
@@ -4373,10 +4397,10 @@ childhood.1010 = {
 		scope:crush = {
 			trigger_event = childhood.0012
 		}
-		stress_impact = {
+		stress_and_fulfillment_impact = {
 			base = medium_stress_impact_gain
 		}
-		stress_impact = {
+		stress_and_fulfillment_impact = {
 			base = medium_stress_impact_loss
 			sadistic = medium_stress_impact_gain
 			callous = medium_stress_impact_gain
@@ -4404,6 +4428,7 @@ childhood.1010 = {
 		random = {
 			chance = 50
 			send_interface_toast = {
+				type = event_intrigue_good
 				title = skill_increased
 				left_icon = root
 				add_intrigue_skill = 1
@@ -4419,7 +4444,7 @@ childhood.1010 = {
 			}
 		}
 		remove_relation_crush = scope:crush
-		stress_impact = {
+		stress_and_fulfillment_impact = {
 			base = major_stress_impact_gain
 			cynical = massive_stress_impact_loss
 			fickle = major_stress_impact_loss
@@ -4447,11 +4472,21 @@ childhood.1010 = {
 				}
 			}
 		}
-		stress_impact = {
+		stress_and_fulfillment_impact = {
 			base = medium_stress_impact_gain
 		}
 		ai_chance = {
 			base = 100
+		}
+	}
+}
+
+scripted_trigger childhood_1011_crush_trigger = {
+	is_available_ai_child = yes
+	has_relation_crush = root
+	NOT = {
+		root = {
+			has_relation_crush = prev
 		}
 	}
 }
@@ -4497,90 +4532,31 @@ childhood.1011 = {
 	trigger = {
 		OR = {
 			any_vassal = {
-				is_available_ai_child = yes
-				has_relation_crush = root
-				NOT = {
-					root = {
-						has_relation_crush = prev
-					}
-				}
+				childhood_1011_crush_trigger = yes
 			}
 			any_vassal = {
 				any_child = {
-					is_available_ai_child = yes
-					has_relation_crush = root
-					NOT = {
-						root = {
-							has_relation_crush = prev
-						}
-					}
+					childhood_1011_crush_trigger = yes
 				}
 			}
 			any_courtier_or_guest = {
-				is_available_ai_child = yes
-				has_relation_crush = root
-				NOT = {
-					root = {
-						has_relation_crush = prev
-					}
-				}
+				childhood_1011_crush_trigger = yes
 			}
 			AND = {
-				is_independent_ruler = no
-				exists = liege
-				liege = {
-					is_available_ai_child = yes
-					has_relation_crush = root
-					NOT = {
-						root = {
-							has_relation_crush = prev
+				top_liege != this
+				liege ?= {
+					OR = {
+						childhood_1011_crush_trigger = yes
+						any_vassal = {
+							childhood_1011_crush_trigger = yes
 						}
-					}
-				}
-			}
-			AND = {
-				is_independent_ruler = no
-				exists = liege
-				liege = {
-					any_vassal = {
-						is_available_ai_child = yes
-						has_relation_crush = root
-						NOT = {
-							root = {
-								has_relation_crush = prev
+						any_vassal = {
+							any_child = {
+								childhood_1011_crush_trigger = yes
 							}
 						}
-					}
-				}
-			}
-			AND = {
-				is_independent_ruler = no
-				exists = liege
-				liege = {
-					any_vassal = {
-						any_child = {
-							is_available_ai_child = yes
-							has_relation_crush = root
-							NOT = {
-								root = {
-									has_relation_crush = prev
-								}
-							}
-						}
-					}
-				}
-			}
-			AND = {
-				is_independent_ruler = no
-				exists = liege
-				liege = {
-					any_courtier_or_guest = {
-						is_available_ai_child = yes
-						has_relation_crush = root
-						NOT = {
-							root = {
-								has_relation_crush = prev
-							}
+						any_courtier_or_guest = {
+							childhood_1011_crush_trigger = yes
 						}
 					}
 				}
@@ -4591,165 +4567,71 @@ childhood.1011 = {
 	immediate = {
 		every_vassal = {
 			limit = {
-				is_available_ai_child = yes
-				has_relation_crush = root
-				NOT = {
-					root = {
-						has_relation_crush = prev
-					}
-				}
+				childhood_1011_crush_trigger = yes
 			}
 			add_to_list = crushes
 		}
 		every_vassal = {
 			every_child = {
 				limit = {
-					is_available_ai_child = yes
-					has_relation_crush = root
-					NOT = {
-						root = {
-							has_relation_crush = prev
-						}
-					}
+					childhood_1011_crush_trigger = yes
 				}
 				add_to_list = crushes
 			}
 		}
 		every_courtier_or_guest = {
 			limit = {
-				save_good_crush_character_trigger_check = yes
+				childhood_1011_crush_trigger = yes
 			}
 			add_to_list = crushes
 		}
 		if = {
 			limit = {
-				is_independent_ruler = no
-				exists = liege
-				liege = {
-					is_available_ai_child = yes
-					has_relation_crush = root
-					NOT = {
-						root = {
-							has_relation_crush = prev
-						}
-					}
-				}
+				top_liege != this
 			}
-			liege = {
-				add_to_list = crushes
-			}
-		}
-		if = {
-			limit = {
-				is_independent_ruler = no
-				exists = liege
-				liege = {
-					any_vassal = {
-						is_available_ai_child = yes
-						has_relation_crush = root
-						NOT = {
-							root = {
-								has_relation_crush = prev
-							}
-						}
-					}
-				}
-			}
-			liege = {
-				every_vassal = {
+			liege ?= {
+				if = {
 					limit = {
-						is_available_ai_child = yes
-						has_relation_crush = root
-						NOT = {
-							root = {
-								has_relation_crush = prev
-							}
-						}
+						childhood_1011_crush_trigger = yes
 					}
 					add_to_list = crushes
 				}
-			}
-		}
-		if = {
-			limit = {
-				is_independent_ruler = no
-				exists = liege
-				liege = {
-					any_vassal = {
-						any_child = {
-							is_available_ai_child = yes
-							has_relation_crush = root
-							NOT = {
-								root = {
-									has_relation_crush = prev
-								}
-							}
-						}
+				every_vassal = {
+					limit = {
+						childhood_1011_crush_trigger = yes
 					}
+					add_to_list = crushes
 				}
-			}
-			liege = {
 				every_vassal = {
 					every_child = {
 						limit = {
-							is_available_ai_child = yes
-							has_relation_crush = root
-							NOT = {
-								root = {
-									has_relation_crush = prev
-								}
-							}
+							childhood_1011_crush_trigger = yes
 						}
 						add_to_list = crushes
 					}
 				}
-			}
-		}
-		if = {
-			limit = {
-				is_independent_ruler = no
-				exists = liege
-				liege = {
-					any_courtier_or_guest = {
-						is_available_ai_child = yes
-						has_relation_crush = root
-						NOT = {
-							root = {
-								has_relation_crush = prev
-							}
-						}
-					}
-				}
-			}
-			liege = {
 				every_courtier_or_guest = {
 					limit = {
-						is_available_ai_child = yes
-						has_relation_crush = root
-						NOT = {
-							root = {
-								has_relation_crush = prev
-							}
-						}
+						childhood_1011_crush_trigger = yes
 					}
 					add_to_list = crushes
 				}
 			}
 		}
-		
+
 		random_in_list = {
 			list = crushes
 			weight = {
 				base = 1
 				modifier = {
 					add = 10
-					is_independent_ruler = no
+					top_liege != this
 					exists = liege
 					is_primary_heir_of = liege
 				}
 				modifier = {
 					add = 5
-					is_independent_ruler = no
+					top_liege != this
 					exists = liege
 					is_heir_of = liege
 				}
@@ -4821,7 +4703,7 @@ childhood.1011 = {
 				opinion = -20
 			}
 		}
-		stress_impact = {
+		stress_and_fulfillment_impact = {
 			lustful = major_stress_impact_gain
 			fickle = medium_stress_impact_gain
 			arbitrary = medium_stress_impact_gain
@@ -4849,7 +4731,7 @@ childhood.1011 = {
 			}
 			set_relation_crush = scope:crush_returned
 		}
-		stress_impact = {
+		stress_and_fulfillment_impact = {
 			chaste = major_stress_impact_gain
 			rowdy = minor_stress_impact_gain
 		}
@@ -4874,7 +4756,7 @@ childhood.1011 = {
 				opinion = -10
 			}
 		}
-		stress_impact = {
+		stress_and_fulfillment_impact = {
 			lustful = major_stress_impact_gain
 			trusting = major_stress_impact_gain
 			charming = minor_stress_impact_gain
@@ -4997,7 +4879,7 @@ childhood.1012 = {
 		add_character_modifier = {
 			modifier = cruel_upbringing_modifier
 		}
-		stress_impact = {
+		stress_and_fulfillment_impact = {
 			base = medium_stress_impact_gain
 			vengeful = massive_stress_impact_loss
 			forgiving = massive_stress_impact_gain
@@ -5021,7 +4903,7 @@ childhood.1012 = {
 
 	option = {
 		name = childhood.1012.a
-		stress_impact = {
+		stress_and_fulfillment_impact = {
 			base = medium_stress_impact_gain
 		}
 		ai_chance = {
@@ -5088,6 +4970,7 @@ childhood.1013 = {
 		random = {
 			chance = 50
 			send_interface_toast = {
+				type = event_diplomacy_good
 				title = skill_increased
 				left_icon = root
 				add_diplomacy_skill = 1
@@ -5095,7 +4978,7 @@ childhood.1013 = {
 			}
 		}
 		
-		stress_impact = {
+		stress_and_fulfillment_impact = {
 			base = medium_stress_impact_gain
 			sadistic = massive_stress_impact_gain
 			callous = massive_stress_impact_gain
@@ -5219,7 +5102,7 @@ childhood.1015 = {
 				childhood_1015_relation_trigger = yes
 			}
 		}
-		any_relation = { type = guardian count >= 1 }
+		any_relation = { type = guardian }
 		exists = location.county.holder.top_liege
 		location.county.holder.top_liege = {
 			any_sub_realm_county = {
@@ -5252,7 +5135,7 @@ childhood.1015 = {
 		}
 		if = {
 			limit = {
-				any_relation = { type = guardian count >= 1 }
+				any_relation = { type = guardian }
 			}
 			random_relation = {
 				type = guardian
@@ -5292,7 +5175,7 @@ childhood.1015 = {
 			}
 		}
 		
-		stress_impact = {
+		stress_and_fulfillment_impact = {
 			pensive = minor_stress_impact_gain
 			curious = minor_stress_impact_gain
 			humble = minor_stress_impact_gain
@@ -5319,7 +5202,7 @@ childhood.1015 = {
 				education_point_acquisition_effect = yes
 			}
 		}
-		stress_impact = {
+		stress_and_fulfillment_impact = {
 			bossy = minor_stress_impact_gain
 			arrogant = minor_stress_impact_gain
 		}
@@ -5379,7 +5262,7 @@ childhood.1016 = {
 				childhood_1016_relation_trigger = yes
 			}
 		}
-		any_relation = { type = guardian count >= 1 }
+		any_relation = { type = guardian }
 		exists = location.county.holder
 		location.county.holder = {
 			any_knight = {
@@ -5452,7 +5335,7 @@ childhood.1016 = {
 			}
 		}
 		
-		stress_impact = {
+		stress_and_fulfillment_impact = {
 			pensive = minor_stress_impact_gain
 			curious = minor_stress_impact_gain
 			humble = minor_stress_impact_gain
@@ -5479,7 +5362,7 @@ childhood.1016 = {
 				education_point_acquisition_effect = yes
 			}
 		}
-		stress_impact = {
+		stress_and_fulfillment_impact = {
 			bossy = minor_stress_impact_gain
 			arrogant = minor_stress_impact_gain
 		}
@@ -5537,13 +5420,13 @@ childhood.1017 = {
 				childhood_1017_relation_trigger = yes
 			}
 		}
-		any_relation = { type = guardian count >= 1 }
+		any_relation = { type = guardian }
 		exists = location.county.holder.top_liege
 		location.county.holder.top_liege = {
 			any_vassal_or_below = {
 				is_available_ai_adult = yes
 				any_held_title = {
-					tier = tier_county
+					title_tier = county
 				}
 			}
 		}
@@ -5555,7 +5438,7 @@ childhood.1017 = {
 				limit = {
 					is_available_ai_adult = yes
 					any_held_title = {
-						tier = tier_county
+						title_tier = county
 					}
 				}
 				save_scope_as = province_holder
@@ -5597,7 +5480,7 @@ childhood.1017 = {
 				years = 20
 			}
 		}
-		stress_impact = {
+		stress_and_fulfillment_impact = {
 			arrogant = minor_stress_impact_gain
 			curious = minor_stress_impact_gain
 		}
@@ -5636,7 +5519,7 @@ childhood.1017 = {
 				opinion = -15
 			}
 		}
-		stress_impact = {
+		stress_and_fulfillment_impact = {
 			just = minor_stress_impact_gain
 			honest = minor_stress_impact_gain
 		}
@@ -5696,13 +5579,13 @@ childhood.1018 = {
 				childhood_1018_relation_trigger = yes
 			}
 		}
-		any_relation = { type = guardian count >= 1 }
+		any_relation = { type = guardian }
 		exists = location.county.holder.top_liege
 		location.county.holder.top_liege = {
 			any_vassal_or_below = {
 				is_available_ai_adult = yes
 				any_held_title = {
-					tier = tier_county
+					title_tier = county
 				}
 			}
 		}
@@ -5714,7 +5597,7 @@ childhood.1018 = {
 				limit = {
 					is_available_ai_adult = yes
 					any_held_title = {
-						tier = tier_county
+						title_tier = county
 					}
 				}
 				save_scope_as = province_holder
@@ -5777,7 +5660,7 @@ childhood.1018 = {
 				years = 5
 			}
 		}
-		stress_impact = {
+		stress_and_fulfillment_impact = {
 			just = minor_stress_impact_gain
 			honest = minor_stress_impact_gain
 		}
@@ -5837,13 +5720,13 @@ childhood.1019 = {
 				childhood_1019_relation_trigger = yes
 			}
 		}
-		any_relation = { type = guardian count >= 1 }
+		any_relation = { type = guardian }
 		exists = location.county.holder.top_liege
 		location.county.holder.top_liege = {
 			any_vassal_or_below = {
 				is_available_ai_adult = yes
 				any_held_title = {
-					tier = tier_county
+					title_tier = county
 				}
 			}
 		}
@@ -5855,7 +5738,7 @@ childhood.1019 = {
 				limit = {
 					is_available_ai_adult = yes
 					any_held_title = {
-						tier = tier_county
+						title_tier = county
 					}
 				}
 				capital_county = {
@@ -5912,7 +5795,7 @@ childhood.1019 = {
 				opinion = -15
 			}
 		}
-		stress_impact = {
+		stress_and_fulfillment_impact = {
 			honest = minor_stress_impact_gain
 			trusting = minor_stress_impact_gain
 		}
@@ -5943,7 +5826,7 @@ childhood.1019 = {
 				opinion = 15
 			}
 		}
-		stress_impact = {
+		stress_and_fulfillment_impact = {
 			pensive = minor_stress_impact_gain
 			curious = minor_stress_impact_gain
 		}
@@ -6015,7 +5898,7 @@ childhood.2001 = {
 	trigger = {
 		NOT = { #No cats around already
 			any_owned_story = {
-				story_type = story_cycle_pet_cat
+				type = story_cycle_pet_cat
 			}
 		}
 	}
@@ -6065,7 +5948,7 @@ childhood.2001 = {
 					type = guardian
 					NOT = {
 						any_owned_story = {
-							story_type = story_cycle_pet_cat
+							type = story_cycle_pet_cat
 						}
 					}
 				}
@@ -6093,7 +5976,7 @@ childhood.2001 = {
 			scope:educator = {
 				NOT = { #No cats around already
 					any_owned_story = {
-						story_type = story_cycle_pet_cat
+						type = story_cycle_pet_cat
 					}
 				}
 			}
@@ -6108,7 +5991,7 @@ childhood.2001 = {
 		scope:educator = {
 			trigger_event = childhood.2002
 		}
-		stress_impact = {
+		stress_and_fulfillment_impact = {
 			greedy = minor_stress_impact_gain
 			bossy = minor_stress_impact_gain
 		}
@@ -6131,7 +6014,7 @@ childhood.2001 = {
 			scope:friend = {
 				NOT = {  #No cats around already
 					any_owned_story = {
-						story_type = story_cycle_pet_cat
+						type = story_cycle_pet_cat
 					}
 				}
 			}
@@ -6153,7 +6036,7 @@ childhood.2001 = {
 			}
 			trigger_event = childhood.2006
 		}
-		stress_impact = {
+		stress_and_fulfillment_impact = {
 			greedy = minor_stress_impact_gain
 			bossy = minor_stress_impact_gain
 		}
@@ -6212,6 +6095,9 @@ childhood.2002 = {
 	right_portrait = {
 		character = scope:ward
 		animation = ecstasy
+	}
+	immediate = {
+		location = { save_scope_as = background_terrain_scope }
 	}
 
 	option = { #Accept it
@@ -6327,7 +6213,7 @@ childhood.2003 = {
 	trigger = {
 		NOT = { #No dogs around already
 			any_owned_story = {
-				story_type = story_cycle_pet_dog
+				type = story_cycle_pet_dog
 			}
 		}
 	}
@@ -6377,7 +6263,7 @@ childhood.2003 = {
 					type = guardian
 					NOT = {
 						any_owned_story = {
-							story_type = story_cycle_pet_dog
+							type = story_cycle_pet_dog
 						}
 					}
 				}
@@ -6405,7 +6291,7 @@ childhood.2003 = {
 			scope:friend = {
 				NOT = {  #No dogs around already
 					any_owned_story = {
-						story_type = story_cycle_pet_dog
+						type = story_cycle_pet_dog
 					}
 				}
 			}
@@ -6427,7 +6313,7 @@ childhood.2003 = {
 			}
 			trigger_event = childhood.2005
 		}
-		stress_impact = {
+		stress_and_fulfillment_impact = {
 			greedy = minor_stress_impact_gain
 			bossy = minor_stress_impact_gain
 		}
@@ -6450,7 +6336,7 @@ childhood.2003 = {
 			scope:educator = {
 				NOT = { #No cats around already
 					any_owned_story = {
-						story_type = story_cycle_pet_dog
+						type = story_cycle_pet_dog
 					}
 				}
 			}
@@ -6463,7 +6349,7 @@ childhood.2003 = {
 			}
 			trigger_event = childhood.2004
 		}
-		stress_impact = {
+		stress_and_fulfillment_impact = {
 			greedy = minor_stress_impact_gain
 			bossy = minor_stress_impact_gain
 		}
@@ -6524,6 +6410,9 @@ childhood.2004 = {
 		animation = ecstasy
 	}
 
+	immediate = {
+		location = { save_scope_as = background_terrain_scope }
+	}
 	option = { #Accept it
 		name = childhood.2002.a
 		start_dog_story_cycle_effect = yes
@@ -6615,6 +6504,9 @@ childhood.2005 = {
 		animation = ecstasy
 	}
 
+	immediate = {
+		location = { save_scope_as = background_terrain_scope }
+	}
 	option = { #Accept it
 		name = childhood.2005.a
 		start_dog_story_cycle_effect = yes
@@ -6681,6 +6573,9 @@ childhood.2006 = {
 		animation = ecstasy
 	}
 
+	immediate = {
+		location = { save_scope_as = background_terrain_scope }
+	}
 	option = { #Accept it
 		name = childhood.2006.a
 		start_cat_story_cycle_effect = yes
@@ -6757,7 +6652,14 @@ childhood.2010 = {
 		}
 	}
 	theme = education
-	left_portrait = scope:ward
+	left_portrait = {
+		character = root
+		animation = happy_teacher
+	}
+	right_portrait = {
+		character = scope:ward
+		animation = admiration
+	}
 	
 	cooldown = { years = 3 }
 	
@@ -6789,7 +6691,7 @@ childhood.2010 = {
 		scope:ward = {
 			trigger_event = childhood.2011
 		}
-		stress_impact = {
+		stress_and_fulfillment_impact = {
 			honest = minor_stress_impact_gain
 			compassionate = minor_stress_impact_gain
 			forgiving = minor_stress_impact_gain
@@ -6814,7 +6716,7 @@ childhood.2010 = {
 			OPINION = default_friend_opinion
 			REASON = friend_good_relationship_ward
 		}
-		stress_impact = {
+		stress_and_fulfillment_impact = {
 			greedy = minor_stress_impact_gain
 			deceitful = minor_stress_impact_gain
 			arrogant = minor_stress_impact_gain
@@ -6963,6 +6865,7 @@ childhood.2100 = {
 		random_list = {
 			0 = {
 				send_interface_toast = {
+					type = event_language_neutral
 					title = learn_language_ongoing.2100.a.success
 					left_icon = scope:educator
 					
@@ -6973,6 +6876,7 @@ childhood.2100 = {
 						is_ai = no
 					}
 					send_interface_toast = {
+						type = msg_child_language
 						title = learn_language_ongoing.2100.a.success_parent
 						left_icon = scope:educator
 						right_icon = scope:ward
@@ -7050,12 +6954,13 @@ childhood.2100 = {
 			}
 			25 = {
 				send_interface_toast = {
+					type = event_language_bad
 					title = learn_language_ongoing.2100.a.failure
 					left_icon = scope:educator
 				}
 			}
 		}
-		stress_impact = {
+		stress_and_fulfillment_impact = {
 			rowdy = medium_stress_impact_gain
 			bossy = minor_stress_impact_gain
 		}
@@ -7176,12 +7081,13 @@ scripted_trigger 2200_own_tutor_trigger = {
 childhood.2200 = {
 	type = character_event
 	title = childhood.2200.t
-	desc = childhood.2200.desc
+	desc = childhood.2200.desc-nudged
 	theme = education
 	left_portrait = scope:educator
 
 	trigger = {
 		age >= 6
+		NOT = { has_character_flag = had_event_childhood_2200 }
 		OR = {
 			# Guardian speaks court language
 			any_relation = {
@@ -7201,7 +7107,6 @@ childhood.2200 = {
 				2200_own_tutor_trigger = yes
 			}
 		}
-		NOT = { has_character_flag = had_event_childhood_2200 }
 	}
 
 	immediate = {
@@ -7316,7 +7221,7 @@ childhood.2200 = {
 		}
 		if = { # Stress should only apply to players as they have a choice where the AI does not
 			limit = { is_ai = no }
-			stress_impact = {
+			stress_and_fulfillment_impact = {
 				base = medium_stress_impact_gain
 				rowdy = major_stress_impact_gain
 				bossy = minor_stress_impact_gain
@@ -7387,6 +7292,7 @@ childhood.2300 = {
 				is_ai = no
 			}
 			send_interface_toast = {
+				type = msg_child_language
 				title = learn_language_ongoing.2100.a.success_parent
 				left_icon = scope:parent
 				right_icon = scope:ward
@@ -7395,7 +7301,7 @@ childhood.2300 = {
 		}
 		if = { # Stress should only apply to players as they have a choice where the AI does not
 			limit = { is_ai = no }
-			stress_impact = {
+			stress_and_fulfillment_impact = {
 				base = medium_stress_impact_gain
 				rowdy = major_stress_impact_gain
 				bossy = minor_stress_impact_gain
@@ -7519,12 +7425,12 @@ childhood.2400 = {
 				type = secret_non_believer
 			}
 			random_secret = {
-				limit = { secret_type = secret_non_believer }
+				type = secret_non_believer
 				reveal_to = root
 				save_scope_as = ward_non_believer_secret
 			}
 		}
-		cp:councillor_court_chaplain = {
+		cp:councillor_court_chaplain ?= {
 			save_scope_as = realm_priest
 		}
 	}
@@ -7549,10 +7455,11 @@ childhood.2400 = {
 			# Favor this option if guardian's learning is greater/equal to realm priest's
 			modifier = {
 				factor = 0
+				exists = scope:realm_priest
 				learning < scope:realm_priest.learning
 			}
 		}
-		stress_impact = {
+		stress_and_fulfillment_impact = {
 			zealous = medium_stress_impact_loss
 			cynical = medium_stress_impact_gain
 		}
@@ -7569,6 +7476,7 @@ childhood.2400 = {
 				add_piety = minor_piety_gain
 				childhood_2400_remove_secret_effect = yes
 				send_interface_toast = {
+					type = event_toast_effect_good
 					title = childhood.2400.a.toast.succ
 					left_icon = scope:questioning_ward
 					scope:questioning_ward = {
@@ -7587,6 +7495,7 @@ childhood.2400 = {
 					multiplier = -4
 				}
 				send_interface_toast = {
+					type = event_toast_effect_bad
 					title = childhood.2400.a.toast.fail
 					left_icon = scope:questioning_ward
 					scope:questioning_ward = {
@@ -7612,10 +7521,11 @@ childhood.2400 = {
 			# Dumbos more likely to rely on realm priest
 			modifier = {
 				factor = 0
+				exists = scope:realm_priest
 				learning >= scope:realm_priest.learning
 			}
 		}
-		stress_impact = {
+		stress_and_fulfillment_impact = {
 			zealous = medium_stress_impact_loss
 			cynical = medium_stress_impact_gain
 		}
@@ -7632,6 +7542,7 @@ childhood.2400 = {
 					childhood_2400_remove_secret_effect = yes
 					root = {
 						send_interface_toast = {
+							type = event_toast_effect_good
 							title = childhood.2400.b.toast.succ
 							left_icon = scope:questioning_ward
 							right_icon = scope:realm_priest
@@ -7659,13 +7570,14 @@ childhood.2400 = {
 						value = scope:duel_value
 						multiplier = -4
 					}
-					add_opinion = {
-						modifier = disappointed_opinion
-						target = root
-						opinion = -10
-					}
 					root = {
+						add_opinion = {
+							modifier = disappointed_opinion
+							target = scope:realm_priest
+							opinion = -10
+						}
 						send_interface_toast = {
+							type = event_toast_effect_bad
 							title = childhood.2400.b.toast.fail
 							left_icon = scope:questioning_ward
 							right_icon = scope:realm_priest
@@ -7687,7 +7599,7 @@ childhood.2400 = {
 	# Agree with ward, possibly become friends
 	option = {
 		name = childhood.2400.c
-		stress_impact = {
+		stress_and_fulfillment_impact = {
 			zealous = massive_stress_impact_gain
 			paranoid = major_stress_impact_gain
 			cynical = major_stress_impact_loss
@@ -7697,7 +7609,7 @@ childhood.2400 = {
 			limit = {
 				NOT = {
 					any_secret = {
-						secret_type = secret_non_believer
+						type = secret_non_believer
 					}
 				}
 			}
@@ -7706,14 +7618,14 @@ childhood.2400 = {
 			}
 		}
 		random_secret = {
-			limit = { secret_type = secret_non_believer }
+			type = secret_non_believer
 			reveal_to = scope:questioning_ward
 			disable_exposure_by = scope:questioning_ward
 		}
 		# Guardian can't reveal ward's nonbeliever secret
 		scope:questioning_ward = {
 			random_secret = {
-				limit = { secret_type = secret_non_believer }
+				type = secret_non_believer
 				disable_exposure_by = root
 			}
 			add_opinion = {
@@ -7759,7 +7671,7 @@ childhood.2400 = {
 			add_opinion = {
 				target = root
 				modifier = fabricate_hook_threatened_me
-				years = -15
+				years = 15
 			}
 		}
 		add_hook = {

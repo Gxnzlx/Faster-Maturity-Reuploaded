@@ -24,7 +24,9 @@ child_personality.7000 = {
 	}
 
 	trigger = {
+		is_valid_for_east_asian_events_trigger = no
 		is_available_child_allow_travel = yes
+		NOT = { has_character_flag = had_event_child_personality_7000 }
 		suitable_same_realm_child = yes
 		NAND = {
 			OR = {
@@ -46,13 +48,10 @@ child_personality.7000 = {
 		base = 1
 		modifier = {
 			add = 2
-			any_relation = {
-				type = guardian
-				OR = {
-					has_trait = diligent
-					has_trait = gregarious
-					has_trait = temperate
-				}
+			OR = {
+				guardian_or_court_tutor_trait_trigger = { TRAIT = diligent }
+				guardian_or_court_tutor_trait_trigger = { TRAIT = gregarious }
+				guardian_or_court_tutor_trait_trigger = { TRAIT = temperate }
 			}
 		}
 		modifier = {
@@ -65,9 +64,23 @@ child_personality.7000 = {
 				has_trait = gluttonous
 			}
 		}
+		modifier = {
+			add = 5
+			culture = {
+				has_cultural_parameter = diligent_trait_more_common
+			}
+			NOR = {
+				has_trait = diligent
+				has_trait = lazy
+			}
+		}
 	}
 
 	immediate = {
+		add_character_flag = {
+			flag = had_event_child_personality_7000
+			years = 16
+		}
 		save_scope_as = child
 		add_suitable_same_realm_children_to_list = yes
 		random_in_list = {
@@ -133,26 +146,23 @@ child_personality.7000 = {
 				is_ai = yes
 			}
 			add_character_flag = diligent
-			random_relation = {
-				type = guardian
-				trigger_event = child_personality.7001
-			}
+			guardian_or_court_tutor_trigger_event_effect = { EVENT = child_personality.7001 }
 		}
 		ai_chance = {
 			base = 1
 			modifier = {
 				add = 4
-				any_relation = {
-					type = guardian
-					has_trait = diligent
+				guardian_or_court_tutor_trait_trigger = { TRAIT = diligent }
+			}
+			modifier = {
+				add = 100
+				culture = {
+					has_cultural_parameter = diligent_trait_more_common
 				}
 			}
 			modifier = {
 				add = -0.5
-				any_relation = {
-					type = guardian
-					has_trait = lazy
-				}
+				guardian_or_court_tutor_trait_trigger = { TRAIT = lazy }
 			}
 		}
 	}
@@ -180,26 +190,17 @@ child_personality.7000 = {
 				is_ai = yes
 			}
 			add_character_flag = gregarious
-			random_relation = {
-				type = guardian
-				trigger_event = child_personality.7001
-			}
+			guardian_or_court_tutor_trigger_event_effect = { EVENT = child_personality.7001 }
 		}
 		ai_chance = {
 			base = 1
 			modifier = {
 				add = 4
-				any_relation = {
-					type = guardian
-					has_trait = gregarious
-				}
+				guardian_or_court_tutor_trait_trigger = { TRAIT = gregarious }
 			}
 			modifier = {
 				add = -0.5
-				any_relation = {
-					type = guardian
-					has_trait = shy
-				}
+				guardian_or_court_tutor_trait_trigger = { TRAIT = shy }
 			}
 		}
 	}
@@ -218,26 +219,17 @@ child_personality.7000 = {
 				is_ai = yes
 			}
 			add_character_flag = temperate
-			random_relation = {
-				type = guardian
-				trigger_event = child_personality.7001
-			}
+			guardian_or_court_tutor_trigger_event_effect = { EVENT = child_personality.7001 }
 		}
 		ai_chance = {
 			base = 1
 			modifier = {
 				add = 4
-				any_relation = {
-					type = guardian
-					has_trait = temperate
-				}
+				guardian_or_court_tutor_trait_trigger = { TRAIT = temperate }
 			}
 			modifier = {
 				add = -0.5
-				any_relation = {
-					type = guardian
-					has_trait = gluttonous
-				}
+				guardian_or_court_tutor_trait_trigger = { TRAIT = gluttonous }
 			}
 			modifier = {
 				add = 100
@@ -322,10 +314,24 @@ child_personality.7001 = {
   		}
 	}
 	lower_left_portrait = scope:other_child
-	
+
 	immediate = {
 		hidden_effect = { # Set up an irate cook for flavor & fun
 			if = {
+				limit = {
+					has_government = landless_adventurer_government
+					any_courtier = {
+						is_available_ai_adult = yes
+					}
+				}
+				random_courtier = {
+					limit = {
+						is_available_ai_adult = yes
+					}
+					save_scope_as = cook
+				}
+			}
+			else_if = {
 				limit = {
 					any_courtier = {
 						has_character_flag = cook
@@ -358,7 +364,7 @@ child_personality.7001 = {
 					root = {
 						add_courtier = prev
 					}
-					add_trait = peasant_leader
+					add_character_flag = peasant_outfit
 					add_character_flag = cook
 					save_scope_as = cook
 				}
@@ -375,9 +381,25 @@ child_personality.7001 = {
 					save_scope_as = cook
 				}
 				scope:cook = {
-					add_trait = peasant_leader
+					add_character_flag = peasant_outfit
 					add_character_flag = cook
 					change_current_weight = 60
+					add_character_flag = created
+				}
+			}
+			else = {
+				create_character = {
+					template = servant_character
+					dynasty = none
+					location = root.location
+					gender_female_chance = 50
+					save_scope_as = cook
+				}
+				scope:cook = {
+					add_character_flag = peasant_outfit
+					add_character_flag = cook
+					change_current_weight = 60
+					add_character_flag = created
 				}
 			}
 		}
@@ -444,7 +466,7 @@ child_personality.7001 = {
 		ai_chance = {
 			base = 0
 		}
-		stress_impact = {
+		stress_and_fulfillment_impact = {
 			base = child_trait_change_stress_penalty
 		}
 		scope:child = {
@@ -477,7 +499,7 @@ child_personality.7001 = {
 		ai_chance = {
 			base = 0
 		}
-		stress_impact = {
+		stress_and_fulfillment_impact = {
 			base = child_trait_change_stress_penalty
 		}
 		scope:child = {
@@ -510,7 +532,7 @@ child_personality.7001 = {
 		ai_chance = {
 			base = 0
 		}
-		stress_impact = {
+		stress_and_fulfillment_impact = {
 			base = child_trait_change_stress_penalty
 		}
 		scope:child = {
@@ -535,6 +557,10 @@ child_personality.7001 = {
 			remove_character_flag = diligent
 			remove_character_flag = gregarious
 			remove_character_flag = temperate
+		}
+		scope:cook ?= {
+		 	remove_character_flag = peasant_outfit
+			silent_disappearance_ai_if_created_effect = yes
 		}
 	}
 }
@@ -569,17 +595,9 @@ child_personality.7010 = {
 	}
 
 	trigger = {
-		exists = location.county.holder
-		location.county.holder = {
-			OR = {
-				any_courtier = {
-					appropriate_priest = yes
-				}
-				any_vassal = {
-					appropriate_priest = yes
-				}
-			}
-		}
+		is_valid_for_east_asian_events_trigger = no
+		is_available_child_allow_travel = yes
+		NOT = { has_character_flag = had_event_child_personality_7010 }
 		NAND = {
 			OR = {
 				has_trait = zealous
@@ -595,19 +613,39 @@ child_personality.7010 = {
 				has_trait = callous
 			}
 		}
+		location.county.holder ?= {
+			OR = {
+				AND = {
+					is_ai = yes
+					cp:councillor_court_chaplain ?= {
+						is_ai = yes
+					}
+					root = {
+						is_ai = yes
+						any_relation = {
+							type = guardian
+							is_ai = yes
+						}
+					}
+				}
+				any_courtier = {
+					appropriate_priest = yes
+				}
+				any_vassal = {
+					appropriate_priest = yes
+				}
+			}
+		}
 	}
 
 	weight_multiplier = {
 		base = 1
 		modifier = {
 			add = 2
-			any_relation = {
-				type = guardian
-				OR = {
-					has_trait = zealous
-					has_trait = ambitious
-					has_trait = sadistic
-				}
+			OR = {
+				guardian_or_court_tutor_trait_trigger = { TRAIT = zealous }
+				guardian_or_court_tutor_trait_trigger = { TRAIT = ambitious }
+				guardian_or_court_tutor_trait_trigger = { TRAIT = sadistic }
 			}
 		}
 		modifier = {
@@ -620,38 +658,74 @@ child_personality.7010 = {
 				has_trait = cynical
 			}
 		}
+		modifier = {
+			add = 5
+			culture = {
+				has_cultural_parameter = ambitious_trait_more_common
+			}
+			NOR = {
+				has_trait = content
+				has_trait = ambitious
+			}
+		}
 	}
 
 	immediate = {
+		add_character_flag = {
+			flag = had_event_child_personality_7010
+			years = 16
+		}
 		save_scope_as = child
 		location.county.holder = {
-			every_courtier = {
+			if = {
 				limit = {
-					appropriate_priest = yes
+					AND = {
+						is_ai = yes
+						cp:councillor_court_chaplain ?= {
+							is_ai = yes
+						}
+						root = {
+							is_ai = yes
+							any_relation = {
+								type = guardian
+								is_ai = yes
+							}
+						}
+					}
 				}
-				add_to_list = potential_priests
-			}
-			every_vassal = {
-				limit = {
-					appropriate_priest = yes
-				}
-				add_to_list = potential_priests
-			}
-		}
-		random_in_list = {
-			list = potential_priests
-			weight = {
-				base = 1
-				modifier = {
-					add = 10
-					is_of_major_interest_to_root_trigger = yes
-				}
-				modifier = {
-					add = 5
-					is_of_minor_interest_to_root_trigger = yes
+				cp:councillor_court_chaplain = {
+					save_scope_as = sermon_priest
 				}
 			}
-			save_scope_as = sermon_priest
+			else = {
+				every_courtier = {
+					limit = {
+						appropriate_priest = yes
+					}
+					add_to_list = potential_priests
+				}
+				every_vassal = {
+					limit = {
+						appropriate_priest = yes
+					}
+					add_to_list = potential_priests
+				}
+				random_in_list = {
+					list = potential_priests
+					weight = {
+						base = 1
+						modifier = {
+							add = 10
+							is_of_major_interest_to_root_trigger = yes
+						}
+						modifier = {
+							add = 5
+							is_of_minor_interest_to_root_trigger = yes
+						}
+					}
+					save_scope_as = sermon_priest
+				}
+			}
 		}
 	}
 
@@ -666,7 +740,7 @@ child_personality.7010 = {
 		add_trait = zealous
 		if = {
 			limit = {
-				scope:sermon_priest = {
+				scope:sermon_priest ?= {
 					NOT = {
 						has_trait = cynical
 					}
@@ -683,26 +757,17 @@ child_personality.7010 = {
 				is_ai = yes
 			}
 			add_character_flag = zealous
-			random_relation = {
-				type = guardian
-				trigger_event = child_personality.7011
-			}
+			guardian_or_court_tutor_trigger_event_effect = { EVENT = child_personality.7011 }
 		}
 		ai_chance = {
 			base = 1
 			modifier = {
 				add = 4
-				any_relation = {
-					type = guardian
-					has_trait = zealous
-				}
+				guardian_or_court_tutor_trait_trigger = { TRAIT = zealous }
 			}
 			modifier = {
 				add = -0.5
-				any_relation = {
-					type = guardian
-					has_trait = cynical
-				}
+				guardian_or_court_tutor_trait_trigger = { TRAIT = cynical }
 			}
 			modifier = {
 				add = 100
@@ -722,36 +787,41 @@ child_personality.7010 = {
 			}
 		}
 		add_trait = ambitious
-		scope:sermon_priest = {
-			if = {
-				limit = {
-					OR = {
-						has_trait = cynical
-						has_trait = ambitious
-						AND = {
-							NOT = {
-								has_trait = zealous
+		if = {
+			limit = {
+				exists = scope:sermon_priest
+			}
+			scope:sermon_priest = {
+				if = {
+					limit = {
+						OR = {
+							has_trait = cynical
+							has_trait = ambitious
+							AND = {
+								NOT = {
+									has_trait = zealous
+								}
+								has_personality_malicious_trigger = yes
 							}
-							has_personality_malicious_trigger = yes
+						}
+					}
+					if = {
+						limit = {
+							can_set_relation_friend_trigger = { CHARACTER = scope:child }
+						}
+						set_relation_friend = { reason = friend_took_lessons_to_heart target = scope:child }
+						add_opinion = {
+							target = scope:child
+							modifier = clever_child_opinion
 						}
 					}
 				}
-				if = {
-					limit = {
-						can_set_relation_friend_trigger = { CHARACTER = scope:child }
-					}
-					set_relation_friend = { reason = friend_took_lessons_to_heart target = scope:child }
+				else = {
 					add_opinion = {
 						target = scope:child
-						modifier = clever_child_opinion
+						modifier = disappointed_opinion
+						opinion = -10
 					}
-				}
-			}
-			else = {
-				add_opinion = {
-					target = scope:child
-					modifier = disappointed_opinion
-					opinion = -10
 				}
 			}
 		}
@@ -760,25 +830,22 @@ child_personality.7010 = {
 				is_ai = yes
 			}
 			add_character_flag = ambitious
-			random_relation = {
-				type = guardian
-				trigger_event = child_personality.7011
-			}
+			guardian_or_court_tutor_trigger_event_effect = { EVENT = child_personality.7011 }
 		}
 		ai_chance = {
 			base = 1
 			modifier = {
 				add = 4
-				any_relation = {
-					type = guardian
-					has_trait = ambitious
-				}
+				guardian_or_court_tutor_trait_trigger = { TRAIT = ambitious }
 			}
 			modifier = {
 				add = -0.5
-				any_relation = {
-					type = guardian
-					has_trait = content
+				guardian_or_court_tutor_trait_trigger = { TRAIT = content }
+			}
+			modifier = {
+				add = 100
+				culture = {
+					has_cultural_parameter = ambitious_trait_more_common
 				}
 			}
 		}
@@ -794,32 +861,37 @@ child_personality.7010 = {
 			}
 		}
 		add_trait = sadistic
-		scope:sermon_priest = {
-			if = {
-				limit = {
-					OR = {
-						has_trait = sadistic
-						AND = {
-							has_trait = cynical
-							has_personality_malicious_trigger = yes
+		if = {
+			limit = {
+				exists = scope:sermon_priest
+			}
+			scope:sermon_priest = {
+				if = {
+					limit = {
+						OR = {
+							has_trait = sadistic
+							AND = {
+								has_trait = cynical
+								has_personality_malicious_trigger = yes
+							}
+						}
+					}
+					if = {
+						limit = {
+							can_set_relation_friend_trigger = { CHARACTER = scope:child }
+						}
+						set_relation_friend = { reason = friend_took_lessons_to_heart target = scope:child }
+						add_opinion = {
+							target = scope:child
+							modifier = delightfully_devilish_opinion
 						}
 					}
 				}
-				if = {
-					limit = {
-						can_set_relation_friend_trigger = { CHARACTER = scope:child }
-					}
-					set_relation_friend = { reason = friend_took_lessons_to_heart target = scope:child }
+				else = {
 					add_opinion = {
 						target = scope:child
-						modifier = delightfully_devilish_opinion
+						modifier = worried_opinion
 					}
-				}
-			}
-			else = {
-				add_opinion = {
-					target = scope:child
-					modifier = worried_opinion
 				}
 			}
 		}
@@ -828,26 +900,17 @@ child_personality.7010 = {
 				is_ai = yes
 			}
 			add_character_flag = sadistic
-			random_relation = {
-				type = guardian
-				trigger_event = child_personality.7011
-			}
+			guardian_or_court_tutor_trigger_event_effect = { EVENT = child_personality.7011 }
 		}
 		ai_chance = {
 			base = 1
 			modifier = {
 				add = 4
-				any_relation = {
-					type = guardian
-					has_trait = sadistic
-				}
+				guardian_or_court_tutor_trait_trigger = { TRAIT = sadistic }
 			}
 			modifier = {
 				add = -0.5
-				any_relation = {
-					type = guardian
-					has_trait = compassionate
-				}
+				guardian_or_court_tutor_trait_trigger = { TRAIT = compassionate }
 			}
 		}
 	}
@@ -984,7 +1047,7 @@ child_personality.7011 = {
 		ai_chance = {
 			base = 0
 		}
-		stress_impact = {
+		stress_and_fulfillment_impact = {
 			base = child_trait_change_stress_penalty
 		}
 		scope:child = {
@@ -1017,7 +1080,7 @@ child_personality.7011 = {
 		ai_chance = {
 			base = 0
 		}
-		stress_impact = {
+		stress_and_fulfillment_impact = {
 			base = child_trait_change_stress_penalty
 		}
 		scope:child = {
@@ -1051,7 +1114,7 @@ child_personality.7011 = {
 		ai_chance = {
 			base = 0
 		}
-		stress_impact = {
+		stress_and_fulfillment_impact = {
 			base = child_trait_change_stress_penalty
 		}
 		scope:child = {
@@ -1090,8 +1153,7 @@ scripted_trigger sutiably_evil_person = {
 		}
 		AND = { # Or an 'untouchable' noble adult
 			is_adult = yes
-			exists = dynasty
-			dynasty = {
+			dynasty ?= {
 				any_dynasty_member = {
 					count >= 2
 				}
@@ -1129,17 +1191,9 @@ child_personality.7020 = {
 	}
 
 	trigger = {
-		exists = location.county.holder
-		location.county.holder = {
-			OR = {
-				any_courtier_or_guest = {
-					sutiably_evil_person = yes
-				}
-				any_vassal = {
-					sutiably_evil_person = yes
-				}
-			}
-		}
+		is_valid_for_east_asian_events_trigger = no
+		is_available_child_allow_travel = yes
+		NOT = { has_character_flag = had_event_child_personality_7020 }
 		NAND = {
 			OR = {
 				has_trait = shy
@@ -1154,73 +1208,106 @@ child_personality.7020 = {
 				has_trait = brave
 			}
 		}
+		location.county.holder ?= {
+			OR = {
+				AND = { # The AI doesn't need to search for evil people
+					is_ai = yes
+					root = {
+						is_ai = yes
+						any_relation = {
+							type = guardian
+							is_ai = yes
+						}
+					}
+				}
+				any_courtier = {
+					sutiably_evil_person = yes
+				}
+				any_vassal = {
+					sutiably_evil_person = yes
+				}
+			}
+		}
 	}
 
 	weight_multiplier = {
 		base = 1
 		modifier = {
 			add = 2
-			any_relation = {
-				type = guardian
-				OR = {
-					has_trait = shy
-					has_trait = paranoid
-					has_trait = craven
-				}
+			OR = {
+				guardian_or_court_tutor_trait_trigger = { TRAIT = shy }
+				guardian_or_court_tutor_trait_trigger = { TRAIT = paranoid }
+				guardian_or_court_tutor_trait_trigger = { TRAIT = craven }
 			}
 		}
 	}
 
 	immediate = {
+		add_character_flag = {
+			flag = had_event_child_personality_7020
+			years = 16
+		}
 		save_scope_as = child
-		location.county.holder = {
-			every_courtier_or_guest = {
-				limit = {
-					sutiably_evil_person = yes
+		if = {
+			limit = {
+				location.county.holder = { is_ai = yes }
+				is_ai = yes
+				any_relation = {
+					type = guardian
+					is_ai = yes
 				}
-				add_to_list = potential_evil_people
-			}
-			every_vassal = {
-				limit = {
-					sutiably_evil_person = yes
-				}
-				add_to_list = potential_evil_people
 			}
 		}
-		random_in_list = {
-			list = potential_evil_people
-			weight = {
-				base = 1
-				modifier = {
-					add = 100
-					has_relation_bully = root
+		else = {
+			location.county.holder = {
+				every_courtier = {
+					limit = {
+						sutiably_evil_person = yes
+					}
+					add_to_list = potential_evil_people
 				}
-				modifier = {
-					add = 10
-					has_trait = sadistic
-				}
-				modifier = {
-					add = 10
-					has_relation_rival = root
-				}
-				modifier = {
-					add = 10
-					has_relation_potential_rival = root
-				}
-				modifier = {
-					add = 10
-					is_adult = no
-				}
-				modifier = {
-					add = 10
-					is_of_major_interest_to_root_trigger = yes
-				}
-				modifier = {
-					add = 5
-					is_of_minor_interest_to_root_trigger = yes
+				every_vassal = {
+					limit = {
+						sutiably_evil_person = yes
+					}
+					add_to_list = potential_evil_people
 				}
 			}
-			save_scope_as = evil_person
+			random_in_list = {
+				list = potential_evil_people
+				weight = {
+					base = 1
+					modifier = {
+						add = 100
+						has_relation_bully = root
+					}
+					modifier = {
+						add = 10
+						has_trait = sadistic
+					}
+					modifier = {
+						add = 10
+						has_relation_rival = root
+					}
+					modifier = {
+						add = 10
+						has_relation_potential_rival = root
+					}
+					modifier = {
+						add = 10
+						is_adult = no
+					}
+					modifier = {
+						add = 10
+						is_of_major_interest_to_root_trigger = yes
+					}
+					modifier = {
+						add = 5
+						is_of_minor_interest_to_root_trigger = yes
+					}
+				}
+				save_scope_as = evil_person
+			}
 		}
 	}
 
@@ -1242,26 +1329,17 @@ child_personality.7020 = {
 				is_ai = yes
 			}
 			add_character_flag = shy
-			random_relation = {
-				type = guardian
-				trigger_event = child_personality.7021
-			}
+			guardian_or_court_tutor_trigger_event_effect = { EVENT = child_personality.7021 }
 		}
 		ai_chance = {
 			base = 1
 			modifier = {
 				add = 4
-				any_relation = {
-					type = guardian
-					has_trait = shy
-				}
+				guardian_or_court_tutor_trait_trigger = { TRAIT = shy }
 			}
 			modifier = {
 				add = -0.5
-				any_relation = {
-					type = guardian
-					has_trait = gregarious
-				}
+				guardian_or_court_tutor_trait_trigger = { TRAIT = gregarious }
 			}
 		}
 	}
@@ -1284,26 +1362,17 @@ child_personality.7020 = {
 				is_ai = yes
 			}
 			add_character_flag = paranoid
-			random_relation = {
-				type = guardian
-				trigger_event = child_personality.7021
-			}
+			guardian_or_court_tutor_trigger_event_effect = { EVENT = child_personality.7021 }
 		}
 		ai_chance = {
 			base = 1
 			modifier = {
 				add = 4
-				any_relation = {
-					type = guardian
-					has_trait = paranoid
-				}
+				guardian_or_court_tutor_trait_trigger = { TRAIT = paranoid }
 			}
 			modifier = {
 				add = -0.5
-				any_relation = {
-					type = guardian
-					has_trait = trusting
-				}
+				guardian_or_court_tutor_trait_trigger = { TRAIT = trusting }
 			}
 		}
 	}
@@ -1317,7 +1386,7 @@ child_personality.7020 = {
 			}
 		}
 		add_trait = craven
-		scope:evil_person = {
+		scope:evil_person ?= {
 			if = {
 				limit = {
 					can_add_hook = {
@@ -1336,26 +1405,17 @@ child_personality.7020 = {
 				is_ai = yes
 			}
 			add_character_flag = craven
-			random_relation = {
-				type = guardian
-				trigger_event = child_personality.7021
-			}
+			guardian_or_court_tutor_trigger_event_effect = { EVENT = child_personality.7021 }
 		}
 		ai_chance = {
 			base = 1
 			modifier = {
 				add = 4
-				any_relation = {
-					type = guardian
-					has_trait = craven
-				}
+				guardian_or_court_tutor_trait_trigger = { TRAIT = craven }
 			}
 			modifier = {
 				add = -0.5
-				any_relation = {
-					type = guardian
-					has_trait = brave
-				}
+				guardian_or_court_tutor_trait_trigger = { TRAIT = brave }
 			}
 		}
 	}
@@ -1363,7 +1423,7 @@ child_personality.7020 = {
 	after = {
 		if = {
 			limit = {
-				scope:evil_person = {
+				scope:evil_person ?= {
 					is_adult = no
 				}
 			}
@@ -1374,7 +1434,10 @@ child_personality.7020 = {
 				set_relation_bully = scope:child
 			}
 		}
-		else = {
+		else_if = {
+			limit = {
+				exists = scope:evil_person
+			}
 			progress_towards_rival_effect = {
 				REASON = rival_beaten_badly
 				CHARACTER = scope:evil_person
@@ -1516,7 +1579,7 @@ child_personality.7021 = {
 		ai_chance = {
 			base = 0
 		}
-		stress_impact = {
+		stress_and_fulfillment_impact = {
 			base = child_trait_change_stress_penalty
 		}
 		scope:child = {
@@ -1549,7 +1612,7 @@ child_personality.7021 = {
 		ai_chance = {
 			base = 0
 		}
-		stress_impact = {
+		stress_and_fulfillment_impact = {
 			base = child_trait_change_stress_penalty
 		}
 		scope:child = {
@@ -1582,7 +1645,7 @@ child_personality.7021 = {
 		ai_chance = {
 			base = 0
 		}
-		stress_impact = {
+		stress_and_fulfillment_impact = {
 			base = child_trait_change_stress_penalty
 		}
 		scope:child = {
@@ -1629,8 +1692,10 @@ child_personality.7030 = {
 	}
 
 	trigger = {
+		is_valid_for_east_asian_events_trigger = no
 		is_available_child_allow_travel = yes
 		exists = location.county.holder
+		NOT = { has_character_flag = had_event_child_personality_7030 }
 		NAND = {
 			OR = {
 				has_trait = lazy
@@ -1652,13 +1717,10 @@ child_personality.7030 = {
 		base = 1
 		modifier = {
 			add = 2
-			any_relation = {
-				type = guardian
-				OR = {
-					has_trait = lazy
-					has_trait = gluttonous
-					has_trait = compassionate
-				}
+			OR = {
+				guardian_or_court_tutor_trait_trigger = { TRAIT = lazy }
+				guardian_or_court_tutor_trait_trigger = { TRAIT = gluttonous }
+				guardian_or_court_tutor_trait_trigger = { TRAIT = compassionate }
 			}
 		}
 		modifier = {
@@ -1675,6 +1737,10 @@ child_personality.7030 = {
 	}
 
 	immediate = {
+		add_character_flag = {
+			flag = had_event_child_personality_7030
+			years = 16
+		}
 		save_scope_as = child
 		set_favorite_treat_effect = yes
 		hidden_effect = { # Set up an irate cook for flavor & fun
@@ -1712,7 +1778,7 @@ child_personality.7030 = {
 						location.county.holder = {
 							add_courtier = prev
 						}
-						add_trait = peasant_leader
+						add_character_flag = peasant_outfit
 						add_character_flag = cook
 						save_scope_as = cook
 					}
@@ -1727,9 +1793,12 @@ child_personality.7030 = {
 						location = location.county.holder.capital_province
 						gender_female_chance = 50
 						save_scope_as = cook
+						after_creation = {
+							add_character_flag = created
+						}
 					}
 					scope:cook = {
-						add_trait = peasant_leader
+						add_character_flag = peasant_outfit
 						add_character_flag = cook
 						change_current_weight = 60
 					}
@@ -1763,26 +1832,17 @@ child_personality.7030 = {
 				is_ai = yes
 			}
 			add_character_flag = lazy
-			random_relation = {
-				type = guardian
-				trigger_event = child_personality.7031
-			}
+			guardian_or_court_tutor_trigger_event_effect = { EVENT = child_personality.7031 }
 		}
 		ai_chance = {
 			base = 1
 			modifier = {
 				add = 4
-				any_relation = {
-					type = guardian
-					has_trait = lazy
-				}
+				guardian_or_court_tutor_trait_trigger = { TRAIT = lazy }
 			}
 			modifier = {
 				add = -0.5
-				any_relation = {
-					type = guardian
-					has_trait = diligent
-				}
+				guardian_or_court_tutor_trait_trigger = { TRAIT = diligent }
 			}
 		}
 	}
@@ -1815,26 +1875,17 @@ child_personality.7030 = {
 				is_ai = yes
 			}
 			add_character_flag = gluttonous
-			random_relation = {
-				type = guardian
-				trigger_event = child_personality.7031
-			}
+			guardian_or_court_tutor_trigger_event_effect = { EVENT = child_personality.7031 }
 		}
 		ai_chance = {
 			base = 1
 			modifier = {
 				add = 4
-				any_relation = {
-					type = guardian
-					has_trait = gluttonous
-				}
+				guardian_or_court_tutor_trait_trigger = { TRAIT = gluttonous }
 			}
 			modifier = {
 				add = -0.5
-				any_relation = {
-					type = guardian
-					has_trait = temperate
-				}
+				guardian_or_court_tutor_trait_trigger = { TRAIT = temperate }
 			}
 		}
 	}
@@ -1871,28 +1922,19 @@ child_personality.7030 = {
 				is_ai = yes
 			}
 			add_character_flag = compassionate
-			random_relation = {
-				type = guardian
-				trigger_event = child_personality.7031
-			}
+			guardian_or_court_tutor_trigger_event_effect = { EVENT = child_personality.7031 }
 		}
 		ai_chance = {
 			base = 1
 			modifier = {
 				add = 4
-				any_relation = {
-					type = guardian
-					has_trait = compassionate
-				}
+				guardian_or_court_tutor_trait_trigger = { TRAIT = compassionate }
 			}
 			modifier = {
 				add = -0.5
-				any_relation = {
-					type = guardian
-					OR = {
-						has_trait = callous
-						has_trait = sadistic
-					}
+				OR = {
+					guardian_or_court_tutor_trait_trigger = { TRAIT = callous  }
+					guardian_or_court_tutor_trait_trigger = { TRAIT = sadistic }
 				}
 			}
 			modifier = {
@@ -1900,6 +1942,32 @@ child_personality.7030 = {
 				culture = {
 					has_cultural_parameter = compassionate_trait_more_common
 				}
+			}
+		}
+	}
+	after = {
+		if = {
+			limit = {
+				scope:cook ?= {
+					is_alive = yes
+				}
+				# A pending child_personality.7031 still shows the cook and cleans them up itself
+				NAND = {
+					OR = {
+						has_character_flag = lazy
+						has_character_flag = gluttonous
+						has_character_flag = compassionate
+					}
+					OR = {
+						any_relation = { type = guardian }
+						exists = court_owner.court_position:court_guru_court_position
+						exists = court_owner.court_position:court_tutor_court_position
+					}
+				}
+			}
+			scope:cook = {
+				remove_character_flag = peasant_outfit 
+				silent_disappearance_ai_if_created_effect = yes
 			}
 		}
 	}
@@ -1947,13 +2015,16 @@ child_personality.7031 = {
 	theme = education
 	override_background = { reference = bp1_kitchen_western }
 	left_portrait = {
+		trigger = {
+			exists = scope:cook
+		}
 		character = scope:cook
 		triggered_animation = {
 			trigger = {
 				scope:child = {
-					OR = {
-						has_character_flag = lazy
-						has_character_flag = gluttonous
+					has_variable = {
+						name = lazy
+						name = gluttonous
 					}
 				}
 			}
@@ -1997,6 +2068,7 @@ child_personality.7031 = {
 	}
 	
 	immediate = {
+		scope:cook ?= { add_character_flag = peasant_outfit }
 	}
 
 	option = {
@@ -2042,7 +2114,7 @@ child_personality.7031 = {
 		ai_chance = {
 			base = 0
 		}
-		stress_impact = {
+		stress_and_fulfillment_impact = {
 			base = child_trait_change_stress_penalty
 		}
 		scope:child = {
@@ -2075,7 +2147,7 @@ child_personality.7031 = {
 		ai_chance = {
 			base = 0
 		}
-		stress_impact = {
+		stress_and_fulfillment_impact = {
 			base = child_trait_change_stress_penalty
 		}
 		scope:child = {
@@ -2106,21 +2178,26 @@ child_personality.7031 = {
 				}
 			}
 		}
-		scope:cook = {
-			add_opinion = {
-				target = root
-				modifier = thankful_opinion
+		if = {
+			limit = {
+				exists = scope:cook
 			}
-			progress_towards_friend_effect = {
-				CHARACTER = root
-				OPINION = 0
-				REASON = friend_taught_child_compassion
+			scope:cook = {
+				add_opinion = {
+					target = root
+					modifier = thankful_opinion
+				}
+				progress_towards_friend_effect = {
+					CHARACTER = root
+					OPINION = 0
+					REASON = friend_taught_child_compassion
+				}
 			}
 		}
 		ai_chance = {
 			base = 0
 		}
-		stress_impact = {
+		stress_and_fulfillment_impact = {
 			base = child_trait_change_stress_penalty
 		}
 		scope:child = {
@@ -2146,6 +2223,15 @@ child_personality.7031 = {
 			remove_character_flag = gluttonous
 			remove_character_flag = compassionate
 		}
+		if = {
+			limit = {
+				exists = scope:cook
+			}
+			scope:cook = {
+		 	remove_character_flag = peasant_outfit
+				silent_disappear_ai_if_not_hired_with_flag = yes
+			}
+		}
 	}
 }
 
@@ -2157,7 +2243,7 @@ scripted_trigger appropriate_traumatizing_lover_target = {
 			is_available_ai_adult = yes
 		}
 		any_secret = {
-			secret_type = secret_lover
+			type = secret_lover
 			NOT = { is_known_by = root }
 			secret_target = {
 				is_available_ai_adult = yes
@@ -2190,14 +2276,8 @@ child_personality.7040 = {
 			triggered_desc = {
 			    trigger = {
 					OR = {
-						AND = {
-							exists = father
-							father = scope:lover_1
-						}
-						AND = {
-							exists = father
-							father = scope:lover_2
-						}
+						father ?= scope:lover_1
+						father ?= scope:lover_2
 					}
 			    }
 			    desc = {
@@ -2207,14 +2287,8 @@ child_personality.7040 = {
 			triggered_desc = {
 			    trigger = {
 					OR = {
-						AND = {
-							exists = mother
-							mother = scope:lover_1
-						}
-						AND = {
-							exists = mother
-							mother = scope:lover_2
-						}
+						mother ?= scope:lover_1
+						mother ?= scope:lover_2
 					}
 			    }
 			    desc = {
@@ -2243,24 +2317,33 @@ child_personality.7040 = {
 	left_portrait = {
 		character = scope:lover_1
 		animation = admiration
-		outfit_tags = { no_clothes }
 	}
 	right_portrait = {
 		character = scope:lover_2
 		animation = flirtation
-		outfit_tags = { no_clothes }
 	}
 
 	trigger = {
+		age >= 11 #changed from 13
+		is_valid_for_east_asian_events_trigger = no
 		is_available_child_allow_travel = yes
-		age >= 11 #changed from 13 
+		NOT = { has_character_flag = had_event_child_personality_7040 }
 		NOR = {
 			has_trait = chaste
 			has_trait = lustful
 		}
-		exists = location.county.holder
-		location.county.holder = {
+		location.county.holder ?= {
 			OR = {
+				AND = {
+					is_ai = yes
+					root = {
+						is_ai = yes
+						any_relation = {
+							type = guardian
+							is_ai = yes
+						}
+					}
+				}
 				appropriate_traumatizing_lover_target = yes
 				any_courtier_or_guest = {
 					appropriate_traumatizing_lover_target = yes
@@ -2268,15 +2351,11 @@ child_personality.7040 = {
 				any_vassal = {
 					appropriate_traumatizing_lover_target = yes
 				}
-				AND = {
-					exists = liege
-					liege = {
+				liege ?= {
 						appropriate_traumatizing_lover_target = yes
 					}
-				}
 				AND = {
-					exists = liege
-					liege = {
+					liege ?= {
 						any_courtier_or_guest = {
 							appropriate_traumatizing_lover_target = yes
 						}
@@ -2290,137 +2369,161 @@ child_personality.7040 = {
 		base = 1
 		modifier = {
 			add = 2
-			any_relation = {
-				type = guardian
-				OR = {
-					has_trait = lustful
-					has_trait = chaste
-				}
+			OR = {
+				guardian_or_court_tutor_trait_trigger = { TRAIT = lustful }
+				guardian_or_court_tutor_trait_trigger = { TRAIT = chaste }
+			}
+		}
+		modifier = {
+			factor = 0.5
+			culture = {
+				has_cultural_parameter = lustful_trait_less_common
 			}
 		}
 	}
 
 	immediate = {
-		save_scope_as = child
-		location.county.holder = {
-			if = {
-				limit = {
-					appropriate_traumatizing_lover_target = yes
-				}
-				add_to_list = potential_child_traumatizers
-			}
-			every_courtier_or_guest = {
-				limit = {
-					appropriate_traumatizing_lover_target = yes
-				}
-				add_to_list = potential_child_traumatizers
-			}
-			every_vassal = {
-				limit = {
-					appropriate_traumatizing_lover_target = yes
-				}
-				add_to_list = potential_child_traumatizers
-			}
-			if = {
-				limit = {
-					exists = liege
-					liege = {
-						appropriate_traumatizing_lover_target = yes
-					}
-				}
-				liege = {
-					add_to_list = potential_child_traumatizers
-				}
-			}
-			if = {
-				limit = {
-					exists = liege
-				}
-				liege = {
-					if = {
-						limit = {
-							appropriate_traumatizing_lover_target = yes
-						}
-						add_to_list = potential_child_traumatizers
-					}
-					every_courtier_or_guest = {
-						limit = {
-							appropriate_traumatizing_lover_target = yes
-						}
-						add_to_list = potential_child_traumatizers
-					}
-					every_vassal = {
-						limit = {
-							appropriate_traumatizing_lover_target = yes
-						}
-						add_to_list = potential_child_traumatizers
-					}
-				}
-			}
+		add_character_flag = {
+			flag = had_event_child_personality_7040
+			years = 16
 		}
-		random_in_list = {
-			list = potential_child_traumatizers
+		save_scope_as = child
+		if = { # The AI doesn't need any special flavor for this event
 			limit = {
-				any_secret = {
-					secret_type = secret_lover
-					NOT = { is_known_by = root }
-					secret_target = {
-						is_available_ai_adult = yes
+				AND = {
+					is_ai = yes
+					root = {
+						is_ai = yes
+						any_relation = {
+							type = guardian
+							is_ai = yes
+						}
 					}
-				}
-			}
-			alternative_limit = {
-				always = yes
-			}
-			weight = {
-				base = 1
-				modifier = {
-					add = 10
-					is_of_major_interest_to_root_trigger = yes
-				}
-				modifier = {
-					add = 5
-					is_of_minor_interest_to_root_trigger = yes
-				}
-				modifier = {
-					add = 10
-					has_trait = lustful
-				}
-				modifier = {
-					add = 10
-					exists = location
-					exists = root.location
-					location = root.location
 				}
 			}
 			save_scope_as = lover_1
-			if = {
+			save_scope_as = lover_2
+		}
+		else = {
+			location.county.holder = {
+				if = {
+					limit = {
+						appropriate_traumatizing_lover_target = yes
+					}
+					add_to_list = potential_child_traumatizers
+				}
+				every_courtier_or_guest = {
+					limit = {
+						appropriate_traumatizing_lover_target = yes
+					}
+					add_to_list = potential_child_traumatizers
+				}
+				every_vassal = {
+					limit = {
+						appropriate_traumatizing_lover_target = yes
+					}
+					add_to_list = potential_child_traumatizers
+				}
+				if = {
+					limit = {
+						liege ?= {
+							appropriate_traumatizing_lover_target = yes
+						}
+					}
+					liege = {
+						add_to_list = potential_child_traumatizers
+					}
+				}
+				if = {
+					limit = {
+						exists = liege
+					}
+					liege = {
+						if = {
+							limit = {
+								appropriate_traumatizing_lover_target = yes
+							}
+							add_to_list = potential_child_traumatizers
+						}
+						every_courtier_or_guest = {
+							limit = {
+								appropriate_traumatizing_lover_target = yes
+							}
+							add_to_list = potential_child_traumatizers
+						}
+						every_vassal = {
+							limit = {
+								appropriate_traumatizing_lover_target = yes
+							}
+							add_to_list = potential_child_traumatizers
+						}
+					}
+				}
+			}
+			random_in_list = {
+				list = potential_child_traumatizers
 				limit = {
 					any_secret = {
-						secret_type = secret_lover
+						type = secret_lover
 						NOT = { is_known_by = root }
 						secret_target = {
 							is_available_ai_adult = yes
 						}
 					}
 				}
-				random_secret = {
+				alternative_limit = {
+					always = yes
+				}
+				weight = {
+					base = 1
+					modifier = {
+						add = 10
+						is_of_major_interest_to_root_trigger = yes
+					}
+					modifier = {
+						add = 5
+						is_of_minor_interest_to_root_trigger = yes
+					}
+					modifier = {
+						add = 10
+						has_trait = lustful
+					}
+					modifier = {
+						add = 10
+						exists = location
+						exists = root.location
+						location = root.location
+					}
+				}
+				save_scope_as = lover_1
+				if = {
 					limit = {
-						secret_type = secret_lover
-						secret_target = {
-							is_available_ai_adult = yes
+						any_secret = {
+							type = secret_lover
+							NOT = { is_known_by = root }
+							secret_target = {
+								is_available_ai_adult = yes
+							}
 						}
 					}
-					secret_target = {
+					random_secret = {
+						type = secret_lover
+						limit = {
+							secret_target = {
+								is_available_ai_adult = yes
+							}
+						}
+						secret_target = {
+							save_scope_as = lover_2
+						}
+						reveal_to = root
+					}
+				}
+				else = {
+					random_relation = {
+						type = lover
 						save_scope_as = lover_2
 					}
-					reveal_to = root
-				}
-			}
-			else = {
-				random_relation = {
-					type = lover
-					save_scope_as = lover_2
 				}
 			}
 		}
@@ -2454,6 +2557,12 @@ child_personality.7040 = {
 				}
 			}
 		}
+		scope:lover_1 = {
+			add_character_flag = is_naked
+		}
+		scope:lover_2 = {
+			add_character_flag = is_naked
+		}
 	}
 
 	option = { # lustful + crush
@@ -2465,32 +2574,28 @@ child_personality.7040 = {
 			}
 		}
 		add_trait = lustful
-		set_relation_crush = scope:child_crush_target
+		if = {
+			limit = {
+				scope:child_crush_target != root
+			}
+			set_relation_crush = scope:child_crush_target
+		}
 		if = {
 			limit = {
 				is_ai = yes
 			}
 			add_character_flag = lustful
-			random_relation = {
-				type = guardian
-				trigger_event = child_personality.7041
-			}
+			guardian_or_court_tutor_trigger_event_effect = { EVENT = child_personality.7041 }
 		}
 		ai_chance = {
 			base = 1
 			modifier = {
 				add = 4
-				any_relation = {
-					type = guardian
-					has_trait = lustful
-				}
+				guardian_or_court_tutor_trait_trigger = { TRAIT = lustful }
 			}
 			modifier = {
 				add = -0.5
-				any_relation = {
-					type = guardian
-					has_trait = chaste
-				}
+				guardian_or_court_tutor_trait_trigger = { TRAIT = chaste }
 			}
 		}
 	}
@@ -2509,26 +2614,17 @@ child_personality.7040 = {
 				is_ai = yes
 			}
 			add_character_flag = lustful
-			random_relation = {
-				type = guardian
-				trigger_event = child_personality.7041
-			}
+			guardian_or_court_tutor_trigger_event_effect = { EVENT = child_personality.7041 }
 		}
 		ai_chance = {
 			base = 1
 			modifier = {
 				add = 4
-				any_relation = {
-					type = guardian
-					has_trait = lustful
-				}
+				guardian_or_court_tutor_trait_trigger = { TRAIT = lustful }
 			}
 			modifier = {
 				add = -0.5
-				any_relation = {
-					type = guardian
-					has_trait = chaste
-				}
+				guardian_or_court_tutor_trait_trigger = { TRAIT = chaste }
 			}
 		}
 	}
@@ -2541,27 +2637,26 @@ child_personality.7040 = {
 				is_ai = yes
 			}
 			add_character_flag = chaste
-			random_relation = {
-				type = guardian
-				trigger_event = child_personality.7041
-			}
+			guardian_or_court_tutor_trigger_event_effect = { EVENT = child_personality.7041 }
 		}
 		ai_chance = {
 			base = 1
 			modifier = {
 				add = 4
-				any_relation = {
-					type = guardian
-					has_trait = chaste
-				}
+				guardian_or_court_tutor_trait_trigger = { TRAIT = chaste }
 			}
 			modifier = {
 				add = -0.5
-				any_relation = {
-					type = guardian
-					has_trait = lustful
-				}
+				guardian_or_court_tutor_trait_trigger = { TRAIT = lustful }
 			}
+		}
+	}
+	after = {
+		scope:lover_1 = {
+			remove_character_flag = is_naked
+		}
+		scope:lover_2 = {
+			remove_character_flag = is_naked
 		}
 	}
 }
@@ -2671,7 +2766,7 @@ child_personality.7041 = {
 		ai_chance = {
 			base = 0
 		}
-		stress_impact = {
+		stress_and_fulfillment_impact = {
 			base = child_trait_change_stress_penalty
 		}
 		scope:child = {
@@ -2697,7 +2792,7 @@ child_personality.7041 = {
 		ai_chance = {
 			base = 0
 		}
-		stress_impact = {
+		stress_and_fulfillment_impact = {
 			base = child_trait_change_stress_penalty
 		}
 		scope:child = {
@@ -2736,14 +2831,14 @@ child_personality.7050 = {
 	}
 
 	trigger = {
+		is_valid_for_east_asian_events_trigger = no
 		is_available_child_allow_travel = yes
-		OR = {
-			exists = location.county.holder.cp:councillor_steward
-			AND = {
-				exists = location.county.holder
-				location.county.holder = {
-					employs_court_position = court_tutor_court_position
-				}
+		NOT = { has_character_flag = had_event_child_personality_7050 }
+		location.county.holder ?= {
+			OR = {
+				exists = cp:councillor_steward
+				employs_court_position = court_tutor_court_position
+				employs_court_position = court_guru_court_position
 			}
 		}
 		NAND = {
@@ -2767,13 +2862,10 @@ child_personality.7050 = {
 		base = 1
 		modifier = {
 			add = 2
-			any_relation = {
-				type = guardian
-				OR = {
-					has_trait = just
-					has_trait = greedy
-					has_trait = callous
-				}
+			OR = {
+				guardian_or_court_tutor_trait_trigger = { TRAIT = just }
+				guardian_or_court_tutor_trait_trigger = { TRAIT = greedy }
+				guardian_or_court_tutor_trait_trigger = { TRAIT = callous }
 			}
 		}
 		modifier = {
@@ -2789,6 +2881,10 @@ child_personality.7050 = {
 	}
 
 	immediate = {
+		add_character_flag = {
+			flag = had_event_child_personality_7050
+			years = 16
+		}
 		save_scope_as = child
 		location.county.holder = {
 			if = {
@@ -2797,6 +2893,15 @@ child_personality.7050 = {
 				}
 				random_court_position_holder = {
 					type = court_tutor_court_position
+					save_scope_as = teacher
+				}
+			}
+			else_if = {
+				limit = {
+					employs_court_position = court_guru_court_position
+				}
+				random_court_position_holder = {
+					type = court_guru_court_position
 					save_scope_as = teacher
 				}
 			}
@@ -2851,26 +2956,17 @@ child_personality.7050 = {
 				is_ai = yes
 			}
 			add_character_flag = just
-			random_relation = {
-				type = guardian
-				trigger_event = child_personality.7051
-			}
+			guardian_or_court_tutor_trigger_event_effect = { EVENT = child_personality.7051 }
 		}
 		ai_chance = {
 			base = 1
 			modifier = {
 				add = 4
-				any_relation = {
-					type = guardian
-					has_trait = just
-				}
+				guardian_or_court_tutor_trait_trigger = { TRAIT = just }
 			}
 			modifier = {
 				add = -0.5
-				any_relation = {
-					type = guardian
-					has_trait = arbitrary
-				}
+				guardian_or_court_tutor_trait_trigger = { TRAIT = arbitrary }
 			}
 			modifier = {
 				add = 100
@@ -2920,26 +3016,17 @@ child_personality.7050 = {
 				is_ai = yes
 			}
 			add_character_flag = greedy
-			random_relation = {
-				type = guardian
-				trigger_event = child_personality.7051
-			}
+			guardian_or_court_tutor_trigger_event_effect = { EVENT = child_personality.7051 }
 		}
 		ai_chance = {
 			base = 1
 			modifier = {
 				add = 4
-				any_relation = {
-					type = guardian
-					has_trait = greedy
-				}
+				guardian_or_court_tutor_trait_trigger = { TRAIT = greedy }
 			}
 			modifier = {
 				add = -0.5
-				any_relation = {
-					type = guardian
-					has_trait = generous
-				}
+				guardian_or_court_tutor_trait_trigger = { TRAIT = generous }
 			}
 		}
 	}
@@ -2985,29 +3072,20 @@ child_personality.7050 = {
 				is_ai = yes
 			}
 			add_character_flag = callous
-			random_relation = {
-				type = guardian
-				trigger_event = child_personality.7051
-			}
+			guardian_or_court_tutor_trigger_event_effect = { EVENT = child_personality.7051 }
 		}
 		ai_chance = {
 			base = 1
 			modifier = {
 				add = 4
-				any_relation = {
-					type = guardian
-					has_trait = callous
+				OR = {
+					guardian_or_court_tutor_trait_trigger = { TRAIT = callous }
+					guardian_or_court_tutor_trait_trigger = { TRAIT = sadistic }
 				}
 			}
 			modifier = {
 				add = -0.5
-				any_relation = {
-					type = guardian
-					OR = {
-						has_trait = callous
-						has_trait = sadistic
-					}
-				}
+				guardian_or_court_tutor_trait_trigger = { TRAIT = compassionate }
 			}
 		}
 	}
@@ -3030,7 +3108,7 @@ child_personality.7051 = {
 			}
 			triggered_desc = {
 			    trigger = {
-					NOT = { this = scope:teacher }
+					this != scope:teacher
 			    }
 			    desc = {
 			    	desc = child_personality.7051.desc_2
@@ -3173,7 +3251,7 @@ child_personality.7051 = {
 		ai_chance = {
 			base = 0
 		}
-		stress_impact = {
+		stress_and_fulfillment_impact = {
 			base = child_trait_change_stress_penalty
 		}
 		scope:child = {
@@ -3206,7 +3284,7 @@ child_personality.7051 = {
 		ai_chance = {
 			base = 0
 		}
-		stress_impact = {
+		stress_and_fulfillment_impact = {
 			base = child_trait_change_stress_penalty
 		}
 		scope:child = {
@@ -3240,7 +3318,7 @@ child_personality.7051 = {
 		ai_chance = {
 			base = 0
 		}
-		stress_impact = {
+		stress_and_fulfillment_impact = {
 			base = child_trait_change_stress_penalty
 		}
 		scope:child = {
@@ -3287,7 +3365,9 @@ child_personality.7060 = {
 	}
 
 	trigger = {
+		is_valid_for_east_asian_events_trigger = no
 		is_available_child_allow_travel = yes
+		NOT = { has_character_flag = had_event_child_personality_7060 }
 		suitable_same_realm_child = yes
 		NAND = {
 			OR = {
@@ -3309,13 +3389,10 @@ child_personality.7060 = {
 		base = 1
 		modifier = {
 			add = 2
-			any_relation = {
-				type = guardian
-				OR = {
-					has_trait = humble
-					has_trait = cynical
-					has_trait = content
-				}
+			OR = {
+				guardian_or_court_tutor_trait_trigger = { TRAIT = humble }
+				guardian_or_court_tutor_trait_trigger = { TRAIT = cynical }
+				guardian_or_court_tutor_trait_trigger = { TRAIT = content }
 			}
 		}
 		modifier = {
@@ -3341,6 +3418,10 @@ child_personality.7060 = {
 	}
 
 	immediate = {
+		add_character_flag = {
+			flag = had_event_child_personality_7060
+			years = 16
+		}
 		save_scope_as = child
 		add_suitable_same_realm_children_to_list = yes
 		set_favorite_toy_effect = yes
@@ -3411,26 +3492,17 @@ child_personality.7060 = {
 				is_ai = yes
 			}
 			add_character_flag = humble
-			random_relation = {
-				type = guardian
-				trigger_event = child_personality.7061
-			}
+			guardian_or_court_tutor_trigger_event_effect = { EVENT = child_personality.7061 }
 		}
 		ai_chance = {
 			base = 1
 			modifier = {
 				add = 4
-				any_relation = {
-					type = guardian
-					has_trait = humble
-				}
+				guardian_or_court_tutor_trait_trigger = { TRAIT = humble }
 			}
 			modifier = {
 				add = -0.5
-				any_relation = {
-					type = guardian
-					has_trait = arrogant
-				}
+				guardian_or_court_tutor_trait_trigger = { TRAIT = arrogant }
 			}
 			modifier = {
 				add = 100
@@ -3462,26 +3534,17 @@ child_personality.7060 = {
 				is_ai = yes
 			}
 			add_character_flag = cynical
-			random_relation = {
-				type = guardian
-				trigger_event = child_personality.7061
-			}
+			guardian_or_court_tutor_trigger_event_effect = { EVENT = child_personality.7061 }
 		}
 		ai_chance = {
 			base = 1
 			modifier = {
 				add = 4
-				any_relation = {
-					type = guardian
-					has_trait = cynical
-				}
+				guardian_or_court_tutor_trait_trigger = { TRAIT = cynical }
 			}
 			modifier = {
 				add = -0.5
-				any_relation = {
-					type = guardian
-					has_trait = zealous
-				}
+				guardian_or_court_tutor_trait_trigger = { TRAIT = zealous }
 			}
 		}
 	}
@@ -3502,26 +3565,17 @@ child_personality.7060 = {
 				is_ai = yes
 			}
 			add_character_flag = content
-			random_relation = {
-				type = guardian
-				trigger_event = child_personality.7061
-			}
+			guardian_or_court_tutor_trigger_event_effect = { EVENT = child_personality.7061 }
 		}
 		ai_chance = {
 			base = 1
 			modifier = {
 				add = 4
-				any_relation = {
-					type = guardian
-					has_trait = content
-				}
+				guardian_or_court_tutor_trait_trigger = { TRAIT = content }
 			}
 			modifier = {
 				add = -0.5
-				any_relation = {
-					type = guardian
-					has_trait = ambitious
-				}
+				guardian_or_court_tutor_trait_trigger = { TRAIT = ambitious }
 			}
 			modifier = {
 				add = 100
@@ -3675,7 +3729,7 @@ child_personality.7061 = {
 		ai_chance = {
 			base = 0
 		}
-		stress_impact = {
+		stress_and_fulfillment_impact = {
 			base = child_trait_change_stress_penalty
 		}
 		scope:child = {
@@ -3708,7 +3762,7 @@ child_personality.7061 = {
 		ai_chance = {
 			base = 0
 		}
-		stress_impact = {
+		stress_and_fulfillment_impact = {
 			base = child_trait_change_stress_penalty
 		}
 		scope:child = {
@@ -3741,7 +3795,7 @@ child_personality.7061 = {
 		ai_chance = {
 			base = 0
 		}
-		stress_impact = {
+		stress_and_fulfillment_impact = {
 			base = child_trait_change_stress_penalty
 		}
 		scope:child = {
@@ -3788,7 +3842,9 @@ child_personality.7070 = {
 	}
 
 	trigger = {
+		is_valid_for_east_asian_events_trigger = no
 		is_available_child_allow_travel = yes
+		NOT = { has_character_flag = had_event_child_personality_7070 }
 		OR = {
 			suitable_same_realm_child = yes
 			any_relation = {
@@ -3816,13 +3872,10 @@ child_personality.7070 = {
 		base = 1
 		modifier = {
 			add = 2
-			any_relation = {
-				type = guardian
-				OR = {
-					has_trait = vengeful
-					has_trait = deceitful
-					has_trait = calm
-				}
+			OR = {
+				guardian_or_court_tutor_trait_trigger = { TRAIT = vengeful }
+				guardian_or_court_tutor_trait_trigger = { TRAIT = deceitful }
+				guardian_or_court_tutor_trait_trigger = { TRAIT = calm }
 			}
 		}
 		modifier = {
@@ -3848,6 +3901,10 @@ child_personality.7070 = {
 	}
 
 	immediate = {
+		add_character_flag = {
+			flag = had_event_child_personality_7070
+			years = 16
+		}
 		save_scope_as = child
 		if = {
 			limit = {
@@ -3960,26 +4017,17 @@ child_personality.7070 = {
 				is_ai = yes
 			}
 			add_character_flag = vengeful
-			random_relation = {
-				type = guardian
-				trigger_event = child_personality.7071
-			}
+			guardian_or_court_tutor_trigger_event_effect = { EVENT = child_personality.7071 }
 		}
 		ai_chance = {
 			base = 1
 			modifier = {
 				add = 4
-				any_relation = {
-					type = guardian
-					has_trait = vengeful
-				}
+				guardian_or_court_tutor_trait_trigger = { TRAIT = vengeful }
 			}
 			modifier = {
 				add = -0.5
-				any_relation = {
-					type = guardian
-					has_trait = forgiving
-				}
+				guardian_or_court_tutor_trait_trigger = { TRAIT = forgiving }
 			}
 			modifier = {
 				add = 100
@@ -4009,26 +4057,17 @@ child_personality.7070 = {
 				is_ai = yes
 			}
 			add_character_flag = deceitful
-			random_relation = {
-				type = guardian
-				trigger_event = child_personality.7071
-			}
+			guardian_or_court_tutor_trigger_event_effect = { EVENT = child_personality.7071 }
 		}
 		ai_chance = {
 			base = 1
 			modifier = {
 				add = 4
-				any_relation = {
-					type = guardian
-					has_trait = deceitful
-				}
+				guardian_or_court_tutor_trait_trigger = { TRAIT = deceitful }
 			}
 			modifier = {
 				add = -0.5
-				any_relation = {
-					type = guardian
-					has_trait = honest
-				}
+				guardian_or_court_tutor_trait_trigger = { TRAIT = honest }
 			}
 		}
 	}
@@ -4054,26 +4093,17 @@ child_personality.7070 = {
 				is_ai = yes
 			}
 			add_character_flag = calm
-			random_relation = {
-				type = guardian
-				trigger_event = child_personality.7071
-			}
+			guardian_or_court_tutor_trigger_event_effect = { EVENT = child_personality.7071 }
 		}
 		ai_chance = {
 			base = 1
 			modifier = {
 				add = 4
-				any_relation = {
-					type = guardian
-					has_trait = calm
-				}
+				guardian_or_court_tutor_trait_trigger = { TRAIT = calm }
 			}
 			modifier = {
 				add = -0.5
-				any_relation = {
-					type = guardian
-					has_trait = wrathful
-				}
+				guardian_or_court_tutor_trait_trigger = { TRAIT = wrathful }
 			}
 			modifier = {
 				add = 100
@@ -4232,7 +4262,7 @@ child_personality.7071 = {
 		ai_chance = {
 			base = 0
 		}
-		stress_impact = {
+		stress_and_fulfillment_impact = {
 			base = child_trait_change_stress_penalty
 		}
 		scope:child = {
@@ -4265,7 +4295,7 @@ child_personality.7071 = {
 		ai_chance = {
 			base = 0
 		}
-		stress_impact = {
+		stress_and_fulfillment_impact = {
 			base = child_trait_change_stress_penalty
 		}
 		scope:child = {
@@ -4298,7 +4328,7 @@ child_personality.7071 = {
 		ai_chance = {
 			base = 0
 		}
-		stress_impact = {
+		stress_and_fulfillment_impact = {
 			base = child_trait_change_stress_penalty
 		}
 		scope:child = {
@@ -4371,7 +4401,9 @@ child_personality.7080 = {
 	}
 
 	trigger = {
+		is_valid_for_east_asian_events_trigger = no
 		is_available_child_allow_travel = yes
+		NOT = { has_character_flag = had_event_child_personality_7080 }
 		OR = {
 			AND = {
 				exists = location.county.holder.cp:councillor_court_chaplain
@@ -4410,13 +4442,10 @@ child_personality.7080 = {
 		base = 1
 		modifier = {
 			add = 2
-			any_relation = {
-				type = guardian
-				OR = {
-					has_trait = generous
-					has_trait = fickle
-					has_trait = arrogant
-				}
+			OR = {
+				guardian_or_court_tutor_trait_trigger = { TRAIT = generous }
+				guardian_or_court_tutor_trait_trigger = { TRAIT = fickle }
+				guardian_or_court_tutor_trait_trigger = { TRAIT = arrogant }
 			}
 		}
 		modifier = {
@@ -4432,6 +4461,10 @@ child_personality.7080 = {
 	}
 
 	immediate = {
+		add_character_flag = {
+			flag = had_event_child_personality_7080
+			years = 16
+		}
 		save_scope_as = child
 		if = {
 			limit = {
@@ -4491,26 +4524,17 @@ child_personality.7080 = {
 				is_ai = yes
 			}
 			add_character_flag = generous
-			random_relation = {
-				type = guardian
-				trigger_event = child_personality.7081
-			}
+			guardian_or_court_tutor_trigger_event_effect = { EVENT = child_personality.7081 }
 		}
 		ai_chance = {
 			base = 1
 			modifier = {
 				add = 4
-				any_relation = {
-					type = guardian
-					has_trait = generous
-				}
+				guardian_or_court_tutor_trait_trigger = { TRAIT = generous }
 			}
 			modifier = {
 				add = -0.5
-				any_relation = {
-					type = guardian
-					has_trait = greedy
-				}
+				guardian_or_court_tutor_trait_trigger = { TRAIT = greedy }
 			}
 			modifier = {
 				add = 100
@@ -4527,6 +4551,7 @@ child_personality.7080 = {
 			NOR = {
 				has_trait = stubborn
 				has_trait = fickle
+				has_trait = eccentric
 			}
 		}
 		add_trait = fickle
@@ -4536,25 +4561,19 @@ child_personality.7080 = {
 				is_ai = yes
 			}
 			add_character_flag = fickle
-			random_relation = {
-				type = guardian
-				trigger_event = child_personality.7081
-			}
+			guardian_or_court_tutor_trigger_event_effect = { EVENT = child_personality.7081 }
 		}
 		ai_chance = {
 			base = 1
 			modifier = {
 				add = 4
-				any_relation = {
-					type = guardian
-					has_trait = fickle
-				}
+				guardian_or_court_tutor_trait_trigger = { TRAIT = fickle }
 			}
 			modifier = {
 				add = -0.5
-				any_relation = {
-					type = guardian
-					has_trait = stubborn
+				OR = {
+					guardian_or_court_tutor_trait_trigger = { TRAIT = stubborn }
+					guardian_or_court_tutor_trait_trigger = { TRAIT = eccentric }
 				}
 			}
 		}
@@ -4587,26 +4606,17 @@ child_personality.7080 = {
 				is_ai = yes
 			}
 			add_character_flag = arrogant
-			random_relation = {
-				type = guardian
-				trigger_event = child_personality.7081
-			}
+			guardian_or_court_tutor_trigger_event_effect = { EVENT = child_personality.7081 }
 		}
 		ai_chance = {
 			base = 1
 			modifier = {
 				add = 4
-				any_relation = {
-					type = guardian
-					has_trait = arrogant
-				}
+				guardian_or_court_tutor_trait_trigger = { TRAIT = arrogant }
 			}
 			modifier = {
 				add = -0.5
-				any_relation = {
-					type = guardian
-					has_trait = humble
-				}
+				guardian_or_court_tutor_trait_trigger = { TRAIT = humble }
 			}
 		}
 	}
@@ -4761,7 +4771,7 @@ child_personality.7081 = {
 		ai_chance = {
 			base = 0
 		}
-		stress_impact = {
+		stress_and_fulfillment_impact = {
 			base = child_trait_change_stress_penalty
 		}
 		scope:child = {
@@ -4788,13 +4798,14 @@ child_personality.7081 = {
 				NOR = {
 					has_trait = fickle
 					has_trait = stubborn
+					has_trait = eccentric
 				}
 			}
 		}
 		ai_chance = {
 			base = 0
 		}
-		stress_impact = {
+		stress_and_fulfillment_impact = {
 			base = child_trait_change_stress_penalty
 		}
 		scope:child = {
@@ -4827,7 +4838,7 @@ child_personality.7081 = {
 		ai_chance = {
 			base = 0
 		}
-		stress_impact = {
+		stress_and_fulfillment_impact = {
 			base = child_trait_change_stress_penalty
 		}
 		scope:child = {
@@ -4873,14 +4884,14 @@ child_personality.7090 = {
 	}
 
 	trigger = {
+		is_valid_for_east_asian_events_trigger = no
 		is_available_child_allow_travel = yes
-		OR = {
-			exists = location.county.holder.cp:councillor_chancellor
-			AND = {
-				exists = location.county.holder
-				location.county.holder = {
-					employs_court_position = court_tutor_court_position
-				}
+		NOT = { has_character_flag = had_event_child_personality_7090 }
+		location.county.holder ?= {
+			OR = {
+				exists = cp:councillor_chancellor
+				employs_court_position = court_tutor_court_position
+				employs_court_position = court_guru_court_position
 			}
 		}
 		NAND = {
@@ -4903,13 +4914,10 @@ child_personality.7090 = {
 		base = 1
 		modifier = {
 			add = 2
-			any_relation = {
-				type = guardian
-				OR = {
-					has_trait = forgiving
-					has_trait = trusting
-					has_trait = patient
-				}
+			OR = {
+				guardian_or_court_tutor_trait_trigger = { TRAIT = forgiving }
+				guardian_or_court_tutor_trait_trigger = { TRAIT = trusting }
+				guardian_or_court_tutor_trait_trigger = { TRAIT = patient }
 			}
 		}
 		modifier = {
@@ -4922,9 +4930,23 @@ child_personality.7090 = {
 				has_trait = impatient
 			}
 		}
+		modifier = {
+			add = 5
+			culture = {
+				has_cultural_parameter = good_faith_traits_more_common
+			}
+			NOR = {
+				has_trait = trusting
+				has_trait = paranoid
+			}
+		}
 	}
 
 	immediate = {
+		add_character_flag = {
+			flag = had_event_child_personality_7090
+			years = 16
+		}
 		save_scope_as = child
 		location.county.holder = {
 			if = {
@@ -4933,6 +4955,15 @@ child_personality.7090 = {
 				}
 				random_court_position_holder = {
 					type = court_tutor_court_position
+					save_scope_as = teacher
+				}
+			}
+			else_if = {
+				limit = {
+					employs_court_position = court_guru_court_position
+				}
+				random_court_position_holder = {
+					type = court_guru_court_position
 					save_scope_as = teacher
 				}
 			}
@@ -4982,26 +5013,17 @@ child_personality.7090 = {
 				is_ai = yes
 			}
 			add_character_flag = forgiving
-			random_relation = {
-				type = guardian
-				trigger_event = child_personality.7091
-			}
+			guardian_or_court_tutor_trigger_event_effect = { EVENT = child_personality.7091 }
 		}
 		ai_chance = {
 			base = 1
 			modifier = {
 				add = 4
-				any_relation = {
-					type = guardian
-					has_trait = forgiving
-				}
+				guardian_or_court_tutor_trait_trigger = { TRAIT = forgiving }
 			}
 			modifier = {
 				add = -0.5
-				any_relation = {
-					type = guardian
-					has_trait = vengeful
-				}
+				guardian_or_court_tutor_trait_trigger = { TRAIT = vengeful }
 			}
 		}
 	}
@@ -5044,25 +5066,22 @@ child_personality.7090 = {
 				is_ai = yes
 			}
 			add_character_flag = trusting
-			random_relation = {
-				type = guardian
-				trigger_event = child_personality.7091
-			}
+			guardian_or_court_tutor_trigger_event_effect = { EVENT = child_personality.7091 }
 		}
 		ai_chance = {
 			base = 1
 			modifier = {
 				add = 4
-				any_relation = {
-					type = guardian
-					has_trait = trusting
-				}
+				guardian_or_court_tutor_trait_trigger = { TRAIT = trusting }
 			}
 			modifier = {
 				add = -0.5
-				any_relation = {
-					type = guardian
-					has_trait = paranoid
+				guardian_or_court_tutor_trait_trigger = { TRAIT = paranoid }
+			}
+			modifier = {
+				add = 100
+				culture = {
+					has_cultural_parameter = good_faith_traits_more_common
 				}
 			}
 		}
@@ -5106,26 +5125,17 @@ child_personality.7090 = {
 				is_ai = yes
 			}
 			add_character_flag = patient
-			random_relation = {
-				type = guardian
-				trigger_event = child_personality.7091
-			}
+			guardian_or_court_tutor_trigger_event_effect = { EVENT = child_personality.7091 }
 		}
 		ai_chance = {
 			base = 1
 			modifier = {
 				add = 4
-				any_relation = {
-					type = guardian
-					has_trait = patient
-				}
+				guardian_or_court_tutor_trait_trigger = { TRAIT = patient }
 			}
 			modifier = {
 				add = -0.5
-				any_relation = {
-					type = guardian
-					has_trait = impatient
-				}
+				guardian_or_court_tutor_trait_trigger = { TRAIT = impatient }
 			}
 			modifier = {
 				add = 100
@@ -5255,7 +5265,7 @@ child_personality.7091 = {
 		ai_chance = {
 			base = 0
 		}
-		stress_impact = {
+		stress_and_fulfillment_impact = {
 			base = child_trait_change_stress_penalty
 		}
 		scope:child = {
@@ -5288,7 +5298,7 @@ child_personality.7091 = {
 		ai_chance = {
 			base = 0
 		}
-		stress_impact = {
+		stress_and_fulfillment_impact = {
 			base = child_trait_change_stress_penalty
 		}
 		scope:child = {
@@ -5321,7 +5331,7 @@ child_personality.7091 = {
 		ai_chance = {
 			base = 0
 		}
-		stress_impact = {
+		stress_and_fulfillment_impact = {
 			base = child_trait_change_stress_penalty
 		}
 		scope:child = {
@@ -5368,7 +5378,9 @@ child_personality.7100 = {
 	}
 
 	trigger = {
+		is_valid_for_east_asian_events_trigger = no
 		is_available_child_allow_travel = yes
+		NOT = { has_character_flag = had_event_child_personality_7100 }
 		suitable_same_realm_child = yes
 		NAND = {
 			OR = {
@@ -5390,19 +5402,19 @@ child_personality.7100 = {
 		base = 1
 		modifier = {
 			add = 2
-			any_relation = {
-				type = guardian
-				OR = {
-					has_trait = honest
-					has_trait = arbitrary
-					has_trait = impatient
-				}
+			OR = {
+				guardian_or_court_tutor_trait_trigger = { TRAIT = honest }
+				guardian_or_court_tutor_trait_trigger = { TRAIT = arbitrary }
+				guardian_or_court_tutor_trait_trigger = { TRAIT = impatient }
 			}
 		}
 		modifier = {
 			add = 5
 			culture = {
-				has_cultural_parameter = honest_trait_more_common
+				OR = {
+					has_cultural_parameter = honest_trait_more_common
+					has_cultural_parameter = good_faith_traits_more_common
+				}
 			}
 			NOR = {
 				has_trait = honest
@@ -5412,6 +5424,10 @@ child_personality.7100 = {
 	}
 
 	immediate = {
+		add_character_flag = {
+			flag = had_event_child_personality_7100
+			years = 16
+		}
 		save_scope_as = child
 		add_suitable_same_realm_children_to_list = yes
 		random_in_list = {
@@ -5472,31 +5488,25 @@ child_personality.7100 = {
 				is_ai = yes
 			}
 			add_character_flag = honest
-			random_relation = {
-				type = guardian
-				trigger_event = child_personality.7101
-			}
+			guardian_or_court_tutor_trigger_event_effect = { EVENT = child_personality.7101 }
 		}
 		ai_chance = {
 			base = 1
 			modifier = {
 				add = 4
-				any_relation = {
-					type = guardian
-					has_trait = honest
-				}
+				guardian_or_court_tutor_trait_trigger = { TRAIT = honest }
 			}
 			modifier = {
 				add = -0.5
-				any_relation = {
-					type = guardian
-					has_trait = deceitful
-				}
+				guardian_or_court_tutor_trait_trigger = { TRAIT = deceitful }
 			}
 			modifier = {
 				add = 100
 				culture = {
-					has_cultural_parameter = honest_trait_more_common
+					OR = {
+						has_cultural_parameter = honest_trait_more_common
+						has_cultural_parameter = good_faith_traits_more_common
+					}
 				}
 			}
 		}
@@ -5532,26 +5542,17 @@ child_personality.7100 = {
 				is_ai = yes
 			}
 			add_character_flag = arbitrary
-			random_relation = {
-				type = guardian
-				trigger_event = child_personality.7101
-			}
+			guardian_or_court_tutor_trigger_event_effect = { EVENT = child_personality.7101 }
 		}
 		ai_chance = {
 			base = 1
 			modifier = {
 				add = 4
-				any_relation = {
-					type = guardian
-					has_trait = arbitrary
-				}
+				guardian_or_court_tutor_trait_trigger = { TRAIT = arbitrary }
 			}
 			modifier = {
 				add = -0.5
-				any_relation = {
-					type = guardian
-					has_trait = just
-				}
+				guardian_or_court_tutor_trait_trigger = { TRAIT = just }
 			}
 		}
 	}
@@ -5577,26 +5578,17 @@ child_personality.7100 = {
 				is_ai = yes
 			}
 			add_character_flag = impatient
-			random_relation = {
-				type = guardian
-				trigger_event = child_personality.7101
-			}
+			guardian_or_court_tutor_trigger_event_effect = { EVENT = child_personality.7101 }
 		}
 		ai_chance = {
 			base = 1
 			modifier = {
 				add = 4
-				any_relation = {
-					type = guardian
-					has_trait = impatient
-				}
+				guardian_or_court_tutor_trait_trigger = { TRAIT = impatient }
 			}
 			modifier = {
 				add = -0.5
-				any_relation = {
-					type = guardian
-					has_trait = patient
-				}
+				guardian_or_court_tutor_trait_trigger = { TRAIT = patient }
 			}
 		}
 	}
@@ -5728,7 +5720,7 @@ child_personality.7101 = {
 		ai_chance = {
 			base = 0
 		}
-		stress_impact = {
+		stress_and_fulfillment_impact = {
 			base = child_trait_change_stress_penalty
 		}
 		scope:child = {
@@ -5761,7 +5753,7 @@ child_personality.7101 = {
 		ai_chance = {
 			base = 0
 		}
-		stress_impact = {
+		stress_and_fulfillment_impact = {
 			base = child_trait_change_stress_penalty
 		}
 		scope:other_child = {
@@ -5801,7 +5793,7 @@ child_personality.7101 = {
 		ai_chance = {
 			base = 0
 		}
-		stress_impact = {
+		stress_and_fulfillment_impact = {
 			base = child_trait_change_stress_penalty
 		}
 		scope:child = {
@@ -5848,7 +5840,9 @@ child_personality.7200 = {
 	}
 
 	trigger = {
+		is_valid_for_east_asian_events_trigger = no
 		is_available_child_allow_travel = yes
+		NOT = { has_character_flag = had_event_child_personality_7200 }
 		suitable_same_realm_child = yes
 		NAND = {
 			OR = {
@@ -5858,6 +5852,7 @@ child_personality.7200 = {
 			OR = {
 				has_trait = stubborn
 				has_trait = fickle
+				has_trait = eccentric
 			}
 			OR = {
 				has_trait = wrathful
@@ -5870,13 +5865,10 @@ child_personality.7200 = {
 		base = 1
 		modifier = {
 			add = 2
-			any_relation = {
-				type = guardian
-				OR = {
-					has_trait = brave
-					has_trait = stubborn
-					has_trait = wrathful
-				}
+			OR = {
+				guardian_or_court_tutor_trait_trigger = { TRAIT = brave }
+				guardian_or_court_tutor_trait_trigger = { TRAIT = stubborn }
+				guardian_or_court_tutor_trait_trigger = { TRAIT = wrathful }
 			}
 		}
 		modifier = {
@@ -5887,15 +5879,17 @@ child_personality.7200 = {
 			NOR = {
 				has_trait = stubborn
 				has_trait = fickle
+				has_trait = eccentric
 			}
 		}
 	}
 
 	immediate = {
-		save_scope_as = child
-		location.county = {
-			save_scope_as = capital_county_scope
+		add_character_flag = {
+			flag = had_event_child_personality_7200
+			years = 16
 		}
+		save_scope_as = child
 		add_suitable_same_realm_children_to_list = yes
 		random_in_list = {
 			list = suitable_same_realm_children
@@ -5971,26 +5965,17 @@ child_personality.7200 = {
 				is_ai = yes
 			}
 			add_character_flag = brave
-			random_relation = {
-				type = guardian
-				trigger_event = child_personality.7201
-			}
+			guardian_or_court_tutor_trigger_event_effect = { EVENT = child_personality.7201 }
 		}
 		ai_chance = {
 			base = 1
 			modifier = {
 				add = 4
-				any_relation = {
-					type = guardian
-					has_trait = brave
-				}
+				guardian_or_court_tutor_trait_trigger = { TRAIT = brave }
 			}
 			modifier = {
 				add = -0.5
-				any_relation = {
-					type = guardian
-					has_trait = craven
-				}
+				guardian_or_court_tutor_trait_trigger = { TRAIT = craven }
 			}
 		}
 	}
@@ -6001,6 +5986,7 @@ child_personality.7200 = {
 			NOR = {
 				has_trait = fickle
 				has_trait = stubborn
+				has_trait = eccentric
 			}
 		}
 		add_trait = stubborn
@@ -6019,25 +6005,19 @@ child_personality.7200 = {
 				is_ai = yes
 			}
 			add_character_flag = stubborn
-			random_relation = {
-				type = guardian
-				trigger_event = child_personality.7201
-			}
+			guardian_or_court_tutor_trigger_event_effect = { EVENT = child_personality.7201 }
 		}
 		ai_chance = {
 			base = 1
 			modifier = {
 				add = 4
-				any_relation = {
-					type = guardian
-					has_trait = stubborn
-				}
+				guardian_or_court_tutor_trait_trigger = { TRAIT = stubborn }
 			}
 			modifier = {
 				add = -0.5
-				any_relation = {
-					type = guardian
-					has_trait = fickle
+				OR = {
+					guardian_or_court_tutor_trait_trigger = { TRAIT = fickle }
+					guardian_or_court_tutor_trait_trigger = { TRAIT = eccentric }
 				}
 			}
 			modifier = {
@@ -6076,26 +6056,17 @@ child_personality.7200 = {
 				is_ai = yes
 			}
 			add_character_flag = wrathful
-			random_relation = {
-				type = guardian
-				trigger_event = child_personality.7201
-			}
+			guardian_or_court_tutor_trigger_event_effect = { EVENT = child_personality.7201 }
 		}
 		ai_chance = {
 			base = 1
 			modifier = {
 				add = 4
-				any_relation = {
-					type = guardian
-					has_trait = wrathful
-				}
+				guardian_or_court_tutor_trait_trigger = { TRAIT = wrathful }
 			}
 			modifier = {
 				add = -0.5
-				any_relation = {
-					type = guardian
-					has_trait = calm
-				}
+				guardian_or_court_tutor_trait_trigger = { TRAIT = calm }
 			}
 		}
 	}
@@ -6250,7 +6221,7 @@ child_personality.7201 = {
 		ai_chance = {
 			base = 0
 		}
-		stress_impact = {
+		stress_and_fulfillment_impact = {
 			base = child_trait_change_stress_penalty
 		}
 		scope:child = {
@@ -6277,13 +6248,14 @@ child_personality.7201 = {
 				NOR = {
 					has_trait = stubborn
 					has_trait = fickle
+					has_trait = eccentric
 				}
 			}
 		}
 		ai_chance = {
 			base = 0
 		}
-		stress_impact = {
+		stress_and_fulfillment_impact = {
 			base = child_trait_change_stress_penalty
 		}
 		scope:other_child = {
@@ -6325,7 +6297,7 @@ child_personality.7201 = {
 		ai_chance = {
 			base = 0
 		}
-		stress_impact = {
+		stress_and_fulfillment_impact = {
 			base = child_trait_change_stress_penalty
 		}
 		scope:child = {
@@ -6365,10 +6337,13 @@ child_personality.7300 = {
 	left_portrait = {
 		character = root
 		animation = jockey_idle
+		camera = camera_event_horse_left
 	}
 
 	trigger = {
+		is_valid_for_east_asian_events_trigger = no
 		is_available_child_allow_travel = yes
+		NOT = { has_character_flag = had_event_child_personality_7300 }
 		NAND = {
 			OR = {
 				has_trait = eccentric
@@ -6387,22 +6362,31 @@ child_personality.7300 = {
 		base = 1
 		modifier = {
 			add = 2
-			any_relation = {
-				type = guardian
-				OR = {
-					has_trait = eccentric
-					has_trait = gregarious
-					has_trait = compassionate
-				}
+			OR = {
+				guardian_or_court_tutor_trait_trigger = { TRAIT = eccentric }
+				guardian_or_court_tutor_trait_trigger = { TRAIT = gregarious }
+				guardian_or_court_tutor_trait_trigger = { TRAIT = compassionate }
+			}
+		}
+		modifier = {
+			add = 5
+			culture = {
+				has_cultural_parameter = compassionate_trait_more_common
+			}
+			NOR = {
+				has_trait = compassionate
+				has_trait = callous
+				has_trait = sadistic
 			}
 		}
 	}
 
 	immediate = {
-		save_scope_as = child
-		location.county = {
-			save_scope_as = capital_county_scope
+		add_character_flag = {
+			flag = had_event_child_personality_7300
+			years = 16
 		}
+		save_scope_as = child
 	}
 
 	option = { # eccentric, I can talk to animals
@@ -6421,28 +6405,19 @@ child_personality.7300 = {
 				is_ai = yes
 			}
 			add_character_flag = eccentric
-			random_relation = {
-				type = guardian
-				trigger_event = child_personality.7301
-			}
+			guardian_or_court_tutor_trigger_event_effect = { EVENT = child_personality.7301 }
 		}
 		ai_chance = {
 			base = 1
 			modifier = {
 				add = 4
-				any_relation = {
-					type = guardian
-					has_trait = eccentric
-				}
+				guardian_or_court_tutor_trait_trigger = { TRAIT = eccentric }
 			}
 			modifier = {
 				add = -0.5
-				any_relation = {
-					type = guardian
-					OR = {
-						has_trait = fickle
-						has_trait = stubborn
-					}
+				OR = {
+					guardian_or_court_tutor_trait_trigger = { TRAIT = fickle }
+					guardian_or_court_tutor_trait_trigger = { TRAIT = stubborn }
 				}
 			}
 		}
@@ -6464,28 +6439,25 @@ child_personality.7300 = {
 				is_ai = yes
 			}
 			add_character_flag = compassionate
-			random_relation = {
-				type = guardian
-				trigger_event = child_personality.7301
-			}
+			guardian_or_court_tutor_trigger_event_effect = { EVENT = child_personality.7301 }
 		}
 		ai_chance = {
 			base = 1
 			modifier = {
 				add = 4
-				any_relation = {
-					type = guardian
-					has_trait = compassionate
-				}
+				guardian_or_court_tutor_trait_trigger = { TRAIT = compassionate }
 			}
 			modifier = {
 				add = -0.5
-				any_relation = {
-					type = guardian
-					OR = {
-						has_trait = sadistic
-						has_trait = callous
-					}
+				OR = {
+					guardian_or_court_tutor_trait_trigger = { TRAIT = sadistic }
+					guardian_or_court_tutor_trait_trigger = { TRAIT = callous }
+				}
+			}
+			modifier = {
+				add = 100
+				culture = {
+					has_cultural_parameter = compassionate_trait_more_common
 				}
 			}
 		}
@@ -6507,26 +6479,17 @@ child_personality.7300 = {
 				is_ai = yes
 			}
 			add_character_flag = callous
-			random_relation = {
-				type = guardian
-				trigger_event = child_personality.7301
-			}
+			guardian_or_court_tutor_trigger_event_effect = { EVENT = child_personality.7301 }
 		}
 		ai_chance = {
 			base = 1
 			modifier = {
 				add = 4
-				any_relation = {
-					type = guardian
-					has_trait = callous
-				}
+				guardian_or_court_tutor_trait_trigger = { TRAIT = callous }
 			}
 			modifier = {
 				add = -0.5
-				any_relation = {
-					type = guardian
-					has_trait = compassionate
-				}
+				guardian_or_court_tutor_trait_trigger = { TRAIT = compassionate }
 			}
 		}
 	}
@@ -6688,7 +6651,7 @@ child_personality.7301 = {
 		ai_chance = {
 			base = 0
 		}
-		stress_impact = {
+		stress_and_fulfillment_impact = {
 			base = child_trait_change_stress_penalty
 		}
 		scope:child = {
@@ -6720,7 +6683,7 @@ child_personality.7301 = {
 		ai_chance = {
 			base = 0
 		}
-		stress_impact = {
+		stress_and_fulfillment_impact = {
 			base = child_trait_change_stress_penalty
 		}
 		scope:child = {
@@ -6752,7 +6715,7 @@ child_personality.7301 = {
 		ai_chance = {
 			base = 0
 		}
-		stress_impact = {
+		stress_and_fulfillment_impact = {
 			base = child_trait_change_stress_penalty
 		}
 		scope:child = {
@@ -6819,35 +6782,45 @@ child_personality.7400 = {
 	}
 
 	trigger = {
-		is_available_child_allow_travel = yes
-		suitable_same_realm_child = yes
 		NOR = {
 			has_trait = eccentric
 			has_trait = stubborn
 			has_trait = fickle
 		}
+		is_available_child_allow_travel = yes
+		NOT = { has_character_flag = had_event_child_personality_7400 }
+		suitable_same_realm_child = yes
 	}
 
 	weight_multiplier = {
 		base = 1
 		modifier = {
 			add = 2
-			any_relation = {
-				type = guardian
-				OR = {
-					has_trait = eccentric
-					has_trait = stubborn
-					has_trait = fickle
-				}
+			OR = {
+				guardian_or_court_tutor_trait_trigger = { TRAIT = eccentric }
+				guardian_or_court_tutor_trait_trigger = { TRAIT = stubborn }
+				guardian_or_court_tutor_trait_trigger = { TRAIT = fickle }
+			}
+		}
+		modifier = {
+			add = 5
+			culture = {
+				has_cultural_parameter = stubborn_trait_more_common
+			}
+			NOR = {
+				has_trait = stubborn
+				has_trait = fickle
+				has_trait = eccentric
 			}
 		}
 	}
 
 	immediate = {
-		save_scope_as = child
-		location.county = {
-			save_scope_as = capital_county_scope
+		add_character_flag = {
+			flag = had_event_child_personality_7400
+			years = 16
 		}
+		save_scope_as = child
 		add_suitable_same_realm_children_to_list = yes
 		random_in_list = {
 			list = suitable_same_realm_children
@@ -6887,10 +6860,7 @@ child_personality.7400 = {
 				is_ai = yes
 			}
 			add_character_flag = eccentric
-			random_relation = {
-				type = guardian
-				trigger_event = { id = child_personality.7401 days = 1 }
-			}
+			guardian_or_court_tutor_trigger_event_effect = { EVENT = child_personality.7401 }
 		}
 		progress_towards_friend_effect = {
 			REASON = friend_boardgames_on_horseback
@@ -6907,19 +6877,13 @@ child_personality.7400 = {
 			base = 1
 			modifier = {
 				add = 4
-				any_relation = {
-					type = guardian
-					has_trait = eccentric
-				}
+				guardian_or_court_tutor_trait_trigger = { TRAIT = eccentric }
 			}
 			modifier = {
 				add = -0.5
-				any_relation = {
-					type = guardian
-					OR = {
-						has_trait = fickle
-						has_trait = stubborn
-					}
+				OR = {
+					guardian_or_court_tutor_trait_trigger = { TRAIT = fickle  }
+					guardian_or_court_tutor_trait_trigger = { TRAIT = stubborn }
 				}
 			}
 		}
@@ -6934,28 +6898,25 @@ child_personality.7400 = {
 				is_ai = yes
 			}
 			add_character_flag = stubborn
-			random_relation = {
-				type = guardian
-				trigger_event = child_personality.7401
-			}
+			guardian_or_court_tutor_trigger_event_effect = { EVENT = child_personality.7401 }
 		}
 		ai_chance = {
 			base = 1
 			modifier = {
 				add = 4
-				any_relation = {
-					type = guardian
-					has_trait = stubborn
-				}
+				guardian_or_court_tutor_trait_trigger = { TRAIT = stubborn }
 			}
 			modifier = {
 				add = -0.5
-				any_relation = {
-					type = guardian
-					OR = {
-						has_trait = fickle
-						has_trait = eccentric
-					}
+				OR = {
+					guardian_or_court_tutor_trait_trigger = { TRAIT = fickle  }
+					guardian_or_court_tutor_trait_trigger = { TRAIT = eccentric }
+				} 
+			}
+			modifier = {
+				add = 100
+				culture = {
+					has_cultural_parameter = stubborn_trait_more_common
 				}
 			}
 		}
@@ -6970,28 +6931,19 @@ child_personality.7400 = {
 				is_ai = yes
 			}
 			add_character_flag = fickle
-			random_relation = {
-				type = guardian
-				trigger_event = child_personality.7401
-			}
+			guardian_or_court_tutor_trigger_event_effect = { EVENT = child_personality.7401 }
 		}
 		ai_chance = {
 			base = 1
 			modifier = {
 				add = 4
-				any_relation = {
-					type = guardian
-					has_trait = fickle
-				}
+				guardian_or_court_tutor_trait_trigger = { TRAIT = fickle }
 			}
 			modifier = {
 				add = -0.5
-				any_relation = {
-					type = guardian
-					OR = {
-						has_trait = eccentric
-						has_trait = stubborn
-					}
+				OR = {
+					guardian_or_court_tutor_trait_trigger = { TRAIT = eccentric  }
+					guardian_or_court_tutor_trait_trigger = { TRAIT = stubborn }
 				}
 			}
 		}
@@ -7133,7 +7085,7 @@ child_personality.7401 = {
 		ai_chance = {
 			base = 0
 		}
-		stress_impact = {
+		stress_and_fulfillment_impact = {
 			base = child_trait_change_stress_penalty
 		}
 		scope:child = {
@@ -7165,7 +7117,7 @@ child_personality.7401 = {
 		ai_chance = {
 			base = 0
 		}
-		stress_impact = {
+		stress_and_fulfillment_impact = {
 			base = child_trait_change_stress_penalty
 		}
 		scope:child = {
@@ -7197,7 +7149,7 @@ child_personality.7401 = {
 		ai_chance = {
 			base = 0
 		}
-		stress_impact = {
+		stress_and_fulfillment_impact = {
 			base = child_trait_change_stress_penalty
 		}
 		scope:child = {

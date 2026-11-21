@@ -45,23 +45,51 @@ lie_with_spouse_interaction = {
 	}
 
 	is_shown = {
-		scope:actor = {
-			is_female = no
-		}
-		scope:recipient = {
-			OR = {
-				is_spouse_of = scope:actor
-				is_concubine_of = scope:actor
+		OR = {
+			AND = {
+				scope:actor = {
+					is_female = no
+				}
+				scope:recipient = {
+					OR = {
+						is_spouse_of = scope:actor
+						is_concubine_of = scope:actor
+					}
+					age < 46
+					NOT = { has_trait = pregnant }
+					is_adult = yes
+					is_imprisoned = no
+					is_female = yes
+					NOT = {
+						has_opinion_modifier = {
+							target = scope:actor
+							modifier = lie_with_spouse_opinion
+						}
+					}
+				}
 			}
-			age < 46
-			NOT = { has_trait = pregnant }
-			is_adult = yes
-			is_imprisoned = no
-			is_female = yes
-			NOT = {
-				has_opinion_modifier = {
-					target = scope:actor
-					modifier = lie_with_spouse_opinion
+			AND = {
+				scope:actor = {
+					is_female = yes
+					age < 46
+					NOT = { has_trait = pregnant }
+					is_adult = yes
+					is_imprisoned = no
+				}
+				scope:recipient = {
+					OR = {
+						is_spouse_of = scope:actor
+						is_concubine_of = scope:actor
+					}
+					is_adult = yes
+					is_imprisoned = no
+					is_female = no
+					NOT = {
+						has_opinion_modifier = {
+							target = scope:actor
+							modifier = lie_with_spouse_female_opinion
+						}
+					}
 				}
 			}
 		}
@@ -76,15 +104,31 @@ lie_with_spouse_interaction = {
 	on_accept = {
 		scope:actor = { add_character_flag = { flag = is_naked days = 1 } }
 		scope:recipient = { add_character_flag = { flag = is_naked days = 1 } }
-		scope:actor = {
-			trigger_event = lie_with_spouse.1
+		if = {
+			limit = { scope:actor = { is_female = yes } }
+			scope:actor = {
+				trigger_event = lie_with_spouse.2
+				make_pregnant = { father = scope:recipient number_of_children = 1 }
+			}
+			scope:recipient = {
+				add_opinion = {
+					target = scope:actor
+					modifier = lie_with_spouse_female_opinion
+					opinion = 10
+				}
+			}
 		}
-		scope:recipient = {
-			make_pregnant = { father = scope:actor number_of_children = 1 }
-			add_opinion = {
-				target = scope:actor
-				modifier = lie_with_spouse_opinion
-				opinion = 10
+		else = {
+			scope:actor = {
+				trigger_event = lie_with_spouse.1
+			}
+			scope:recipient = {
+				make_pregnant = { father = scope:actor number_of_children = 1 }
+				add_opinion = {
+					target = scope:actor
+					modifier = lie_with_spouse_opinion
+					opinion = 10
+				}
 			}
 		}
 	}

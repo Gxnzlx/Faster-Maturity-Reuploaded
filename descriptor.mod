@@ -1,4 +1,4 @@
-version="2.0.7"
+version="2.0.8.1"
 tags={
 	"Balance"
 	"Character Focuses"
@@ -9,5 +9,5 @@ tags={
 }
 name="Faster Maturity"
 picture="thumbnail.png"
-supported_version="1.20.*"
+supported_version="1.21.*"
 remote_file_id="3598298601"

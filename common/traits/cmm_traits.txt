@@ -89,6 +89,7 @@ education_intrigue_4 = {
 	intrigue = 8
 	category = education
 	monthly_intrigue_lifestyle_xp_gain_mult = 0.4
+	governor_efficiency_add = 0.02
 	
 	ruler_designer_cost = 80
 	
@@ -120,9 +121,15 @@ education_intrigue_5 = {
 	monthly_diplomacy_lifestyle_xp_gain_mult = 0.25
 	flag = agent_acceptance_25
 	flag = scheme_start_progress
+	governor_efficiency_add = 0.04
 	
 	ruler_designer_cost = 150
 	
+	culture_modifier = {
+		parameter = roman_law_education_bonuses
+		trade_competitiveness_mult = 0.03
+	}
+
 	desc = {
 		first_valid = {
 			triggered_desc = {
@@ -208,6 +215,11 @@ education_diplomacy_3 = {
 	
 	ruler_designer_cost = 40
 	
+	culture_modifier = {
+		parameter = civic_religion_education_piety_bonuses
+		monthly_piety_gain_mult = 0.06
+	}
+
 	desc = {
 		first_valid = {
 			triggered_desc = {
@@ -231,8 +243,14 @@ education_diplomacy_4 = {
 	diplomacy = 8
 	category = education
 	monthly_diplomacy_lifestyle_xp_gain_mult = 0.4
+	governor_efficiency_add = 0.02
 	
 	ruler_designer_cost = 80
+
+	culture_modifier = {
+		parameter = civic_religion_education_piety_bonuses
+		monthly_piety_gain_mult = 0.08
+	}
 
 	desc = {
 		first_valid = {
@@ -271,8 +289,19 @@ education_diplomacy_5 = {
 	monthly_martial_lifestyle_xp_gain_mult = 0.25
 	flag = offer_vassalisation_25
 	flag = better_war_hostages
+	governor_efficiency_add = 0.04
 	
 	ruler_designer_cost = 150
+
+	culture_modifier = {
+		parameter = roman_law_education_bonuses
+		trade_competitiveness_mult = 0.03
+	}
+
+	culture_modifier = {
+		parameter = civic_religion_education_piety_bonuses
+		monthly_piety_gain_mult = 0.1
+	}
 
 	desc = {
 		first_valid = {
@@ -317,6 +346,11 @@ education_stewardship_1 = {
 		feudal_government_opinion = -10
 	}
 	
+	culture_modifier = {
+		parameter = roman_law_education_bonuses
+		trade_competitiveness_mult = 0.01
+	}
+
 	desc = {
 		first_valid = {
 			triggered_desc = {
@@ -342,6 +376,11 @@ education_stewardship_2 = {
 	
 	ruler_designer_cost = 20
 	
+	culture_modifier = {
+		parameter = roman_law_education_bonuses
+		trade_competitiveness_mult = 0.02
+	}
+
 	desc = {
 		first_valid = {
 			triggered_desc = {
@@ -368,6 +407,19 @@ education_stewardship_3 = {
 	
 	ruler_designer_cost = 40
 	
+	culture_modifier = {
+		parameter = roman_law_education_bonuses
+		trade_competitiveness_mult = 0.03
+	}
+	rite_modifier = {
+		parameter = halakha_rabbinic_education_competitiveness
+		trade_competitiveness_mult = 0.03
+	}
+	rite_modifier = {
+		parameter = halakha_toraic_education_capacity
+		trade_capacity_mult = 0.03
+	}
+
 	desc = {
 		first_valid = {
 			triggered_desc = {
@@ -391,10 +443,10 @@ education_stewardship_4 = {
 	stewardship = 8
 	category = education
 	monthly_stewardship_lifestyle_xp_gain_mult = 0.4
+	governor_efficiency_add = 0.02
 	
 	culture_modifier = {
 		parameter = elephant_bonuses_for_rank_4_education
-		world_innovation_elephants_development_growth_factor = 0.3
 		elephant_cavalry_recruitment_cost_mult = -0.2
 		elephant_cavalry_maintenance_mult = -0.2
 		jungle_construction_gold_cost = -0.2
@@ -402,6 +454,19 @@ education_stewardship_4 = {
 	
 	ruler_designer_cost = 80
 	
+	culture_modifier = {
+		parameter = roman_law_education_bonuses
+		trade_competitiveness_mult = 0.04
+	}
+	rite_modifier = {
+		parameter = halakha_rabbinic_education_competitiveness
+		trade_competitiveness_mult = 0.04
+	}
+	rite_modifier = {
+		parameter = halakha_toraic_education_capacity
+		trade_capacity_mult = 0.04
+	}
+
 	desc = {
 		first_valid = {
 			triggered_desc = {
@@ -428,10 +493,10 @@ education_stewardship_5 = {
 	monthly_stewardship_lifestyle_xp_gain_mult = 0.5
 	monthly_learning_lifestyle_xp_gain_mult = 0.25
 	vassal_tax_mult = 0.25
+	governor_efficiency_add = 0.04
 	
 	culture_modifier = {
 		parameter = elephant_bonuses_for_rank_4_education
-		world_innovation_elephants_development_growth_factor = 0.3
 		elephant_cavalry_recruitment_cost_mult = -0.2
 		elephant_cavalry_maintenance_mult = -0.2
 		jungle_construction_gold_cost = -0.2
@@ -439,6 +504,19 @@ education_stewardship_5 = {
 	
 	ruler_designer_cost = 150
 	
+	culture_modifier = {
+		parameter = roman_law_education_bonuses
+		trade_competitiveness_mult = 0.08
+	}
+	rite_modifier = {
+		parameter = halakha_rabbinic_education_competitiveness
+		trade_competitiveness_mult = 0.05
+	}
+	rite_modifier = {
+		parameter = halakha_toraic_education_capacity
+		trade_capacity_mult = 0.05
+	}
+
 	desc = {
 		first_valid = {
 			triggered_desc = {
@@ -584,6 +662,7 @@ education_martial_4 = {
 	martial = 8
 	category = education
 	monthly_martial_lifestyle_xp_gain_mult = 0.4
+	governor_efficiency_add = 0.02
 	
 	culture_modifier = {
 		parameter = prowess_from_martial_education
@@ -634,10 +713,11 @@ education_martial_5 = {
 	monthly_stewardship_lifestyle_xp_gain_mult = 0.25
 	army_siege_value_mult = 0.5
 	movement_speed = 0.2
+	governor_efficiency_add = 0.04
 	
 	culture_modifier = {
 		parameter = prowess_from_martial_education
-		prowess = 4
+		prowess = 5
 	}
 	
 	culture_modifier = {
@@ -656,6 +736,11 @@ education_martial_5 = {
 	
 	ruler_designer_cost = 150
 	
+	culture_modifier = {
+		parameter = roman_law_education_bonuses
+		trade_competitiveness_mult = 0.03
+	}
+
 	desc = {
 		first_valid = {
 			triggered_desc = {
@@ -707,6 +792,7 @@ education_learning_1 = {
 	
 	ruler_designer_cost = 0
 	
+
 	desc = {
 		first_valid = {
 			triggered_desc = {
@@ -748,6 +834,11 @@ education_learning_2 = {
 	
 	ruler_designer_cost = 20
 	
+	culture_modifier = {
+		parameter = roman_law_education_bonuses
+		stewardship = 1
+	}
+
 	desc = {
 		first_valid = {
 			triggered_desc = {
@@ -790,6 +881,19 @@ education_learning_3 = {
 
 	ruler_designer_cost = 40
 	
+	culture_modifier = {
+		parameter = roman_law_education_bonuses
+		stewardship = 2
+	}
+	rite_modifier = {
+		parameter = halakha_rabbinic_education_competitiveness
+		trade_competitiveness_mult = 0.03
+	}
+	rite_modifier = {
+		parameter = halakha_toraic_education_capacity
+		trade_capacity_mult = 0.03
+	}
+
 	desc = {
 		first_valid = {
 			triggered_desc = {
@@ -813,6 +917,7 @@ education_learning_4 = {
 	learning = 8
 	category = education
 	monthly_learning_lifestyle_xp_gain_mult = 0.4
+	governor_efficiency_add = 0.02
 	
 	culture_modifier = {
 		parameter = prowess_from_religious_traits
@@ -833,7 +938,6 @@ education_learning_4 = {
 	
 	culture_modifier = {
 		parameter = elephant_bonuses_for_rank_4_education
-		world_innovation_elephants_development_growth_factor = 0.3
 		elephant_cavalry_maintenance_mult = -0.2
 		elephant_cavalry_toughness_mult = 0.1
 		elephant_cavalry_screen_add = 20
@@ -842,6 +946,19 @@ education_learning_4 = {
 	
 	ruler_designer_cost = 80
 	
+	culture_modifier = {
+		parameter = roman_law_education_bonuses
+		stewardship = 3
+	}
+	rite_modifier = {
+		parameter = halakha_rabbinic_education_competitiveness
+		trade_competitiveness_mult = 0.04
+	}
+	rite_modifier = {
+		parameter = halakha_toraic_education_capacity
+		trade_capacity_mult = 0.04
+	}
+
 	desc = {
 		first_valid = {
 			triggered_desc = {
@@ -862,6 +979,7 @@ education_learning_5 = {
 	flag = level_5_education
 	flag = civilian_province
 	county_fertility_growth_mult = small_county_fertility_growth_gain
+	governor_efficiency_add = 0.04
 	minimum_age = 12 #changed from 16
 	learning = 10
 	intrigue = 3
@@ -889,7 +1007,6 @@ education_learning_5 = {
 	
 	culture_modifier = {
 		parameter = elephant_bonuses_for_rank_4_education
-		world_innovation_elephants_development_growth_factor = 0.3
 		elephant_cavalry_maintenance_mult = -0.2
 		elephant_cavalry_toughness_mult = 0.1
 		elephant_cavalry_screen_add = 20
@@ -898,6 +1015,20 @@ education_learning_5 = {
 	
 	ruler_designer_cost = 150
 	
+	culture_modifier = {
+		parameter = roman_law_education_bonuses
+		stewardship = 5
+		trade_competitiveness_mult = 0.03
+	}
+	rite_modifier = {
+		parameter = halakha_rabbinic_education_competitiveness
+		trade_competitiveness_mult = 0.05
+	}
+	rite_modifier = {
+		parameter = halakha_toraic_education_capacity
+		trade_capacity_mult = 0.05
+	}
+
 	desc = {
 		first_valid = {
 			triggered_desc = {
@@ -913,6 +1044,7 @@ education_learning_5 = {
 	random_creation_weight = 0
 	group = education_learning
 	level = 5
+	flag = gnostic_learning_piety_trait
 }
 
 #Based on cultural traditions
@@ -1040,6 +1172,11 @@ education_republican_knowledge_1 = {
 
 	shown_in_ruler_designer = yes
 
+	culture_modifier = {
+		parameter = civic_religion_education_piety_bonuses
+		monthly_piety_gain_mult = 0.02
+	}
+
 	desc = {
 		first_valid = {
 			triggered_desc = {
@@ -1063,6 +1200,11 @@ education_republican_knowledge_2 = {
 	#category = education
 
 	shown_in_ruler_designer = yes
+
+	culture_modifier = {
+		parameter = civic_religion_education_piety_bonuses
+		monthly_piety_gain_mult = 0.04
+	}
 
 	desc = {
 		first_valid = {
@@ -1088,6 +1230,11 @@ education_republican_knowledge_3 = {
 
 	shown_in_ruler_designer = yes
 
+	culture_modifier = {
+		parameter = civic_religion_education_piety_bonuses
+		monthly_piety_gain_mult = 0.06
+	}
+
 	desc = {
 		first_valid = {
 			triggered_desc = {
@@ -1108,9 +1255,15 @@ education_republican_knowledge_4 = {
 	minimum_age = 12 #changed from 16
 	intrigue = 4
 	stewardship = 4
+	monthly_province_size_change = 0.1
 	#category = education
 
 	shown_in_ruler_designer = yes
+
+	culture_modifier = {
+		parameter = civic_religion_education_piety_bonuses
+		monthly_piety_gain_mult = 0.08
+	}
 
 	desc = {
 		first_valid = {
